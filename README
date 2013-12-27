@@ -1,0 +1,35 @@
+
+an overkill MSP430F5510 based project that controls the power delivery to Dave's uCurrent.
+
+if you forget to turn off the uCurrent you will find the enclosed 2032 Li cell completely flat the next day.
+this project provides a timeout feature to the uCurrent. a push-button is used to start up both this circuit and the uCurrent.
+multiple presses will either reset the timeout counter or increase the timeout period.
+the initial timeout period can be optionally modified via a 3V serial uart.
+
+uC pinout:
+ - P1.1  IN  digital - push button detector
+ - P1.4  OUT digital - power-latch my circuit
+ - P1.5  OUT digital - enable power delivery to the uCurrent
+
+connectors:
+ - external power - if you don't want to use the onboard CR2032 cell (MOLEX 0530470210)
+ - push button    - external-ish pth push button tied to the case (MOLEX 0530470210)
+ - ucurrent power - replaces uCurrent battery (MOLEX 0530470210)
+ - debug          - TI spy-bi-wire interface and serial uart for programming, debug and user input (MOLEX 0530470610)
+
+power:
+ - the uCurrent has the cell unpopulated and the power switch set to the "ON" position.
+ - this circuit will provide the 3V needed either via the local CR2032 battery holder or via 3V fed thru the 'external power' connector
+
+ homepage:        https://github.com/rodan/ucurrent_ctrl
+ author:          Petre Rodan <petre.rodan@simplex.ro>
+ license:         GNU GPLv3
+ parts of the code were originally forked from the openchronos-ng project [3]. 
+
+ software requirements:
+
+   msp430 toolchain
+   python-2.7
+
+[1] http://www.ti.com/tool/ez430-chronos
+[2] http://openchronos-ng.sourceforge.net
