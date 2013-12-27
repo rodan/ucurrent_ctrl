@@ -8,8 +8,8 @@ the initial timeout period can be optionally modified via a 3V serial uart.
 
 uC pinout:
  - P1.1  IN  digital - push button detector
- - P1.4  OUT digital - power-latch my circuit
- - P1.5  OUT digital - enable power delivery to the uCurrent
+ - P1.4  OUT digital - enable power delivery to the uCurrent
+ - P1.5  OUT digital - power-latch my circuit
 
 connectors:
  - external power - if you don't want to use the onboard CR2032 cell (MOLEX 0530470210)
