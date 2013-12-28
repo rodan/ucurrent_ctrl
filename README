@@ -9,20 +9,21 @@ also in case the output voltage is low enough for a given period the uCurrent is
 
 uC pinout:
  - P1.1  IN  digital - push button detector
- - P1.4  OUT digital - enable power delivery to the uCurrent
- - P1.5  OUT digital - power-latch my circuit
+ - P1.4  OUT digital - power-latch my circuit
+ - P1.5  OUT digital - enable power delivery to the uCurrent
  - P6.0  IN  analog  - reference voltage (Vgnd on the uCurrent)
  - P6.1  IN  analog  - uCurrent Vout
+ - P6.2  IN  analog  - battery voltage
 
 connectors:
- - external power - if you don't want to use the onboard CR2032 cell (MOLEX 0530470210)
- - push button    - external-ish pth push button tied to the case (MOLEX 0530470210)
- - ucurrent power - replaces uCurrent battery (MOLEX 0530470210)
+ - external power - either 3V Li Cell or 3.7V LiPo/Li-ion (MOLEX 0530470210)
+ - push button    - optional external push button tied to the case (MOLEX 0530470210)
+ - ucurrent power - uCurrent connections (MOLEX 0530470210)
  - debug          - TI spy-bi-wire interface and serial uart for programming, debug and user input (MOLEX 0530470610)
 
 power:
  - the uCurrent has the cell unpopulated and the power switch set to the "ON" position.
- - this circuit will provide the 3V needed either via the local CR2032 battery holder or via 3V fed thru the 'external power' connector
+ - this circuit will provide the 3V needed to the uCurent
 
  homepage:        https://github.com/rodan/ucurrent_ctrl
  author:          Petre Rodan <petre.rodan@simplex.ro>
