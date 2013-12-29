@@ -11877,7 +11877,7 @@ if Vcc_in is between 2.8-3.0 V
 SJ1 - short open
 SJ2 - short
 
-if Vcc_in is between 3.1-4.0V
+if Vcc_in is between 3.1-4.2V
 SJ1 - open short
 SJ2 - open
 </text>
