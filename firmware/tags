@@ -7,6 +7,10 @@
 AR	Makefile	/^AR		= msp430-ar$/;"	m
 AS	Makefile	/^AS		= msp430-as$/;"	m
 BASH	Makefile	/^BASH := $(shell which bash || which bash)$/;"	m
+BITS_12	drivers/ads1110.h	20;"	d
+BITS_14	drivers/ads1110.h	21;"	d
+BITS_15	drivers/ads1110.h	22;"	d
+BITS_16	drivers/ads1110.h	23;"	d
 CC	Makefile	/^CC		= msp430-gcc$/;"	m
 CC_CMACH	Makefile	/^CC_CMACH	= -mmcu=msp430f5510$/;"	m
 CC_DMACH	Makefile	/^CC_DMACH	= -D__MSP430F5510__$/;"	m
@@ -18,6 +22,14 @@ COMPILE_MON	drivers/rtca_now.h	6;"	d
 COMPILE_YEAR	drivers/rtca_now.h	5;"	d
 DEBUG	Makefile	/^DEBUG := $(shell grep "^\\#define CONFIG_DEBUG" config.h)$/;"	m
 DEBUG	tools/memory.py	/^DEBUG = 0$/;"	v
+ED0	drivers/ads1110.h	6;"	d
+ED1	drivers/ads1110.h	7;"	d
+ED2	drivers/ads1110.h	8;"	d
+ED3	drivers/ads1110.h	9;"	d
+ED4	drivers/ads1110.h	10;"	d
+ED5	drivers/ads1110.h	11;"	d
+ED6	drivers/ads1110.h	12;"	d
+ED7	drivers/ads1110.h	13;"	d
 EI_CLASS	tools/elf.py	/^    EI_CLASS        = 4     #File class$/;"	v	class:ELFObject
 EI_DATA	tools/elf.py	/^    EI_DATA         = 5     #Data encoding$/;"	v	class:ELFObject
 EI_MAG0	tools/elf.py	/^    EI_MAG0         = 0     #File identification$/;"	v	class:ELFObject
@@ -70,6 +82,10 @@ OptionParser	tools/memory.py	/^    from optparse import OptionParser$/;"	i
 PF_R	tools/elf.py	/^    PF_R            = 0x4       #segment is readable$/;"	v	class:ELFProgramHeader
 PF_W	tools/elf.py	/^    PF_W            = 0x2       #segment is writable$/;"	v	class:ELFProgramHeader
 PF_X	tools/elf.py	/^    PF_X            = 0x1       #segment is executable$/;"	v	class:ELFProgramHeader
+PGA_1	drivers/ads1110.h	16;"	d
+PGA_2	drivers/ads1110.h	17;"	d
+PGA_4	drivers/ads1110.h	18;"	d
+PGA_8	drivers/ads1110.h	19;"	d
 PROJ	Makefile	/^PROJ = proj$/;"	m
 PT_DYNAMIC	tools/elf.py	/^    PT_DYNAMIC      = 2$/;"	v	class:ELFProgramHeader
 PT_HIPROC	tools/elf.py	/^    PT_HIPROC       = 0x7fffffffL$/;"	v	class:ELFProgramHeader
@@ -82,6 +98,7 @@ PT_PHDR	tools/elf.py	/^    PT_PHDR         = 6$/;"	v	class:ELFProgramHeader
 PT_SHLIB	tools/elf.py	/^    PT_SHLIB        = 5$/;"	v	class:ELFProgramHeader
 PYTHON	Makefile	/^PYTHON := $(shell which python2 || which python)$/;"	m
 Port_1	proj.c	/^__interrupt void Port_1(void)$/;"	f
+SC	drivers/ads1110.h	24;"	d
 SHF_ALLOC	tools/elf.py	/^    SHF_ALLOC       = 0x2$/;"	v	class:ELFSection
 SHF_EXECINSTR	tools/elf.py	/^    SHF_EXECINSTR   = 0x4$/;"	v	class:ELFSection
 SHF_MASKPROC	tools/elf.py	/^    SHF_MASKPROC    = 0xf0000000L$/;"	v	class:ELFSection
@@ -103,20 +120,10 @@ SHT_SHLIB	tools/elf.py	/^    SHT_SHLIB       = 10$/;"	v	class:ELFSection
 SHT_STRTAB	tools/elf.py	/^    SHT_STRTAB      = 3$/;"	v	class:ELFSection
 SHT_SYMTAB	tools/elf.py	/^    SHT_SYMTAB      = 2$/;"	v	class:ELFSection
 SRCS	Makefile	/^SRCS := $(wildcard *.c)$/;"	m
+ST	drivers/ads1110.h	25;"	d
 SUBDIRS	Makefile	/^SUBDIRS = drivers$/;"	m
-SYS_MSG_RTC_ALARM	drivers/sys_messagebus.h	/^    SYS_MSG_RTC_ALARM = BIT0,   \/\/ alarm event from the hardware RTC$/;"	e	enum:sys_message
-SYS_MSG_RTC_DAY	drivers/sys_messagebus.h	/^    SYS_MSG_RTC_DAY = BIT4,     \/\/ day event from the hardware RTC$/;"	e	enum:sys_message
-SYS_MSG_RTC_HOUR	drivers/sys_messagebus.h	/^    SYS_MSG_RTC_HOUR = BIT3,    \/\/ hour event from the hardware RTC$/;"	e	enum:sys_message
-SYS_MSG_RTC_MINUTE	drivers/sys_messagebus.h	/^    SYS_MSG_RTC_MINUTE = BIT2,  \/\/ minute event from the hardware RTC$/;"	e	enum:sys_message
-SYS_MSG_RTC_MONTH	drivers/sys_messagebus.h	/^    SYS_MSG_RTC_MONTH = BIT5,   \/\/ month event from the hardware RTC$/;"	e	enum:sys_message
-SYS_MSG_RTC_SECOND	drivers/sys_messagebus.h	/^    SYS_MSG_RTC_SECOND = BIT1,  \/\/ second event from the hardware RTC$/;"	e	enum:sys_message
-SYS_MSG_RTC_YEAR	drivers/sys_messagebus.h	/^    SYS_MSG_RTC_YEAR = BIT6,    \/\/ year event from the hardware RTC$/;"	e	enum:sys_message
-SYS_MSG_TIMER0_CRR0	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CRR0 = BIT7, \/\/ infrared remote sequence decoding$/;"	e	enum:sys_message
-SYS_MSG_TIMER0_CRR1	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CRR1 = BIT8, \/\/ PWM for intertechno OOK module$/;"	e	enum:sys_message
-SYS_MSG_TIMER0_CRR2	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CRR2 = BIT9, \/\/ unused$/;"	e	enum:sys_message
-SYS_MSG_TIMER0_CRR3	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CRR3 = BITA, \/\/ unused$/;"	e	enum:sys_message
-SYS_MSG_TIMER0_CRR4	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CRR4 = BITB, \/\/ unused$/;"	e	enum:sys_message
-SYS_MSG_TIMER0_IFG	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_IFG = BITC, \/\/ unused$/;"	e	enum:sys_message
+SYS_MSG_P1IFG	drivers/sys_messagebus.h	/^    SYS_MSG_P1IFG = BIT1        \/\/ button press$/;"	e	enum:sys_message
+SYS_MSG_TIMER0_IFG	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_IFG = BIT0,  \/\/ timer0 overflow$/;"	e	enum:sys_message
 Segment	tools/memory.py	/^class Segment:$/;"	c
 TARGET	Makefile	/^TARGET	:= DEBUG$/;"	m
 TARGET	Makefile	/^TARGET	:= RELEASE$/;"	m
@@ -138,6 +145,7 @@ __SERIAL_BITBANG_	drivers/serial_bitbang.h	2;"	d
 __SYS_MESSAGEBUS_H__	drivers/sys_messagebus.h	2;"	d
 __TIMER_A0_H__	drivers/timer_a0.h	2;"	d
 __UART1_H__	drivers/uart1.h	2;"	d
+__ads1110_h_	drivers/ads1110.h	2;"	d
 __getitem__	tools/memory.py	/^    def __getitem__(self, index):$/;"	m	class:Memory	file:
 __getitem__	tools/memory.py	/^    def __getitem__(self, index):$/;"	m	class:Segment	file:
 __init__	tools/elf.py	/^    def __init__(self):$/;"	m	class:ELFObject
@@ -158,10 +166,19 @@ adc10_halt	drivers/adc.c	/^void adc10_halt(void)$/;"	f
 adc10_read	drivers/adc.c	/^void adc10_read(const uint8_t port, uint16_t * rv, const uint8_t vref)$/;"	f
 adc10_rv	drivers/adc.c	/^volatile uint16_t *adc10_rv;$/;"	v
 adcready	drivers/adc.c	/^volatile uint8_t adcready;$/;"	v
+ads1110	drivers/ads1110.h	/^struct ads1110 {$/;"	s
+ads1110_config	drivers/ads1110.c	/^uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)$/;"	f
+ads1110_convert	drivers/ads1110.c	/^void ads1110_convert(struct ads1110 *adc)$/;"	f
+ads1110_read	drivers/ads1110.c	/^uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc)$/;"	f
 append	tools/memory.py	/^    def append(self, seg):$/;"	m	class:Memory
 check_events	proj.c	/^void check_events(void)$/;"	f
+config	drivers/ads1110.h	/^    uint8_t config;     \/\/ adc configuration register$/;"	m	struct:ads1110
+conv	drivers/ads1110.h	/^    int16_t conv;       \/\/ int voltage value *10^4$/;"	m	struct:ads1110
+conv_raw	drivers/ads1110.h	/^    int16_t conv_raw;   \/\/ adc raw output$/;"	m	struct:ads1110
 delay_c	drivers/serial_bitbang.h	41;"	d
 delay_s	drivers/serial_bitbang.h	40;"	d
+display_menu	proj.c	/^void display_menu(void)$/;"	f
+eadc	proj.c	/^struct ads1110 eadc;$/;"	v	typeref:struct:ads1110
 elf	tools/elf.py	/^    elf = ELFObject()$/;"	v
 elf	tools/memory.py	/^import elf$/;"	i
 false	proj.h	26;"	d
@@ -181,7 +198,7 @@ i2cm_rxfrom	drivers/serial_bitbang.c	/^uint8_t i2cm_rxfrom(const uint8_t slave_a
 i2cm_start	drivers/serial_bitbang.c	/^uint8_t i2cm_start(void)$/;"	f
 i2cm_stop	drivers/serial_bitbang.c	/^void i2cm_stop(void)$/;"	f
 i2cm_tx	drivers/serial_bitbang.c	/^uint8_t i2cm_tx(const uint8_t data, const uint8_t options)$/;"	f
-last_trigger	proj.c	/^uint32_t last_trigger;$/;"	v
+i2cm_txbyte	drivers/serial_bitbang.c	/^uint8_t i2cm_txbyte(const uint8_t slave_address, const uint8_t data)$/;"	f
 latch_disable	proj.h	19;"	d
 latch_enable	proj.h	18;"	d
 led_off	proj.h	23;"	d
@@ -197,6 +214,8 @@ mem	tools/memory.py	/^    mem = Memory()$/;"	v	class:Memory
 messagebus	drivers/sys_messagebus.h	/^struct sys_messagebus *messagebus;$/;"	v	typeref:struct:sys_messagebus
 next	drivers/sys_messagebus.h	/^    struct sys_messagebus *next;$/;"	m	struct:sys_messagebus	typeref:struct:sys_messagebus::sys_messagebus
 parser	tools/memory.py	/^    parser = OptionParser()$/;"	v	class:Memory
+port1_irq	proj.c	/^static void port1_irq(enum sys_message msg)$/;"	f	file:
+port1_last_event	proj.c	/^volatile uint8_t port1_last_event;$/;"	v
 saveIHex	tools/memory.py	/^    def saveIHex(self, filelike):$/;"	m	class:Memory
 saveTIText	tools/memory.py	/^    def saveTIText(self, filelike):$/;"	m	class:Memory
 scl_high	drivers/serial_bitbang.h	18;"	d
@@ -204,8 +223,8 @@ scl_low	drivers/serial_bitbang.h	19;"	d
 sda_high	drivers/serial_bitbang.h	16;"	d
 sda_low	drivers/serial_bitbang.h	17;"	d
 setMem	tools/memory.py	/^    def setMem(self, address, contents):$/;"	m	class:Memory
-standby_time	proj.c	20;"	d	file:
-str_temp	proj.c	/^char str_temp[64];$/;"	v
+standby_time	proj.c	/^uint16_t standby_time;$/;"	v
+str_temp	proj.c	/^char str_temp[83];$/;"	v
 strip_zero	tools/update_rtca_now.sh	/^strip_zero()$/;"	f
 struct	tools/elf.py	/^import struct$/;"	i
 sys	tools/memory.py	/^import sys$/;"	i
@@ -221,8 +240,8 @@ timer_a0_init	drivers/timer_a0.c	/^void timer_a0_init(void)$/;"	f
 timer_a0_irq	proj.c	/^static void timer_a0_irq(enum sys_message msg)$/;"	f	file:
 timer_a0_last_event	drivers/timer_a0.h	/^volatile enum timer_a0_event timer_a0_last_event;$/;"	v	typeref:enum:timer_a0_event
 timer_a0_ovf	drivers/timer_a0.h	/^volatile uint16_t timer_a0_ovf;$/;"	v
-trigger1	proj.c	/^volatile uint8_t trigger1;$/;"	v
 true	proj.h	25;"	d
+tue	proj.c	/^int16_t tue; \/\/ ticks until end$/;"	v
 uart1_init	drivers/uart1.c	/^void uart1_init(void)$/;"	f
 uart1_last_event	drivers/uart1.h	/^volatile enum uart1_tevent uart1_last_event;$/;"	v	typeref:enum:uart1_tevent
 uart1_rx_buf	drivers/uart1.h	/^char uart1_rx_buf;$/;"	v
@@ -230,4 +249,3 @@ uart1_tevent	drivers/uart1.h	/^enum uart1_tevent {$/;"	g
 uart1_tx_str	drivers/uart1.c	/^uint16_t uart1_tx_str(char *str, uint16_t size)$/;"	f
 uc_disable	proj.h	21;"	d
 uc_enable	proj.h	20;"	d
-wake_up	proj.c	/^void wake_up(void)$/;"	f

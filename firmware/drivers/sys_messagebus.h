@@ -10,21 +10,8 @@
 /* WARNING: the enum values are optimized to work with some drivers.
 	If you need to add a new entry, append it to the end! */
 enum sys_message {
-    // RTC
-    SYS_MSG_RTC_ALARM = BIT0,   // alarm event from the hardware RTC
-    SYS_MSG_RTC_SECOND = BIT1,  // second event from the hardware RTC
-    SYS_MSG_RTC_MINUTE = BIT2,  // minute event from the hardware RTC
-    SYS_MSG_RTC_HOUR = BIT3,    // hour event from the hardware RTC
-    SYS_MSG_RTC_DAY = BIT4,     // day event from the hardware RTC
-    SYS_MSG_RTC_MONTH = BIT5,   // month event from the hardware RTC
-    SYS_MSG_RTC_YEAR = BIT6,    // year event from the hardware RTC
-    // TIMER_A0
-    SYS_MSG_TIMER0_CRR0 = BIT7, // infrared remote sequence decoding
-    SYS_MSG_TIMER0_CRR1 = BIT8, // PWM for intertechno OOK module
-    SYS_MSG_TIMER0_CRR2 = BIT9, // unused
-    SYS_MSG_TIMER0_CRR3 = BITA, // unused
-    SYS_MSG_TIMER0_CRR4 = BITB, // unused
-    SYS_MSG_TIMER0_IFG = BITC, // unused
+    SYS_MSG_TIMER0_IFG = BIT0,  // timer0 overflow
+    SYS_MSG_P1IFG = BIT1        // button press
 };
 
 /*!

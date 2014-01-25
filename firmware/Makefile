@@ -39,13 +39,12 @@ BASH := $(shell which bash || which bash)
 .PHONY: clean
 .PHONY: install
 .PHONY: config
-.PHONY: new_timestamps
 .PHONY: depend
 .PHONY: doc
 .PHONY: tags
 .PHONY: force
 
-all: new_timestamps depend config.h tags $(PROJ).txt
+all: depend config.h tags $(PROJ).txt
 
 #
 # Build list of sources and objects to build
@@ -108,9 +107,6 @@ modinit.c:
 
 config.h:
 	@echo "Please do a 'make config' first!" && false
-
-new_timestamps:
-	@$(BASH) ./tools/update_rtca_now.sh
 
 tags: $(SRCS)
 	@echo "Generating tags .."

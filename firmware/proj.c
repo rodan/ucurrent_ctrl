@@ -12,22 +12,53 @@
 #include "drivers/timer_a0.h"
 #include "drivers/uart1.h"
 #include "drivers/serial_bitbang.h"
+#include "drivers/ads1110.h"
 #include "drivers/adc.h"
 
 // an integer representing the time after which the uC will disable the latch
 // standby_time(sec) = standby_time(int) * 2sec
 // (2sec is the overflow time of TA0R)
-#define standby_time 10
+uint16_t standby_time;
 
-volatile uint8_t trigger1;
-uint32_t last_trigger;
+int16_t tue; // ticks until end
 
-char str_temp[64];
+volatile uint8_t port1_last_event;
+struct ads1110 eadc;
+
+char str_temp[83];
+
+void display_menu(void)
+{
+    uart1_tx_str("\r\nuCurrent controller\r\n  time until poweroff: ", 47);
+    sprintf(str_temp, "%d sec\r\n ADS1110 status:\r\n  config:     0x%02x\r\n  conversion: %s%01d.%04dV\r\n", tue*2, eadc.config, 
+            eadc.conv < 0 ? "-": "", abs((int16_t) eadc.conv / 10000), abs((int16_t) eadc.conv % 10000) );
+    uart1_tx_str(str_temp, strlen(str_temp));
+}
 
 static void timer_a0_irq(enum sys_message msg)
 {
-    if (timer_a0_ovf >= standby_time) {
+    tue--;
+    if (tue < 1) {
+        uc_disable;
         latch_disable;
+    } else {
+        // trigger conversion
+        ads1110_config(ED0, BITS_16 | PGA_2 | SC | ST);
+        timer_a0_delay(70000);
+        ads1110_read(ED0, &eadc);
+        ads1110_convert(&eadc);
+    }
+}
+
+static void port1_irq(enum sys_message msg)
+{
+    // debounce
+    timer_a0_delay(50000);
+    if ((P1IN & TRIG1) == 0) {
+        return;
+    } else {
+        tue = standby_time;
+        display_menu();
     }
 }
 
@@ -35,17 +66,23 @@ int main(void)
 {
     main_init();
     uart1_init();
-
+    standby_time = 900;         // by default shut down after 30minutes
+    // read from flash
+    tue = standby_time;
     latch_enable;
+    uc_enable;
     led_on;
 
+    ads1110_config(ED0, BITS_16 | PGA_2 | SC | ST);
+
     sys_messagebus_register(&timer_a0_irq, SYS_MSG_TIMER0_IFG);
+    sys_messagebus_register(&port1_irq, SYS_MSG_P1IFG);
 
     while (1) {
         // sleep
         _BIS_SR(LPM3_bits + GIE);
         __no_operation();
-        wake_up();
+        //wake_up();
 #ifdef USE_WATCHDOG
         WDTCTL = (WDTCTL & 0xff) | WDTPW | WDTCNTCL;
 #endif
@@ -102,37 +139,13 @@ void main_init(void)
     USBKEYPID = 0x9600;
 
     timer_a0_init();
-    trigger1 = false;
-    last_trigger = 0;
 }
 
+/*
 void wake_up(void)
 {
-    uint32_t trig_time, trig_diff;
-    if (trigger1) {
-        // debounce
-        timer_a0_delay(50000);
-        if ((P1IN & TRIG1) == 0) {
-            return;
-        } else {
-            trig_time = ((uint32_t) timer_a0_ovf << 16) + (uint16_t) TA0R;
-            trig_diff = trig_time - last_trigger;
-            sprintf(str_temp, "trig1 %ld %ld\r\n", trig_time, trig_diff);
-            uart1_tx_str(str_temp, strlen(str_temp));
-            /*
-            if ((trig_diff > period_min) && (trig_diff < period_max)) {
-                P1IE &= ~TRIG1;
-                snprintf(str_temp, 7, "open\r\n");
-                uart1_tx_str(str_temp, strlen(str_temp));
-                open_door();
-                P1IE |= TRIG1;
-            }
-            */
-            last_trigger = trig_time;
-        }
-        trigger1 = false;
-    }
 }
+*/
 
 void check_events(void)
 {
@@ -140,9 +153,14 @@ void check_events(void)
     enum sys_message msg = 0;
 
     // drivers/timer_a0
-    if (timer_a0_last_event) {
-        msg |= timer_a0_last_event << 7;
+    if (timer_a0_last_event == TIMER_A0_EVENT_IFG) {
+        msg |= BIT0;
         timer_a0_last_event = 0;
+    }
+    // button presses
+    if (port1_last_event) {
+        msg |= BIT1;
+        port1_last_event = 0;
     }
 
     while (p) {
@@ -158,9 +176,8 @@ void check_events(void)
 __interrupt void Port_1(void)
 {
     if (P1IFG & TRIG1) {
-        trigger1 = true;
+        port1_last_event = 1;
         P1IFG &= ~TRIG1;
         LPM3_EXIT;
     }
 }
-

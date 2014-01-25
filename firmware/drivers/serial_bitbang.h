@@ -42,6 +42,7 @@
 
 // send one byte
 uint8_t i2cm_tx(const uint8_t slave_address, const uint8_t options);
+uint8_t i2cm_txbyte(const uint8_t slave_address, const uint8_t data);
 
 // read 'length' number of bytes and place them into buf
 uint8_t i2cm_rx(uint8_t * buf, const uint16_t length, const uint8_t options);
