@@ -1,5 +1,5 @@
 
-//  read/write data to flash slots
+//  IO driver for information memory segments
 //
 //  author:          Petre Rodan <petre.rodan@simplex.ro>
 //  available from:  https://github.com/rodan/

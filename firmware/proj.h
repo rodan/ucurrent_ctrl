@@ -22,7 +22,7 @@
 #define led_on              P2OUT |= BIT0
 #define led_off             P2OUT &= ~BIT0
 
-#define VERSION             1   // must be incremented if struct settings changes
+#define VERSION             1   // must be incremented if struct settings_t changes
 #define FLASH_ADDR          SEGMENT_B
 
 #define true                1
@@ -32,6 +32,7 @@ void main_init(void);
 void settings_init(void);
 void wake_up(void);
 void check_events(void);
+uint8_t str_to_uint16(char *str, uint16_t *out, const uint8_t seek, const uint8_t len, const uint16_t min, const uint16_t max);
 
 struct settings_t {
     uint8_t ver;                // firmware version

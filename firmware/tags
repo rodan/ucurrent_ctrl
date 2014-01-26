@@ -120,8 +120,9 @@ SHT_SYMTAB	tools/elf.py	/^    SHT_SYMTAB      = 2$/;"	v	class:ELFSection
 SRCS	Makefile	/^SRCS := $(wildcard *.c)$/;"	m
 ST	drivers/ads1110.h	25;"	d
 SUBDIRS	Makefile	/^SUBDIRS = drivers$/;"	m
-SYS_MSG_P1IFG	drivers/sys_messagebus.h	/^    SYS_MSG_P1IFG = BIT1        \/\/ button press$/;"	e	enum:sys_message
+SYS_MSG_P1IFG	drivers/sys_messagebus.h	/^    SYS_MSG_P1IFG = BIT1,       \/\/ button press$/;"	e	enum:sys_message
 SYS_MSG_TIMER0_IFG	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_IFG = BIT0,  \/\/ timer0 overflow$/;"	e	enum:sys_message
+SYS_MSG_UART1_RX	drivers/sys_messagebus.h	/^    SYS_MSG_UART1_RX = BIT2$/;"	e	enum:sys_message
 Segment	tools/memory.py	/^class Segment:$/;"	c
 TARGET	Makefile	/^TARGET	:= DEBUG$/;"	m
 TARGET	Makefile	/^TARGET	:= RELEASE$/;"	m
@@ -134,6 +135,7 @@ TIMER_A0_EVENT_IFG	drivers/timer_a0.h	/^    TIMER_A0_EVENT_IFG = BIT5,$/;"	e	enu
 TRIG1	proj.h	9;"	d
 UART1_EV_RX	drivers/uart1.h	/^    UART1_EV_RX = BIT0,$/;"	e	enum:uart1_tevent
 UART1_EV_TX	drivers/uart1.h	/^    UART1_EV_TX = BIT1$/;"	e	enum:uart1_tevent
+UART1_RXBUF_SZ	drivers/uart1.h	11;"	d
 USCI_A1_ISR	drivers/uart1.c	/^void USCI_A1_ISR(void)$/;"	f
 VERSION	proj.h	25;"	d
 _CONFIG_H_	config.h	2;"	d
@@ -233,7 +235,8 @@ settings_init	proj.c	/^void settings_init(void)$/;"	f
 settings_t	proj.h	/^struct settings_t {$/;"	s
 standby_time	proj.h	/^    uint16_t standby_time;      \/\/ number of TA0 overflows after which latch is disabled$/;"	m	struct:settings_t
 standby_unused	proj.h	/^    uint16_t standby_unused;    \/\/ innactivity timeout after which latch is disabled$/;"	m	struct:settings_t
-str_temp	proj.c	/^char str_temp[83];$/;"	v
+str_temp	proj.c	/^char str_temp[120];$/;"	v
+str_to_uint16	proj.c	/^uint8_t str_to_uint16(char *str, uint16_t *out, const uint8_t seek, const uint8_t len, const uint16_t min, const uint16_t max)$/;"	f
 struct	tools/elf.py	/^import struct$/;"	i
 sys	tools/memory.py	/^import sys$/;"	i
 sys_message	drivers/sys_messagebus.h	/^enum sys_message {$/;"	g
@@ -249,10 +252,14 @@ timer_a0_irq	proj.c	/^static void timer_a0_irq(enum sys_message msg)$/;"	f	file:
 timer_a0_last_event	drivers/timer_a0.h	/^volatile enum timer_a0_event timer_a0_last_event;$/;"	v	typeref:enum:timer_a0_event
 timer_a0_ovf	drivers/timer_a0.h	/^volatile uint16_t timer_a0_ovf;$/;"	v
 true	proj.h	28;"	d
-tue	proj.c	/^int16_t tue; \/\/ ticks until end$/;"	v
+tue	proj.c	/^int16_t tue;                    \/\/ ticks until end$/;"	v
 uart1_init	drivers/uart1.c	/^void uart1_init(void)$/;"	f
 uart1_last_event	drivers/uart1.h	/^volatile enum uart1_tevent uart1_last_event;$/;"	v	typeref:enum:uart1_tevent
-uart1_rx_buf	drivers/uart1.h	/^char uart1_rx_buf;$/;"	v
+uart1_p	drivers/uart1.h	/^volatile uint8_t uart1_p;$/;"	v
+uart1_rx_buf	drivers/uart1.h	/^volatile char uart1_rx_buf[UART1_RXBUF_SZ];$/;"	v
+uart1_rx_enable	drivers/uart1.h	/^uint8_t uart1_rx_enable;$/;"	v
+uart1_rx_err	drivers/uart1.h	/^uint8_t uart1_rx_err;$/;"	v
+uart1_rx_irq	proj.c	/^static void uart1_rx_irq(enum sys_message msg)$/;"	f	file:
 uart1_tevent	drivers/uart1.h	/^enum uart1_tevent {$/;"	g
 uart1_tx_str	drivers/uart1.c	/^uint16_t uart1_tx_str(char *str, uint16_t size)$/;"	f
 uc_disable	proj.h	21;"	d
