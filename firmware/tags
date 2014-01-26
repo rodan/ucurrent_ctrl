@@ -14,12 +14,6 @@ BITS_16	drivers/ads1110.h	23;"	d
 CC	Makefile	/^CC		= msp430-gcc$/;"	m
 CC_CMACH	Makefile	/^CC_CMACH	= -mmcu=msp430f5510$/;"	m
 CC_DMACH	Makefile	/^CC_DMACH	= -D__MSP430F5510__$/;"	m
-COMPILE_DAY	drivers/rtca_now.h	7;"	d
-COMPILE_DOW	drivers/rtca_now.h	8;"	d
-COMPILE_HOUR	drivers/rtca_now.h	9;"	d
-COMPILE_MIN	drivers/rtca_now.h	10;"	d
-COMPILE_MON	drivers/rtca_now.h	6;"	d
-COMPILE_YEAR	drivers/rtca_now.h	5;"	d
 DEBUG	Makefile	/^DEBUG := $(shell grep "^\\#define CONFIG_DEBUG" config.h)$/;"	m
 DEBUG	tools/memory.py	/^DEBUG = 0$/;"	v
 ED0	drivers/ads1110.h	6;"	d
@@ -59,6 +53,7 @@ ET_REL	tools/elf.py	/^    ET_REL          = 1     #Relocatable file$/;"	v	class:
 Elf32_Ehdr	tools/elf.py	/^    Elf32_Ehdr = "<16sHHIIIIIHHHHHH"$/;"	v	class:ELFObject
 Elf32_Phdr	tools/elf.py	/^    Elf32_Phdr = "<IIIIIIII"            #header format$/;"	v	class:ELFProgramHeader
 Elf32_Shdr	tools/elf.py	/^    Elf32_Shdr = "<IIIIIIIIII"          #header format$/;"	v	class:ELFSection
+FLASH_ADDR	proj.h	26;"	d
 FileFormatError	tools/memory.py	/^class FileFormatError(IOError):$/;"	c
 I2C_ACK	drivers/serial_bitbang.h	35;"	d
 I2C_MASTER_DIR	proj.h	12;"	d
@@ -99,6 +94,9 @@ PT_SHLIB	tools/elf.py	/^    PT_SHLIB        = 5$/;"	v	class:ELFProgramHeader
 PYTHON	Makefile	/^PYTHON := $(shell which python2 || which python)$/;"	m
 Port_1	proj.c	/^__interrupt void Port_1(void)$/;"	f
 SC	drivers/ads1110.h	24;"	d
+SEGMENT_B	drivers/flash.h	8;"	d
+SEGMENT_C	drivers/flash.h	7;"	d
+SEGMENT_D	drivers/flash.h	6;"	d
 SHF_ALLOC	tools/elf.py	/^    SHF_ALLOC       = 0x2$/;"	v	class:ELFSection
 SHF_EXECINSTR	tools/elf.py	/^    SHF_EXECINSTR   = 0x4$/;"	v	class:ELFSection
 SHF_MASKPROC	tools/elf.py	/^    SHF_MASKPROC    = 0xf0000000L$/;"	v	class:ELFSection
@@ -137,10 +135,11 @@ TRIG1	proj.h	9;"	d
 UART1_EV_RX	drivers/uart1.h	/^    UART1_EV_RX = BIT0,$/;"	e	enum:uart1_tevent
 UART1_EV_TX	drivers/uart1.h	/^    UART1_EV_TX = BIT1$/;"	e	enum:uart1_tevent
 USCI_A1_ISR	drivers/uart1.c	/^void USCI_A1_ISR(void)$/;"	f
+VERSION	proj.h	25;"	d
 _CONFIG_H_	config.h	2;"	d
 __ADC_H__	drivers/adc.h	2;"	d
+__FLASH_H__	drivers/flash.h	2;"	d
 __PROJ_H__	proj.h	2;"	d
-__RTCA_NOW_H__	drivers/rtca_now.h	3;"	d
 __SERIAL_BITBANG_	drivers/serial_bitbang.h	2;"	d
 __SYS_MESSAGEBUS_H__	drivers/sys_messagebus.h	2;"	d
 __TIMER_A0_H__	drivers/timer_a0.h	2;"	d
@@ -175,13 +174,19 @@ check_events	proj.c	/^void check_events(void)$/;"	f
 config	drivers/ads1110.h	/^    uint8_t config;     \/\/ adc configuration register$/;"	m	struct:ads1110
 conv	drivers/ads1110.h	/^    int16_t conv;       \/\/ int voltage value *10^4$/;"	m	struct:ads1110
 conv_raw	drivers/ads1110.h	/^    int16_t conv_raw;   \/\/ adc raw output$/;"	m	struct:ads1110
+defaults	proj.h	/^static const struct settings_t defaults = {$/;"	v	typeref:struct:settings_t
 delay_c	drivers/serial_bitbang.h	41;"	d
 delay_s	drivers/serial_bitbang.h	40;"	d
 display_menu	proj.c	/^void display_menu(void)$/;"	f
 eadc	proj.c	/^struct ads1110 eadc;$/;"	v	typeref:struct:ads1110
 elf	tools/elf.py	/^    elf = ELFObject()$/;"	v
 elf	tools/memory.py	/^import elf$/;"	i
-false	proj.h	26;"	d
+enable_adc	proj.h	/^    uint8_t enable_adc;         \/\/ enable internal adc for battery check$/;"	m	struct:settings_t
+enable_eadc	proj.h	/^    int8_t enable_eadc;         \/\/ enable external adc. 0 false, 1 true, -1 false but ADS1110 present$/;"	m	struct:settings_t
+false	proj.h	29;"	d
+flash_erase	drivers/flash.c	/^uint8_t flash_erase(uint8_t *segment_addr)$/;"	f
+flash_read	drivers/flash.c	/^uint8_t flash_read(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f
+flash_save	drivers/flash.c	/^uint8_t flash_save(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f
 fn	drivers/sys_messagebus.h	/^    void (*fn) (enum sys_message);$/;"	m	struct:sys_messagebus
 fp	tools/memory.py	/^    fp = open(options.output, "w")$/;"	v	class:Memory
 fromFile	tools/elf.py	/^    def fromFile(self, fileobj):$/;"	m	class:ELFObject
@@ -216,6 +221,7 @@ next	drivers/sys_messagebus.h	/^    struct sys_messagebus *next;$/;"	m	struct:sy
 parser	tools/memory.py	/^    parser = OptionParser()$/;"	v	class:Memory
 port1_irq	proj.c	/^static void port1_irq(enum sys_message msg)$/;"	f	file:
 port1_last_event	proj.c	/^volatile uint8_t port1_last_event;$/;"	v
+s	proj.c	/^struct settings_t s;$/;"	v	typeref:struct:settings_t
 saveIHex	tools/memory.py	/^    def saveIHex(self, filelike):$/;"	m	class:Memory
 saveTIText	tools/memory.py	/^    def saveTIText(self, filelike):$/;"	m	class:Memory
 scl_high	drivers/serial_bitbang.h	18;"	d
@@ -223,9 +229,11 @@ scl_low	drivers/serial_bitbang.h	19;"	d
 sda_high	drivers/serial_bitbang.h	16;"	d
 sda_low	drivers/serial_bitbang.h	17;"	d
 setMem	tools/memory.py	/^    def setMem(self, address, contents):$/;"	m	class:Memory
-standby_time	proj.c	/^uint16_t standby_time;$/;"	v
+settings_init	proj.c	/^void settings_init(void)$/;"	f
+settings_t	proj.h	/^struct settings_t {$/;"	s
+standby_time	proj.h	/^    uint16_t standby_time;      \/\/ number of TA0 overflows after which latch is disabled$/;"	m	struct:settings_t
+standby_unused	proj.h	/^    uint16_t standby_unused;    \/\/ innactivity timeout after which latch is disabled$/;"	m	struct:settings_t
 str_temp	proj.c	/^char str_temp[83];$/;"	v
-strip_zero	tools/update_rtca_now.sh	/^strip_zero()$/;"	f
 struct	tools/elf.py	/^import struct$/;"	i
 sys	tools/memory.py	/^import sys$/;"	i
 sys_message	drivers/sys_messagebus.h	/^enum sys_message {$/;"	g
@@ -240,7 +248,7 @@ timer_a0_init	drivers/timer_a0.c	/^void timer_a0_init(void)$/;"	f
 timer_a0_irq	proj.c	/^static void timer_a0_irq(enum sys_message msg)$/;"	f	file:
 timer_a0_last_event	drivers/timer_a0.h	/^volatile enum timer_a0_event timer_a0_last_event;$/;"	v	typeref:enum:timer_a0_event
 timer_a0_ovf	drivers/timer_a0.h	/^volatile uint16_t timer_a0_ovf;$/;"	v
-true	proj.h	25;"	d
+true	proj.h	28;"	d
 tue	proj.c	/^int16_t tue; \/\/ ticks until end$/;"	v
 uart1_init	drivers/uart1.c	/^void uart1_init(void)$/;"	f
 uart1_last_event	drivers/uart1.h	/^volatile enum uart1_tevent uart1_last_event;$/;"	v	typeref:enum:uart1_tevent
@@ -249,3 +257,4 @@ uart1_tevent	drivers/uart1.h	/^enum uart1_tevent {$/;"	g
 uart1_tx_str	drivers/uart1.c	/^uint16_t uart1_tx_str(char *str, uint16_t size)$/;"	f
 uc_disable	proj.h	21;"	d
 uc_enable	proj.h	20;"	d
+ver	proj.h	/^    uint8_t ver;                \/\/ firmware version$/;"	m	struct:settings_t
