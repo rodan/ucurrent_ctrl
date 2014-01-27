@@ -29,22 +29,26 @@ char str_temp[120];
 void display_menu(void)
 {
     sprintf(str_temp,
-            "\r\n --- uCurrent controller ver %d --\t\tpoweroff in %d sec\r\n",
+            "\r\n --- uCurrent controller ver %d --\t  poweroff in %d sec\r\n",
             VERSION, tue * 2);
     uart1_tx_str(str_temp, strlen(str_temp));
 
-    sprintf(str_temp, "  * ads1110 (status 0x%02x, conv %s%01d.%04dV)\r\n",
-            eadc.config, eadc.conv < 0 ? "-" : "",
-            abs((int16_t) eadc.conv / 10000), abs((int16_t) eadc.conv % 10000));
+    sprintf(str_temp,
+            "  * ads1110 (status 0x%02x, conv %s%01d.%04dV, rel delta %s%01d.%04dV)\r\n",
+            eadc.config, (eadc.conv + s.eadc_delta) < 0 ? "-" : "",
+            abs((int16_t) (eadc.conv + s.eadc_delta) / 10000),
+            abs((int16_t) (eadc.conv + s.eadc_delta) % 10000),
+            s.eadc_delta < 0 ? "-" : "", abs((int16_t) s.eadc_delta / 10000),
+            abs((int16_t) s.eadc_delta % 10000));
     uart1_tx_str(str_temp, strlen(str_temp));
 
     sprintf(str_temp,
             "  * settings\t\e[33;1mE\e[0m: eadc %d   \e[33;1mA\e[0m: adc %d   \e[33;1mT\e[0m: s_t %d   \e[33;1mU\e[0m: s_u %d\r\n",
-            s.enable_eadc, s.enable_adc, s.standby_time, s.standby_unused);
+            s.eadc_en, s.adc_en, s.standby_time, s.standby_unused);
     uart1_tx_str(str_temp, strlen(str_temp));
 
     sprintf(str_temp,
-            "  \e[33;1mL\e[0m: load defaults\t\e[33;1mS\e[0m: save settings\t\e[33;1mR\e[0m: refresh menu\r\nChoice? ");
+            "  \e[33;1mD\e[0m: relative delta     \e[33;1mL\e[0m: load defaults     \e[33;1mS\e[0m: save settings\r\nChoice? ");
     uart1_tx_str(str_temp, strlen(str_temp));
 
 }
@@ -76,23 +80,27 @@ static void port1_irq(enum sys_message msg)
     }
 }
 
-uint8_t str_to_uint16(char *str, uint16_t *out, const uint8_t seek, const uint8_t len, const uint16_t min, const uint16_t max)
+uint8_t str_to_uint16(char *str, uint16_t * out, const uint8_t seek,
+                      const uint8_t len, const uint16_t min, const uint16_t max)
 {
-    uint16_t val=0,pow=1;
+    uint16_t val = 0, pow = 1;
     uint8_t i;
 
     // pow() is missing in gcc, so we improvise
-    for (i=0;i<len-1;i++) {
+    for (i = 0; i < len - 1; i++) {
         pow *= 10;
     }
-    for (i=0;i<len;i++) {
-        val += (str[seek+i] - 48) * pow;
+    for (i = 0; i < len; i++) {
+        if ((str[seek + i] > 47) && (str[seek + i] < 58)) {
+            val += (str[seek + i] - 48) * pow;
+        }
         pow /= 10;
     }
     if ((val >= min) && (val <= max)) {
         *out = val;
     } else {
-        sprintf(str_temp, "\e[31;1merr\e[0m specify an int between %u-%u\r\n", min, max);
+        sprintf(str_temp, "\e[31;1merr\e[0m specify an int between %u-%u\r\n",
+                min, max);
         uart1_tx_str(str_temp, strlen(str_temp));
         return 0;
     }
@@ -102,22 +110,23 @@ uint8_t str_to_uint16(char *str, uint16_t *out, const uint8_t seek, const uint8_
 static void uart1_rx_irq(enum sys_message msg)
 {
     uint16_t u16;
-    uint8_t p,i,err=0;
+    uint8_t p, i;
     uint8_t *src_p, *dst_p;
     char *input;
 
-    input = (char *) uart1_rx_buf;
+    input = (char *)uart1_rx_buf;
 
     p = input[0];
     if (p > 97) {
         p -= 32;
     }
 
-    if (p == 82) { // [R]efresh menu
+    if (p == 0) {               // empty enter
         display_menu();
-    } else if (p == 83) { // [S]ave to flash
+    } else if (p == 83) {       // [S]ave to flash
         flash_save(FLASH_ADDR, (void *)&s, sizeof(s));
-    } else if (p == 76) { // [L]oad defaults
+        display_menu();
+    } else if (p == 76) {       // [L]oad defaults
         src_p = (uint8_t *) & defaults;
         dst_p = (uint8_t *) & s;
         for (i = 0; i < sizeof(s); i++) {
@@ -125,39 +134,35 @@ static void uart1_rx_irq(enum sys_message msg)
         }
         display_menu();
         tue = s.standby_time;
-    } else if (p == 69) { // [E]xternal ADC
-        if (str_to_uint16(input,&u16,1,strlen(input)-1,0,1)) {
-            s.enable_eadc = u16;
+    } else if (p == 68) {       // get relative delta
+        s.eadc_delta = 0 - eadc.conv;
+        display_menu();
+    } else if (p == 69) {       // [E]xternal ADC
+        if (str_to_uint16(input, &u16, 1, strlen(input) - 1, 0, 1)) {
+            s.eadc_en = u16;
             display_menu();
         }
-    } else if (p == 65) { // internal [A]DC
-        if (str_to_uint16(input,&u16,1,strlen(input)-1,0,1)) {
-            s.enable_adc = u16;
+    } else if (p == 65) {       // internal [A]DC
+        if (str_to_uint16(input, &u16, 1, strlen(input) - 1, 0, 1)) {
+            s.adc_en = u16;
             display_menu();
         }
-    } else if (p == 84) { // generic [T]imeout
-        if (str_to_uint16(input,&u16,1,strlen(input)-1,30,65535)) {
+    } else if (p == 84) {       // generic [T]imeout
+        if (str_to_uint16(input, &u16, 1, strlen(input) - 1, 30, 65535)) {
             s.standby_time = u16;
             display_menu();
         }
-    } else if (p == 85) { // [U]nused timeout
-        if (str_to_uint16(input,&u16,1,strlen(input)-1,30,65535)) {
+    } else if (p == 85) {       // [U]nused timeout
+        if (str_to_uint16(input, &u16, 1, strlen(input) - 1, 30, 65535)) {
             s.standby_unused = u16;
             display_menu();
         }
     } else {
-        err = 1;
+        uart1_tx_str("\e[31;1merr\e[0m\r\n", 17);
     }
 
-
-    if (err) {
-        uart1_tx_str("\e[31;1merr\e[0m\r\n",17);
-    }
-
-    /*
-    sprintf(str_temp, "\r\n%d\r\n", p);
-    uart1_tx_str(str_temp, strlen(str_temp));
-    */
+    //sprintf(str_temp, "\r\n%d\r\n", p);
+    //uart1_tx_str(str_temp, strlen(str_temp));
 
     uart1_p = 0;
     uart1_rx_enable = 1;
@@ -254,7 +259,6 @@ void settings_init(void)
     dst_p = (uint8_t *) & s;
     if ((*src_p) != VERSION) {
         src_p = (uint8_t *) & defaults;
-        flash_save(FLASH_ADDR, (void *)&defaults, sizeof(s));
     }
     for (i = 0; i < sizeof(s); i++) {
         *dst_p++ = *src_p++;

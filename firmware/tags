@@ -84,6 +84,7 @@ adc10_ISR	drivers/adc.c	/^void adc10_ISR(void)$/;"	f
 adc10_halt	drivers/adc.c	/^void adc10_halt(void)$/;"	f
 adc10_read	drivers/adc.c	/^void adc10_read(const uint8_t port, uint16_t * rv, const uint8_t vref)$/;"	f
 adc10_rv	drivers/adc.c	/^volatile uint16_t *adc10_rv;$/;"	v
+adc_en	proj.h	/^    uint8_t adc_en;             \/\/ enable internal adc for battery check$/;"	m	struct:settings_t
 adcready	drivers/adc.c	/^volatile uint8_t adcready;$/;"	v
 ads1110	drivers/ads1110.h	/^struct ads1110 {$/;"	s
 ads1110_config	drivers/ads1110.c	/^uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)$/;"	f
@@ -98,8 +99,8 @@ delay_c	drivers/serial_bitbang.h	41;"	d
 delay_s	drivers/serial_bitbang.h	40;"	d
 display_menu	proj.c	/^void display_menu(void)$/;"	f
 eadc	proj.c	/^struct ads1110 eadc;$/;"	v	typeref:struct:ads1110
-enable_adc	proj.h	/^    uint8_t enable_adc;         \/\/ enable internal adc for battery check$/;"	m	struct:settings_t
-enable_eadc	proj.h	/^    int8_t enable_eadc;         \/\/ enable external adc. 0 false, 1 true, -1 false but ADS1110 present$/;"	m	struct:settings_t
+eadc_delta	proj.h	/^    int16_t eadc_delta;         \/\/ 0V correction for the EADC$/;"	m	struct:settings_t
+eadc_en	proj.h	/^    int8_t eadc_en;             \/\/ enable external adc. 0 false, 1 true, -1 false but ADS1110 present$/;"	m	struct:settings_t
 false	proj.h	29;"	d
 flash_erase	drivers/flash.c	/^uint8_t flash_erase(uint8_t *segment_addr)$/;"	f
 flash_read	drivers/flash.c	/^uint8_t flash_read(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f
@@ -132,7 +133,7 @@ settings_t	proj.h	/^struct settings_t {$/;"	s
 standby_time	proj.h	/^    uint16_t standby_time;      \/\/ number of TA0 overflows after which latch is disabled$/;"	m	struct:settings_t
 standby_unused	proj.h	/^    uint16_t standby_unused;    \/\/ innactivity timeout after which latch is disabled$/;"	m	struct:settings_t
 str_temp	proj.c	/^char str_temp[120];$/;"	v
-str_to_uint16	proj.c	/^uint8_t str_to_uint16(char *str, uint16_t *out, const uint8_t seek, const uint8_t len, const uint16_t min, const uint16_t max)$/;"	f
+str_to_uint16	proj.c	/^uint8_t str_to_uint16(char *str, uint16_t * out, const uint8_t seek,$/;"	f
 sys_message	drivers/sys_messagebus.h	/^enum sys_message {$/;"	g
 sys_messagebus	drivers/sys_messagebus.h	/^struct sys_messagebus {$/;"	s
 sys_messagebus_register	drivers/sys_messagebus.c	/^void sys_messagebus_register(void (*callback) (enum sys_message),$/;"	f

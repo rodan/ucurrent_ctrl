@@ -34,7 +34,6 @@ power:
  software requirements:
 
    msp430 toolchain
-   python-2.7
 
 [1] http://www.ti.com/tool/ez430-chronos
 [2] http://openchronos-ng.sourceforge.net
