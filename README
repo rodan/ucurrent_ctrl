@@ -29,7 +29,9 @@ power:
  homepage:        https://github.com/rodan/ucurrent_ctrl
  author:          Petre Rodan <petre.rodan@simplex.ro>
  license:         GNU GPLv3
+
  parts of the code were originally forked from the openchronos-ng project [3]. 
+ handling of settings based on code from Graham Fountain.
 
  software requirements:
 
