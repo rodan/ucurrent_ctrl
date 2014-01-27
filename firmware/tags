@@ -15,7 +15,6 @@ CC	Makefile	/^CC		= msp430-gcc$/;"	m
 CC_CMACH	Makefile	/^CC_CMACH	= -mmcu=msp430f5510$/;"	m
 CC_DMACH	Makefile	/^CC_DMACH	= -D__MSP430F5510__$/;"	m
 DEBUG	Makefile	/^DEBUG := $(shell grep "^\\#define CONFIG_DEBUG" config.h)$/;"	m
-DEBUG	tools/memory.py	/^DEBUG = 0$/;"	v
 ED0	drivers/ads1110.h	6;"	d
 ED1	drivers/ads1110.h	7;"	d
 ED2	drivers/ads1110.h	8;"	d
@@ -24,37 +23,7 @@ ED4	drivers/ads1110.h	10;"	d
 ED5	drivers/ads1110.h	11;"	d
 ED6	drivers/ads1110.h	12;"	d
 ED7	drivers/ads1110.h	13;"	d
-EI_CLASS	tools/elf.py	/^    EI_CLASS        = 4     #File class$/;"	v	class:ELFObject
-EI_DATA	tools/elf.py	/^    EI_DATA         = 5     #Data encoding$/;"	v	class:ELFObject
-EI_MAG0	tools/elf.py	/^    EI_MAG0         = 0     #File identification$/;"	v	class:ELFObject
-EI_MAG1	tools/elf.py	/^    EI_MAG1         = 1     #File identification$/;"	v	class:ELFObject
-EI_MAG2	tools/elf.py	/^    EI_MAG2         = 2     #File identification$/;"	v	class:ELFObject
-EI_MAG3	tools/elf.py	/^    EI_MAG3         = 3     #File identification$/;"	v	class:ELFObject
-EI_NIDENT	tools/elf.py	/^    EI_NIDENT       = 16    #Size of e_ident[]$/;"	v	class:ELFObject
-EI_PAD	tools/elf.py	/^    EI_PAD          = 7     #Start of padding bytes$/;"	v	class:ELFObject
-EI_VERSION	tools/elf.py	/^    EI_VERSION      = 6     #File version$/;"	v	class:ELFObject
-ELFCLASS32	tools/elf.py	/^    ELFCLASS32      = 1     #32-bit objects$/;"	v	class:ELFObject
-ELFCLASS64	tools/elf.py	/^    ELFCLASS64      = 2     #64-bit objects$/;"	v	class:ELFObject
-ELFCLASSNONE	tools/elf.py	/^    ELFCLASSNONE    = 0     #Invalid class$/;"	v	class:ELFObject
-ELFDATA2LSB	tools/elf.py	/^    ELFDATA2LSB     = 1     #See below$/;"	v	class:ELFObject
-ELFDATA2MSB	tools/elf.py	/^    ELFDATA2MSB     = 2     #See below$/;"	v	class:ELFObject
-ELFDATANONE	tools/elf.py	/^    ELFDATANONE     = 0     #Invalid data encoding$/;"	v	class:ELFObject
-ELFException	tools/elf.py	/^class ELFException(Exception): pass$/;"	c
-ELFObject	tools/elf.py	/^class ELFObject:$/;"	c
-ELFProgramHeader	tools/elf.py	/^class ELFProgramHeader:$/;"	c
-ELFSection	tools/elf.py	/^class ELFSection:$/;"	c
-ET_CORE	tools/elf.py	/^    ET_CORE         = 4     #Core file$/;"	v	class:ELFObject
-ET_DYN	tools/elf.py	/^    ET_DYN          = 3     #Shared object file$/;"	v	class:ELFObject
-ET_EXEC	tools/elf.py	/^    ET_EXEC         = 2     #Executable file$/;"	v	class:ELFObject
-ET_HIPROC	tools/elf.py	/^    ET_HIPROC       = 0xffff #Processor-specific$/;"	v	class:ELFObject
-ET_LOPROC	tools/elf.py	/^    ET_LOPROC       = 0xff00 #Processor-specific$/;"	v	class:ELFObject
-ET_NONE	tools/elf.py	/^    ET_NONE         = 0     #No file type$/;"	v	class:ELFObject
-ET_REL	tools/elf.py	/^    ET_REL          = 1     #Relocatable file$/;"	v	class:ELFObject
-Elf32_Ehdr	tools/elf.py	/^    Elf32_Ehdr = "<16sHHIIIIIHHHHHH"$/;"	v	class:ELFObject
-Elf32_Phdr	tools/elf.py	/^    Elf32_Phdr = "<IIIIIIII"            #header format$/;"	v	class:ELFProgramHeader
-Elf32_Shdr	tools/elf.py	/^    Elf32_Shdr = "<IIIIIIIIII"          #header format$/;"	v	class:ELFSection
 FLASH_ADDR	proj.h	26;"	d
-FileFormatError	tools/memory.py	/^class FileFormatError(IOError):$/;"	c
 I2C_ACK	drivers/serial_bitbang.h	35;"	d
 I2C_MASTER_DIR	proj.h	12;"	d
 I2C_MASTER_IN	proj.h	14;"	d
@@ -71,59 +40,23 @@ I2C_SDA_WAIT	drivers/serial_bitbang.h	31;"	d
 I2C_WRITE	drivers/serial_bitbang.h	25;"	d
 LD	Makefile	/^LD		= msp430-ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS		=$/;"	m
-Memory	tools/memory.py	/^class Memory:$/;"	c
 OBJS	Makefile	/^OBJS := $(patsubst %.c,%.o,$(SRCS))$/;"	m
-OptionParser	tools/memory.py	/^    from optparse import OptionParser$/;"	i
-PF_R	tools/elf.py	/^    PF_R            = 0x4       #segment is readable$/;"	v	class:ELFProgramHeader
-PF_W	tools/elf.py	/^    PF_W            = 0x2       #segment is writable$/;"	v	class:ELFProgramHeader
-PF_X	tools/elf.py	/^    PF_X            = 0x1       #segment is executable$/;"	v	class:ELFProgramHeader
 PGA_1	drivers/ads1110.h	16;"	d
 PGA_2	drivers/ads1110.h	17;"	d
 PGA_4	drivers/ads1110.h	18;"	d
 PGA_8	drivers/ads1110.h	19;"	d
 PROJ	Makefile	/^PROJ = proj$/;"	m
-PT_DYNAMIC	tools/elf.py	/^    PT_DYNAMIC      = 2$/;"	v	class:ELFProgramHeader
-PT_HIPROC	tools/elf.py	/^    PT_HIPROC       = 0x7fffffffL$/;"	v	class:ELFProgramHeader
-PT_INTERP	tools/elf.py	/^    PT_INTERP       = 3$/;"	v	class:ELFProgramHeader
-PT_LOAD	tools/elf.py	/^    PT_LOAD         = 1$/;"	v	class:ELFProgramHeader
-PT_LOPROC	tools/elf.py	/^    PT_LOPROC       = 0x70000000L$/;"	v	class:ELFProgramHeader
-PT_NOTE	tools/elf.py	/^    PT_NOTE         = 4$/;"	v	class:ELFProgramHeader
-PT_NULL	tools/elf.py	/^    PT_NULL         = 0$/;"	v	class:ELFProgramHeader
-PT_PHDR	tools/elf.py	/^    PT_PHDR         = 6$/;"	v	class:ELFProgramHeader
-PT_SHLIB	tools/elf.py	/^    PT_SHLIB        = 5$/;"	v	class:ELFProgramHeader
-PYTHON	Makefile	/^PYTHON := $(shell which python2 || which python)$/;"	m
 Port_1	proj.c	/^__interrupt void Port_1(void)$/;"	f
 SC	drivers/ads1110.h	24;"	d
 SEGMENT_B	drivers/flash.h	8;"	d
 SEGMENT_C	drivers/flash.h	7;"	d
 SEGMENT_D	drivers/flash.h	6;"	d
-SHF_ALLOC	tools/elf.py	/^    SHF_ALLOC       = 0x2$/;"	v	class:ELFSection
-SHF_EXECINSTR	tools/elf.py	/^    SHF_EXECINSTR   = 0x4$/;"	v	class:ELFSection
-SHF_MASKPROC	tools/elf.py	/^    SHF_MASKPROC    = 0xf0000000L$/;"	v	class:ELFSection
-SHF_WRITE	tools/elf.py	/^    SHF_WRITE       = 0x1$/;"	v	class:ELFSection
-SHT_DYNAMIC	tools/elf.py	/^    SHT_DYNAMIC     = 6$/;"	v	class:ELFSection
-SHT_DYNSYM	tools/elf.py	/^    SHT_DYNSYM      = 11$/;"	v	class:ELFSection
-SHT_HASH	tools/elf.py	/^    SHT_HASH        = 5$/;"	v	class:ELFSection
-SHT_HIPROC	tools/elf.py	/^    SHT_HIPROC      = 0x7fffffffL$/;"	v	class:ELFSection
-SHT_HIUSER	tools/elf.py	/^    SHT_HIUSER      = 0xffffffffL$/;"	v	class:ELFSection
-SHT_LOPROC	tools/elf.py	/^    SHT_LOPROC      = 0x70000000L$/;"	v	class:ELFSection
-SHT_LOUSER	tools/elf.py	/^    SHT_LOUSER      = 0x80000000L$/;"	v	class:ELFSection
-SHT_NOBITS	tools/elf.py	/^    SHT_NOBITS      = 8$/;"	v	class:ELFSection
-SHT_NOTE	tools/elf.py	/^    SHT_NOTE        = 7$/;"	v	class:ELFSection
-SHT_NULL	tools/elf.py	/^    SHT_NULL        = 0$/;"	v	class:ELFSection
-SHT_PROGBITS	tools/elf.py	/^    SHT_PROGBITS    = 1$/;"	v	class:ELFSection
-SHT_REL	tools/elf.py	/^    SHT_REL         = 9$/;"	v	class:ELFSection
-SHT_RELA	tools/elf.py	/^    SHT_RELA        = 4$/;"	v	class:ELFSection
-SHT_SHLIB	tools/elf.py	/^    SHT_SHLIB       = 10$/;"	v	class:ELFSection
-SHT_STRTAB	tools/elf.py	/^    SHT_STRTAB      = 3$/;"	v	class:ELFSection
-SHT_SYMTAB	tools/elf.py	/^    SHT_SYMTAB      = 2$/;"	v	class:ELFSection
 SRCS	Makefile	/^SRCS := $(wildcard *.c)$/;"	m
 ST	drivers/ads1110.h	25;"	d
 SUBDIRS	Makefile	/^SUBDIRS = drivers$/;"	m
 SYS_MSG_P1IFG	drivers/sys_messagebus.h	/^    SYS_MSG_P1IFG = BIT1,       \/\/ button press$/;"	e	enum:sys_message
 SYS_MSG_TIMER0_IFG	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_IFG = BIT0,  \/\/ timer0 overflow$/;"	e	enum:sys_message
 SYS_MSG_UART1_RX	drivers/sys_messagebus.h	/^    SYS_MSG_UART1_RX = BIT2$/;"	e	enum:sys_message
-Segment	tools/memory.py	/^class Segment:$/;"	c
 TARGET	Makefile	/^TARGET	:= DEBUG$/;"	m
 TARGET	Makefile	/^TARGET	:= RELEASE$/;"	m
 TIMER_A0_EVENT_CCR0	drivers/timer_a0.h	/^    TIMER_A0_EVENT_CCR0 = BIT0,$/;"	e	enum:timer_a0_event
@@ -147,21 +80,6 @@ __SYS_MESSAGEBUS_H__	drivers/sys_messagebus.h	2;"	d
 __TIMER_A0_H__	drivers/timer_a0.h	2;"	d
 __UART1_H__	drivers/uart1.h	2;"	d
 __ads1110_h_	drivers/ads1110.h	2;"	d
-__getitem__	tools/memory.py	/^    def __getitem__(self, index):$/;"	m	class:Memory	file:
-__getitem__	tools/memory.py	/^    def __getitem__(self, index):$/;"	m	class:Segment	file:
-__init__	tools/elf.py	/^    def __init__(self):$/;"	m	class:ELFObject
-__init__	tools/elf.py	/^    def __init__(self):$/;"	m	class:ELFProgramHeader
-__init__	tools/elf.py	/^    def __init__(self):$/;"	m	class:ELFSection
-__init__	tools/memory.py	/^    def __init__(self, filename=None):$/;"	m	class:Memory
-__init__	tools/memory.py	/^    def __init__(self, startaddress = 0, data=None):$/;"	m	class:Segment
-__len__	tools/memory.py	/^    def __len__(self):$/;"	m	class:Memory	file:
-__len__	tools/memory.py	/^    def __len__(self):$/;"	m	class:Segment	file:
-__repr__	tools/memory.py	/^    def __repr__(self):$/;"	m	class:Memory	file:
-__repr__	tools/memory.py	/^    def __repr__(self):$/;"	m	class:Segment	file:
-__str__	tools/elf.py	/^    def __str__(self):$/;"	m	class:ELFObject	file:
-__str__	tools/elf.py	/^    def __str__(self):$/;"	m	class:ELFProgramHeader	file:
-__str__	tools/elf.py	/^    def __str__(self):$/;"	m	class:ELFSection	file:
-_ihexline	tools/memory.py	/^    def _ihexline(self, address, buffer, end=0):$/;"	m	class:Memory
 adc10_ISR	drivers/adc.c	/^void adc10_ISR(void)$/;"	f
 adc10_halt	drivers/adc.c	/^void adc10_halt(void)$/;"	f
 adc10_read	drivers/adc.c	/^void adc10_read(const uint8_t port, uint16_t * rv, const uint8_t vref)$/;"	f
@@ -171,7 +89,6 @@ ads1110	drivers/ads1110.h	/^struct ads1110 {$/;"	s
 ads1110_config	drivers/ads1110.c	/^uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)$/;"	f
 ads1110_convert	drivers/ads1110.c	/^void ads1110_convert(struct ads1110 *adc)$/;"	f
 ads1110_read	drivers/ads1110.c	/^uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc)$/;"	f
-append	tools/memory.py	/^    def append(self, seg):$/;"	m	class:Memory
 check_events	proj.c	/^void check_events(void)$/;"	f
 config	drivers/ads1110.h	/^    uint8_t config;     \/\/ adc configuration register$/;"	m	struct:ads1110
 conv	drivers/ads1110.h	/^    int16_t conv;       \/\/ int voltage value *10^4$/;"	m	struct:ads1110
@@ -181,8 +98,6 @@ delay_c	drivers/serial_bitbang.h	41;"	d
 delay_s	drivers/serial_bitbang.h	40;"	d
 display_menu	proj.c	/^void display_menu(void)$/;"	f
 eadc	proj.c	/^struct ads1110 eadc;$/;"	v	typeref:struct:ads1110
-elf	tools/elf.py	/^    elf = ELFObject()$/;"	v
-elf	tools/memory.py	/^import elf$/;"	i
 enable_adc	proj.h	/^    uint8_t enable_adc;         \/\/ enable internal adc for battery check$/;"	m	struct:settings_t
 enable_eadc	proj.h	/^    int8_t enable_eadc;         \/\/ enable external adc. 0 false, 1 true, -1 false but ADS1110 present$/;"	m	struct:settings_t
 false	proj.h	29;"	d
@@ -190,16 +105,6 @@ flash_erase	drivers/flash.c	/^uint8_t flash_erase(uint8_t *segment_addr)$/;"	f
 flash_read	drivers/flash.c	/^uint8_t flash_read(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f
 flash_save	drivers/flash.c	/^uint8_t flash_save(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f
 fn	drivers/sys_messagebus.h	/^    void (*fn) (enum sys_message);$/;"	m	struct:sys_messagebus
-fp	tools/memory.py	/^    fp = open(options.output, "w")$/;"	v	class:Memory
-fromFile	tools/elf.py	/^    def fromFile(self, fileobj):$/;"	m	class:ELFObject
-fromString	tools/elf.py	/^    def fromString(self, s):$/;"	m	class:ELFProgramHeader
-fromString	tools/elf.py	/^    def fromString(self, s):$/;"	m	class:ELFSection
-getLMA	tools/elf.py	/^    def getLMA(self, section):$/;"	m	class:ELFObject
-getMem	tools/memory.py	/^    def getMem(self, address, size):$/;"	m	class:Memory
-getMemrange	tools/memory.py	/^    def getMemrange(self, fromadr, toadr):$/;"	m	class:Memory
-getProgrammableSections	tools/elf.py	/^    def getProgrammableSections(self):$/;"	m	class:ELFObject
-getSection	tools/elf.py	/^    def getSection(self, name):$/;"	m	class:ELFObject
-getSections	tools/elf.py	/^    def getSections(self):$/;"	m	class:ELFObject
 i2cm_rx	drivers/serial_bitbang.c	/^uint8_t i2cm_rx(uint8_t * buf, const uint16_t length, const uint8_t options)$/;"	f
 i2cm_rxfrom	drivers/serial_bitbang.c	/^uint8_t i2cm_rxfrom(const uint8_t slave_address, uint8_t * data,$/;"	f
 i2cm_start	drivers/serial_bitbang.c	/^uint8_t i2cm_start(void)$/;"	f
@@ -211,34 +116,23 @@ latch_enable	proj.h	18;"	d
 led_off	proj.h	23;"	d
 led_on	proj.h	22;"	d
 listens	drivers/sys_messagebus.h	/^    enum sys_message listens;$/;"	m	struct:sys_messagebus	typeref:enum:sys_messagebus::sys_message
-loadELF	tools/memory.py	/^    def loadELF(self, file):$/;"	m	class:Memory
-loadFile	tools/memory.py	/^    def loadFile(self, filename, fileobj=None):$/;"	m	class:Memory
-loadIHex	tools/memory.py	/^    def loadIHex(self, file):$/;"	m	class:Memory
-loadTIText	tools/memory.py	/^    def loadTIText(self, file):$/;"	m	class:Memory
 main	proj.c	/^int main(void)$/;"	f
 main_init	proj.c	/^void main_init(void)$/;"	f
-mem	tools/memory.py	/^    mem = Memory()$/;"	v	class:Memory
 messagebus	drivers/sys_messagebus.h	/^struct sys_messagebus *messagebus;$/;"	v	typeref:struct:sys_messagebus
 next	drivers/sys_messagebus.h	/^    struct sys_messagebus *next;$/;"	m	struct:sys_messagebus	typeref:struct:sys_messagebus::sys_messagebus
-parser	tools/memory.py	/^    parser = OptionParser()$/;"	v	class:Memory
 port1_irq	proj.c	/^static void port1_irq(enum sys_message msg)$/;"	f	file:
 port1_last_event	proj.c	/^volatile uint8_t port1_last_event;$/;"	v
 s	proj.c	/^struct settings_t s;$/;"	v	typeref:struct:settings_t
-saveIHex	tools/memory.py	/^    def saveIHex(self, filelike):$/;"	m	class:Memory
-saveTIText	tools/memory.py	/^    def saveTIText(self, filelike):$/;"	m	class:Memory
 scl_high	drivers/serial_bitbang.h	18;"	d
 scl_low	drivers/serial_bitbang.h	19;"	d
 sda_high	drivers/serial_bitbang.h	16;"	d
 sda_low	drivers/serial_bitbang.h	17;"	d
-setMem	tools/memory.py	/^    def setMem(self, address, contents):$/;"	m	class:Memory
 settings_init	proj.c	/^void settings_init(void)$/;"	f
 settings_t	proj.h	/^struct settings_t {$/;"	s
 standby_time	proj.h	/^    uint16_t standby_time;      \/\/ number of TA0 overflows after which latch is disabled$/;"	m	struct:settings_t
 standby_unused	proj.h	/^    uint16_t standby_unused;    \/\/ innactivity timeout after which latch is disabled$/;"	m	struct:settings_t
 str_temp	proj.c	/^char str_temp[120];$/;"	v
 str_to_uint16	proj.c	/^uint8_t str_to_uint16(char *str, uint16_t *out, const uint8_t seek, const uint8_t len, const uint16_t min, const uint16_t max)$/;"	f
-struct	tools/elf.py	/^import struct$/;"	i
-sys	tools/memory.py	/^import sys$/;"	i
 sys_message	drivers/sys_messagebus.h	/^enum sys_message {$/;"	g
 sys_messagebus	drivers/sys_messagebus.h	/^struct sys_messagebus {$/;"	s
 sys_messagebus_register	drivers/sys_messagebus.c	/^void sys_messagebus_register(void (*callback) (enum sys_message),$/;"	f
