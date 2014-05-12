@@ -30,12 +30,11 @@ power:
  author:          Petre Rodan <petre.rodan@simplex.ro>
  license:         GNU GPLv3
 
- parts of the code were originally forked from the openchronos-ng project [3]. 
+ parts of the code were originally forked from the openchronos-ng project [1]. 
  handling of settings based on code from Graham Fountain.
 
  software requirements:
 
    msp430 toolchain
 
-[1] http://www.ti.com/tool/ez430-chronos
-[2] http://openchronos-ng.sourceforge.net
+[1] http://openchronos-ng.sourceforge.net
