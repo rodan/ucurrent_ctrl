@@ -11787,8 +11787,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <part name="GND16" library="SparkFun" deviceset="GND" device=""/>
 <part name="GND22" library="SparkFun" deviceset="GND" device=""/>
 <part name="C10" library="rcl" deviceset="C-EU" device="C0805" value="470nF"/>
-<part name="C11" library="rcl" deviceset="C-EU" device="C0805" value="220nF"/>
-<part name="GND23" library="SparkFun" deviceset="GND" device=""/>
 <part name="GND24" library="SparkFun" deviceset="GND" device=""/>
 <part name="R6" library="rcl" deviceset="R-EU_" device="R0805W" value="4.7k"/>
 <part name="R7" library="rcl" deviceset="R-EU_" device="R0805W" value="4.7k"/>
@@ -11889,9 +11887,7 @@ SJ2 - open
 <instance part="GND16" gate="1" x="30.48" y="40.64"/>
 <instance part="GND22" gate="1" x="38.1" y="35.56"/>
 <instance part="C10" gate="G$1" x="38.1" y="43.18"/>
-<instance part="C11" gate="G$1" x="109.22" y="63.5" rot="R90"/>
-<instance part="GND23" gate="1" x="116.84" y="55.88"/>
-<instance part="GND24" gate="1" x="129.54" y="43.18"/>
+<instance part="GND24" gate="1" x="124.46" y="43.18"/>
 <instance part="R6" gate="G$1" x="111.76" y="40.64" rot="R180"/>
 <instance part="R7" gate="G$1" x="111.76" y="38.1" rot="R180"/>
 <instance part="Y1" gate="G$1" x="25.4" y="58.42" rot="R90"/>
@@ -11981,8 +11977,17 @@ SJ2 - open
 <segment>
 <pinref part="U$1" gate="G$1" pin="37"/>
 <pinref part="GND24" gate="1" pin="GND"/>
-<wire x1="104.14" y1="48.26" x2="129.54" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="129.54" y1="48.26" x2="129.54" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="48.26" x2="109.22" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="48.26" x2="124.46" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="124.46" y1="48.26" x2="124.46" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="39"/>
+<wire x1="104.14" y1="53.34" x2="109.22" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="53.34" x2="109.22" y2="48.26" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="41"/>
+<wire x1="104.14" y1="58.42" x2="109.22" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="58.42" x2="109.22" y2="53.34" width="0.1524" layer="91"/>
+<junction x="109.22" y="53.34"/>
+<junction x="109.22" y="48.26"/>
 </segment>
 <segment>
 <pinref part="C23" gate="G$1" pin="2"/>
@@ -12072,12 +12077,6 @@ SJ2 - open
 <label x="152.4" y="63.5" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="C11" gate="G$1" pin="2"/>
-<wire x1="114.3" y1="63.5" x2="116.84" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="116.84" y1="63.5" x2="116.84" y2="58.42" width="0.1524" layer="91"/>
-<pinref part="GND23" gate="1" pin="GND"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="GND"/>
 <pinref part="GND1" gate="1" pin="GND"/>
 <wire x1="116.84" y1="147.32" x2="111.76" y2="147.32" width="0.1524" layer="91"/>
@@ -12137,13 +12136,6 @@ SJ2 - open
 <pinref part="C10" gate="G$1" pin="1"/>
 <pinref part="U$1" gate="G$1" pin="13"/>
 <wire x1="38.1" y1="45.72" x2="53.34" y2="45.72" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$7" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="43"/>
-<pinref part="C11" gate="G$1" pin="1"/>
-<wire x1="106.68" y1="63.5" x2="104.14" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$11" class="0">
