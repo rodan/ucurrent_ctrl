@@ -60,11 +60,13 @@ static void timer_a0_irq(enum sys_message msg)
         uc_disable;
         latch_disable;
     } else {
-        // trigger conversion
-        ads1110_config(ED0, BITS_16 | PGA_2 | SC | ST);
-        timer_a0_delay(70000);
-        ads1110_read(ED0, &eadc);
-        ads1110_convert(&eadc);
+        if (s.eadc_en == 1) {
+            // trigger conversion
+            ads1110_config(ED0, BITS_16 | PGA_2 | SC | ST);
+            timer_a0_delay(70000);
+            ads1110_read(ED0, &eadc);
+            ads1110_convert(&eadc);
+        }
     }
 }
 
