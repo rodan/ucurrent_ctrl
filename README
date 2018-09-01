@@ -27,7 +27,7 @@ power:
  - this circuit will provide the 3V needed to the uCurent
 
  homepage:        https://github.com/rodan/ucurrent_ctrl
- author:          Petre Rodan <petre.rodan@simplex.ro>
+ author:          Petre Rodan <2b4eda@subdimension.ro>
  license:         GNU GPLv3
 
  parts of the code were originally forked from the openchronos-ng project [1]. 

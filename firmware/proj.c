@@ -1,7 +1,7 @@
 
 //  MSP430F5510 based project that controls the power delivery to a uCurrent
 //
-//  author:          Petre Rodan <petre.rodan@simplex.ro>
+//  author:          Petre Rodan <2b4eda@subdimension.ro>
 //  available from:  https://github.com/rodan/ucurrent_ctrl
 //  license:         GNU GPLv3
 
