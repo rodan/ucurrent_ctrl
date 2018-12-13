@@ -30,6 +30,9 @@ power:
  author:          Petre Rodan <2b4eda@subdimension.ro>
  license:         GNU GPLv3
 
+ images of the prototype are available here: 
+ https://photos.app.goo.gl/GjHpzLgLqz9fdpvY7
+
  parts of the code were originally forked from the openchronos-ng project [1]. 
  handling of settings based on code from Graham Fountain.
 
