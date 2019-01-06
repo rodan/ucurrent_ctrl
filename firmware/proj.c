@@ -212,8 +212,8 @@ void main_init(void)
     P5SEL |= BIT5 + BIT4;
 
     P1SEL = 0;
-    P1DIR = 0xfd;
     P1OUT = 0;
+    P1DIR = 0xfd;
 
     // IRQ triggers on rising edge
     P1IES &= ~TRIG1;
@@ -223,26 +223,26 @@ void main_init(void)
     P1IE |= TRIG1;
 
     P2SEL = 0;
-    P2DIR = 0x1;
     P2OUT = 0;
+    P2DIR = 0x1;
 
     P3SEL = 0;
-    P3DIR = 0x1f;
     P3OUT = 0;
+    P3DIR = 0x1f;
 
     P4SEL = 0;
-    P4DIR = 0xff;
     P4OUT = 0;
+    P4DIR = 0xff;
 
     //P5SEL is set above
-    P5DIR = 0xff;
     P5OUT = 0;
+    P5DIR = 0xff;
 
-    P6DIR = 0xfe;
     P6OUT = 0;
+    P6DIR = 0xfe;
 
-    PJDIR = 0xff;
     PJOUT = 0;
+    PJDIR = 0xff;
 
     // disable VUSB LDO and SLDO
     USBKEYPID = 0x9628;
@@ -303,8 +303,10 @@ void check_events(void)
     }
 }
 
-#pragma vector=PORT1_VECTOR
-__interrupt void Port_1(void)
+//#pragma vector=PORT1_VECTOR
+//__interrupt void Port_1(void)
+__attribute__ ((interrupt(PORT1_VECTOR)))
+void Port1_ISR(void)
 {
     if (P1IFG & TRIG1) {
         port1_last_event = 1;

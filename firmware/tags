@@ -1,58 +1,63 @@
 !_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
 !_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
-!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
-!_TAG_PROGRAM_NAME	Exuberant Ctags	//
-!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.8	//
-AR	Makefile	/^AR		= msp430-ar$/;"	m
-AS	Makefile	/^AS		= msp430-as$/;"	m
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	//
+$(OBJS)	Makefile	/^$(OBJS): $(PROJ).cflags$/;"	t
+$(PROJ).cflags	Makefile	/^$(PROJ).cflags: force$/;"	t
+$(PROJ).dep	Makefile	/^$(PROJ).dep: $(SRCS)$/;"	t
+$(PROJ).elf	Makefile	/^$(PROJ).elf: $(OBJS)$/;"	t
+%.o	Makefile	/^%.o: %.c$/;"	t
+AR	Makefile	/^AR              = msp430-elf-ar$/;"	m
+AS	Makefile	/^AS              = msp430-elf-as$/;"	m
 BASH	Makefile	/^BASH := $(shell which bash || which bash)$/;"	m
-BITS_12	drivers/ads1110.h	20;"	d
-BITS_14	drivers/ads1110.h	21;"	d
-BITS_15	drivers/ads1110.h	22;"	d
-BITS_16	drivers/ads1110.h	23;"	d
-CC	Makefile	/^CC		= msp430-gcc$/;"	m
+BITS_12	drivers/ads1110.h	/^#define BITS_12 /;"	d
+BITS_14	drivers/ads1110.h	/^#define BITS_14 /;"	d
+BITS_15	drivers/ads1110.h	/^#define BITS_15 /;"	d
+BITS_16	drivers/ads1110.h	/^#define BITS_16 /;"	d
+CC	Makefile	/^CC              = msp430-elf-gcc$/;"	m
 CC_CMACH	Makefile	/^CC_CMACH	= -mmcu=msp430f5510$/;"	m
 CC_DMACH	Makefile	/^CC_DMACH	= -D__MSP430F5510__$/;"	m
 DEBUG	Makefile	/^DEBUG := $(shell grep "^\\#define CONFIG_DEBUG" config.h)$/;"	m
-ED0	drivers/ads1110.h	6;"	d
-ED1	drivers/ads1110.h	7;"	d
-ED2	drivers/ads1110.h	8;"	d
-ED3	drivers/ads1110.h	9;"	d
-ED4	drivers/ads1110.h	10;"	d
-ED5	drivers/ads1110.h	11;"	d
-ED6	drivers/ads1110.h	12;"	d
-ED7	drivers/ads1110.h	13;"	d
-FLASH_ADDR	proj.h	26;"	d
-I2C_ACK	drivers/serial_bitbang.h	35;"	d
-I2C_MASTER_DIR	proj.h	12;"	d
-I2C_MASTER_IN	proj.h	14;"	d
-I2C_MASTER_OUT	proj.h	13;"	d
-I2C_MASTER_SCL	proj.h	15;"	d
-I2C_MASTER_SDA	proj.h	16;"	d
-I2C_MISSING_SCL_PULLUP	drivers/serial_bitbang.h	37;"	d
-I2C_MISSING_SDA_PULLUP	drivers/serial_bitbang.h	38;"	d
-I2C_NAK	drivers/serial_bitbang.h	36;"	d
-I2C_NO_ADDR_SHIFT	drivers/serial_bitbang.h	26;"	d
-I2C_OK	drivers/serial_bitbang.h	34;"	d
-I2C_READ	drivers/serial_bitbang.h	24;"	d
-I2C_SDA_WAIT	drivers/serial_bitbang.h	31;"	d
-I2C_WRITE	drivers/serial_bitbang.h	25;"	d
-LD	Makefile	/^LD		= msp430-ld$/;"	m
+ED0	drivers/ads1110.h	/^#define ED0 /;"	d
+ED1	drivers/ads1110.h	/^#define ED1 /;"	d
+ED2	drivers/ads1110.h	/^#define ED2 /;"	d
+ED3	drivers/ads1110.h	/^#define ED3 /;"	d
+ED4	drivers/ads1110.h	/^#define ED4 /;"	d
+ED5	drivers/ads1110.h	/^#define ED5 /;"	d
+ED6	drivers/ads1110.h	/^#define ED6 /;"	d
+ED7	drivers/ads1110.h	/^#define ED7 /;"	d
+FLASH_ADDR	proj.h	/^#define FLASH_ADDR /;"	d
+I2C_ACK	drivers/serial_bitbang.h	/^#define I2C_ACK /;"	d
+I2C_MASTER_DIR	proj.h	/^#define I2C_MASTER_DIR /;"	d
+I2C_MASTER_IN	proj.h	/^#define I2C_MASTER_IN /;"	d
+I2C_MASTER_OUT	proj.h	/^#define I2C_MASTER_OUT /;"	d
+I2C_MASTER_SCL	proj.h	/^#define I2C_MASTER_SCL /;"	d
+I2C_MASTER_SDA	proj.h	/^#define I2C_MASTER_SDA /;"	d
+I2C_MISSING_SCL_PULLUP	drivers/serial_bitbang.h	/^#define I2C_MISSING_SCL_PULLUP /;"	d
+I2C_MISSING_SDA_PULLUP	drivers/serial_bitbang.h	/^#define I2C_MISSING_SDA_PULLUP /;"	d
+I2C_NAK	drivers/serial_bitbang.h	/^#define I2C_NAK /;"	d
+I2C_NO_ADDR_SHIFT	drivers/serial_bitbang.h	/^#define I2C_NO_ADDR_SHIFT /;"	d
+I2C_OK	drivers/serial_bitbang.h	/^#define I2C_OK /;"	d
+I2C_READ	drivers/serial_bitbang.h	/^#define I2C_READ /;"	d
+I2C_SDA_WAIT	drivers/serial_bitbang.h	/^#define I2C_SDA_WAIT /;"	d
+I2C_WRITE	drivers/serial_bitbang.h	/^#define I2C_WRITE /;"	d
+LD	Makefile	/^LD              = msp430-elf-ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS		=$/;"	m
 OBJS	Makefile	/^OBJS := $(patsubst %.c,%.o,$(SRCS))$/;"	m
-PGA_1	drivers/ads1110.h	16;"	d
-PGA_2	drivers/ads1110.h	17;"	d
-PGA_4	drivers/ads1110.h	18;"	d
-PGA_8	drivers/ads1110.h	19;"	d
+PGA_1	drivers/ads1110.h	/^#define PGA_1 /;"	d
+PGA_2	drivers/ads1110.h	/^#define PGA_2 /;"	d
+PGA_4	drivers/ads1110.h	/^#define PGA_4 /;"	d
+PGA_8	drivers/ads1110.h	/^#define PGA_8 /;"	d
 PROJ	Makefile	/^PROJ = proj$/;"	m
-Port_1	proj.c	/^__interrupt void Port_1(void)$/;"	f
-SC	drivers/ads1110.h	24;"	d
-SEGMENT_B	drivers/flash.h	8;"	d
-SEGMENT_C	drivers/flash.h	7;"	d
-SEGMENT_D	drivers/flash.h	6;"	d
+Port_1	proj.c	/^__interrupt void Port_1(void)$/;"	f	typeref:typename:__interrupt void
+SC	drivers/ads1110.h	/^#define SC /;"	d
+SEGMENT_B	drivers/flash.h	/^#define SEGMENT_B /;"	d
+SEGMENT_C	drivers/flash.h	/^#define SEGMENT_C /;"	d
+SEGMENT_D	drivers/flash.h	/^#define SEGMENT_D /;"	d
 SRCS	Makefile	/^SRCS := $(wildcard *.c)$/;"	m
-ST	drivers/ads1110.h	25;"	d
+ST	drivers/ads1110.h	/^#define ST /;"	d
 SUBDIRS	Makefile	/^SUBDIRS = drivers$/;"	m
 SYS_MSG_P1IFG	drivers/sys_messagebus.h	/^    SYS_MSG_P1IFG = BIT1,       \/\/ button press$/;"	e	enum:sys_message
 SYS_MSG_TIMER0_IFG	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_IFG = BIT0,  \/\/ timer0 overflow$/;"	e	enum:sys_message
@@ -65,98 +70,107 @@ TIMER_A0_EVENT_CCR2	drivers/timer_a0.h	/^    TIMER_A0_EVENT_CCR2 = BIT2,$/;"	e	e
 TIMER_A0_EVENT_CCR3	drivers/timer_a0.h	/^    TIMER_A0_EVENT_CCR3 = BIT3,$/;"	e	enum:timer_a0_event
 TIMER_A0_EVENT_CCR4	drivers/timer_a0.h	/^    TIMER_A0_EVENT_CCR4 = BIT4,$/;"	e	enum:timer_a0_event
 TIMER_A0_EVENT_IFG	drivers/timer_a0.h	/^    TIMER_A0_EVENT_IFG = BIT5,$/;"	e	enum:timer_a0_event
-TRIG1	proj.h	9;"	d
+TRIG1	proj.h	/^#define TRIG1 /;"	d
 UART1_EV_RX	drivers/uart1.h	/^    UART1_EV_RX = BIT0,$/;"	e	enum:uart1_tevent
 UART1_EV_TX	drivers/uart1.h	/^    UART1_EV_TX = BIT1$/;"	e	enum:uart1_tevent
-UART1_RXBUF_SZ	drivers/uart1.h	11;"	d
-USCI_A1_ISR	drivers/uart1.c	/^void USCI_A1_ISR(void)$/;"	f
-VERSION	proj.h	25;"	d
-_CONFIG_H_	config.h	2;"	d
-__ADC_H__	drivers/adc.h	2;"	d
-__FLASH_H__	drivers/flash.h	2;"	d
-__PROJ_H__	proj.h	2;"	d
-__SERIAL_BITBANG_	drivers/serial_bitbang.h	2;"	d
-__SYS_MESSAGEBUS_H__	drivers/sys_messagebus.h	2;"	d
-__TIMER_A0_H__	drivers/timer_a0.h	2;"	d
-__UART1_H__	drivers/uart1.h	2;"	d
-__ads1110_h_	drivers/ads1110.h	2;"	d
-adc10_ISR	drivers/adc.c	/^void adc10_ISR(void)$/;"	f
-adc10_halt	drivers/adc.c	/^void adc10_halt(void)$/;"	f
-adc10_read	drivers/adc.c	/^void adc10_read(const uint8_t port, uint16_t * rv, const uint8_t vref)$/;"	f
-adc10_rv	drivers/adc.c	/^volatile uint16_t *adc10_rv;$/;"	v
-adc_en	proj.h	/^    uint8_t adc_en;             \/\/ enable internal adc for battery check$/;"	m	struct:settings_t
-adcready	drivers/adc.c	/^volatile uint8_t adcready;$/;"	v
+UART1_RXBUF_SZ	drivers/uart1.h	/^#define UART1_RXBUF_SZ /;"	d
+USCI_A1_ISR	drivers/uart1.c	/^void USCI_A1_ISR(void)$/;"	f	typeref:typename:void
+VERSION	proj.h	/^#define VERSION /;"	d
+_CONFIG_H_	config.h	/^#define _CONFIG_H_$/;"	d
+__ADC_H__	drivers/adc.h	/^#define __ADC_H__$/;"	d
+__FLASH_H__	drivers/flash.h	/^#define __FLASH_H__$/;"	d
+__PROJ_H__	proj.h	/^#define __PROJ_H__$/;"	d
+__SERIAL_BITBANG_	drivers/serial_bitbang.h	/^#define __SERIAL_BITBANG_$/;"	d
+__SYS_MESSAGEBUS_H__	drivers/sys_messagebus.h	/^#define __SYS_MESSAGEBUS_H__$/;"	d
+__TIMER_A0_H__	drivers/timer_a0.h	/^#define __TIMER_A0_H__$/;"	d
+__UART1_H__	drivers/uart1.h	/^#define __UART1_H__$/;"	d
+__ads1110_h_	drivers/ads1110.h	/^#define __ads1110_h_$/;"	d
+adc10_ISR	drivers/adc.c	/^void adc10_ISR(void)$/;"	f	typeref:typename:void
+adc10_halt	drivers/adc.c	/^void adc10_halt(void)$/;"	f	typeref:typename:void
+adc10_read	drivers/adc.c	/^void adc10_read(const uint8_t port, uint16_t * rv, const uint8_t vref)$/;"	f	typeref:typename:void
+adc10_rv	drivers/adc.c	/^volatile uint16_t *adc10_rv;$/;"	v	typeref:typename:volatile uint16_t *
+adc_en	proj.h	/^    uint8_t adc_en;             \/\/ enable internal adc for battery check$/;"	m	struct:settings_t	typeref:typename:uint8_t
+adcready	drivers/adc.c	/^volatile uint8_t adcready;$/;"	v	typeref:typename:volatile uint8_t
 ads1110	drivers/ads1110.h	/^struct ads1110 {$/;"	s
-ads1110_config	drivers/ads1110.c	/^uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)$/;"	f
-ads1110_convert	drivers/ads1110.c	/^void ads1110_convert(struct ads1110 *adc)$/;"	f
-ads1110_read	drivers/ads1110.c	/^uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc)$/;"	f
-check_events	proj.c	/^void check_events(void)$/;"	f
-config	drivers/ads1110.h	/^    uint8_t config;     \/\/ adc configuration register$/;"	m	struct:ads1110
-conv	drivers/ads1110.h	/^    int16_t conv;       \/\/ int voltage value *10^4$/;"	m	struct:ads1110
-conv_raw	drivers/ads1110.h	/^    int16_t conv_raw;   \/\/ adc raw output$/;"	m	struct:ads1110
-defaults	proj.h	/^static const struct settings_t defaults = {$/;"	v	typeref:struct:settings_t
-delay_c	drivers/serial_bitbang.h	41;"	d
-delay_s	drivers/serial_bitbang.h	40;"	d
-display_menu	proj.c	/^void display_menu(void)$/;"	f
+ads1110_config	drivers/ads1110.c	/^uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)$/;"	f	typeref:typename:uint8_t
+ads1110_convert	drivers/ads1110.c	/^void ads1110_convert(struct ads1110 *adc)$/;"	f	typeref:typename:void
+ads1110_read	drivers/ads1110.c	/^uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc)$/;"	f	typeref:typename:uint8_t
+all	Makefile	/^all: depend config.h tags $(PROJ).elf$/;"	t
+check_events	proj.c	/^void check_events(void)$/;"	f	typeref:typename:void
+clean	Makefile	/^clean: $(SUBDIRS)$/;"	t
+config	drivers/ads1110.h	/^    uint8_t config;     \/\/ adc configuration register$/;"	m	struct:ads1110	typeref:typename:uint8_t
+config.h	Makefile	/^config.h:$/;"	t
+conv	drivers/ads1110.h	/^    int16_t conv;       \/\/ int voltage value *10^4$/;"	m	struct:ads1110	typeref:typename:int16_t
+conv_raw	drivers/ads1110.h	/^    int16_t conv_raw;   \/\/ adc raw output$/;"	m	struct:ads1110	typeref:typename:int16_t
+defaults	proj.h	/^static const struct settings_t defaults = {$/;"	v	typeref:typename:const struct settings_t
+delay_c	drivers/serial_bitbang.h	/^#define delay_c /;"	d
+delay_s	drivers/serial_bitbang.h	/^#define delay_s /;"	d
+depend	Makefile	/^depend: $(PROJ).dep$/;"	t
+display_menu	proj.c	/^void display_menu(void)$/;"	f	typeref:typename:void
+doc	Makefile	/^doc:$/;"	t
 eadc	proj.c	/^struct ads1110 eadc;$/;"	v	typeref:struct:ads1110
-eadc_delta	proj.h	/^    int16_t eadc_delta;         \/\/ 0V correction for the EADC$/;"	m	struct:settings_t
-eadc_en	proj.h	/^    int8_t eadc_en;             \/\/ enable external adc. 0 false, 1 true, -1 false but ADS1110 present$/;"	m	struct:settings_t
-false	proj.h	29;"	d
-flash_erase	drivers/flash.c	/^uint8_t flash_erase(uint8_t *segment_addr)$/;"	f
-flash_read	drivers/flash.c	/^uint8_t flash_read(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f
-flash_save	drivers/flash.c	/^uint8_t flash_save(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f
-fn	drivers/sys_messagebus.h	/^    void (*fn) (enum sys_message);$/;"	m	struct:sys_messagebus
-i2cm_rx	drivers/serial_bitbang.c	/^uint8_t i2cm_rx(uint8_t * buf, const uint16_t length, const uint8_t options)$/;"	f
-i2cm_rxfrom	drivers/serial_bitbang.c	/^uint8_t i2cm_rxfrom(const uint8_t slave_address, uint8_t * data,$/;"	f
-i2cm_start	drivers/serial_bitbang.c	/^uint8_t i2cm_start(void)$/;"	f
-i2cm_stop	drivers/serial_bitbang.c	/^void i2cm_stop(void)$/;"	f
-i2cm_tx	drivers/serial_bitbang.c	/^uint8_t i2cm_tx(const uint8_t data, const uint8_t options)$/;"	f
-i2cm_txbyte	drivers/serial_bitbang.c	/^uint8_t i2cm_txbyte(const uint8_t slave_address, const uint8_t data)$/;"	f
-latch_disable	proj.h	19;"	d
-latch_enable	proj.h	18;"	d
-led_off	proj.h	23;"	d
-led_on	proj.h	22;"	d
-listens	drivers/sys_messagebus.h	/^    enum sys_message listens;$/;"	m	struct:sys_messagebus	typeref:enum:sys_messagebus::sys_message
-main	proj.c	/^int main(void)$/;"	f
-main_init	proj.c	/^void main_init(void)$/;"	f
-messagebus	drivers/sys_messagebus.h	/^struct sys_messagebus *messagebus;$/;"	v	typeref:struct:sys_messagebus
-next	drivers/sys_messagebus.h	/^    struct sys_messagebus *next;$/;"	m	struct:sys_messagebus	typeref:struct:sys_messagebus::sys_messagebus
-port1_irq	proj.c	/^static void port1_irq(enum sys_message msg)$/;"	f	file:
-port1_last_event	proj.c	/^volatile uint8_t port1_last_event;$/;"	v
+eadc_delta	proj.h	/^    int16_t eadc_delta;         \/\/ 0V correction for the EADC$/;"	m	struct:settings_t	typeref:typename:int16_t
+eadc_en	proj.h	/^    int8_t eadc_en;             \/\/ enable external adc. 0 false, 1 true, -1 false but ADS1110 /;"	m	struct:settings_t	typeref:typename:int8_t
+false	proj.h	/^#define false /;"	d
+flash_erase	drivers/flash.c	/^uint8_t flash_erase(uint8_t *segment_addr)$/;"	f	typeref:typename:uint8_t
+flash_read	drivers/flash.c	/^uint8_t flash_read(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f	typeref:typename:uint8_t
+flash_save	drivers/flash.c	/^uint8_t flash_save(uint8_t *segment_addr, void *data, const uint8_t len)$/;"	f	typeref:typename:uint8_t
+fn	drivers/sys_messagebus.h	/^    void (*fn) (enum sys_message);$/;"	m	struct:sys_messagebus	typeref:typename:void (*)(enum sys_message)
+i2cm_rx	drivers/serial_bitbang.c	/^uint8_t i2cm_rx(uint8_t * buf, const uint16_t length, const uint8_t options)$/;"	f	typeref:typename:uint8_t
+i2cm_rxfrom	drivers/serial_bitbang.c	/^uint8_t i2cm_rxfrom(const uint8_t slave_address, uint8_t * data,$/;"	f	typeref:typename:uint8_t
+i2cm_start	drivers/serial_bitbang.c	/^uint8_t i2cm_start(void)$/;"	f	typeref:typename:uint8_t
+i2cm_stop	drivers/serial_bitbang.c	/^void i2cm_stop(void)$/;"	f	typeref:typename:void
+i2cm_tx	drivers/serial_bitbang.c	/^uint8_t i2cm_tx(const uint8_t data, const uint8_t options)$/;"	f	typeref:typename:uint8_t
+i2cm_txbyte	drivers/serial_bitbang.c	/^uint8_t i2cm_txbyte(const uint8_t slave_address, const uint8_t data)$/;"	f	typeref:typename:uint8_t
+install	Makefile	/^install: $(PROJ).elf$/;"	t
+latch_disable	proj.h	/^#define latch_disable /;"	d
+latch_enable	proj.h	/^#define latch_enable /;"	d
+led_off	proj.h	/^#define led_off /;"	d
+led_on	proj.h	/^#define led_on /;"	d
+listens	drivers/sys_messagebus.h	/^    enum sys_message listens;$/;"	m	struct:sys_messagebus	typeref:enum:sys_message
+main	proj.c	/^int main(void)$/;"	f	typeref:typename:int
+main_init	proj.c	/^void main_init(void)$/;"	f	typeref:typename:void
+messagebus	drivers/sys_messagebus.h	/^struct sys_messagebus *messagebus;$/;"	v	typeref:struct:sys_messagebus *
+modinit.c	Makefile	/^modinit.c:$/;"	t
+modinit.o	Makefile	/^modinit.o: modinit.c$/;"	t
+next	drivers/sys_messagebus.h	/^    struct sys_messagebus *next;$/;"	m	struct:sys_messagebus	typeref:struct:sys_messagebus *
+port1_irq	proj.c	/^static void port1_irq(enum sys_message msg)$/;"	f	typeref:typename:void	file:
+port1_last_event	proj.c	/^volatile uint8_t port1_last_event;$/;"	v	typeref:typename:volatile uint8_t
 s	proj.c	/^struct settings_t s;$/;"	v	typeref:struct:settings_t
-scl_high	drivers/serial_bitbang.h	18;"	d
-scl_low	drivers/serial_bitbang.h	19;"	d
-sda_high	drivers/serial_bitbang.h	16;"	d
-sda_low	drivers/serial_bitbang.h	17;"	d
-settings_init	proj.c	/^void settings_init(void)$/;"	f
+scl_high	drivers/serial_bitbang.h	/^#define scl_high /;"	d
+scl_low	drivers/serial_bitbang.h	/^#define scl_low /;"	d
+sda_high	drivers/serial_bitbang.h	/^#define sda_high /;"	d
+sda_low	drivers/serial_bitbang.h	/^#define sda_low /;"	d
+settings_init	proj.c	/^void settings_init(void)$/;"	f	typeref:typename:void
 settings_t	proj.h	/^struct settings_t {$/;"	s
-standby_time	proj.h	/^    uint16_t standby_time;      \/\/ number of TA0 overflows after which latch is disabled$/;"	m	struct:settings_t
-standby_unused	proj.h	/^    uint16_t standby_unused;    \/\/ innactivity timeout after which latch is disabled$/;"	m	struct:settings_t
-str_temp	proj.c	/^char str_temp[120];$/;"	v
-str_to_uint16	proj.c	/^uint8_t str_to_uint16(char *str, uint16_t * out, const uint8_t seek,$/;"	f
+standby_time	proj.h	/^    uint16_t standby_time;      \/\/ number of TA0 overflows after which latch is disabled$/;"	m	struct:settings_t	typeref:typename:uint16_t
+standby_unused	proj.h	/^    uint16_t standby_unused;    \/\/ innactivity timeout after which latch is disabled$/;"	m	struct:settings_t	typeref:typename:uint16_t
+str_temp	proj.c	/^char str_temp[120];$/;"	v	typeref:typename:char[120]
+str_to_uint16	proj.c	/^uint8_t str_to_uint16(char *str, uint16_t * out, const uint8_t seek,$/;"	f	typeref:typename:uint8_t
 sys_message	drivers/sys_messagebus.h	/^enum sys_message {$/;"	g
 sys_messagebus	drivers/sys_messagebus.h	/^struct sys_messagebus {$/;"	s
-sys_messagebus_register	drivers/sys_messagebus.c	/^void sys_messagebus_register(void (*callback) (enum sys_message),$/;"	f
-sys_messagebus_unregister	drivers/sys_messagebus.c	/^void sys_messagebus_unregister(void (*callback) (enum sys_message))$/;"	f
-timer0_A1_ISR	drivers/timer_a0.c	/^void timer0_A1_ISR(void)$/;"	f
-timer_a0_delay	drivers/timer_a0.c	/^void timer_a0_delay(uint32_t microseconds)$/;"	f
-timer_a0_delay_noblk	drivers/timer_a0.c	/^void timer_a0_delay_noblk(uint32_t microseconds)$/;"	f
+sys_messagebus_register	drivers/sys_messagebus.c	/^void sys_messagebus_register(void (*callback) (enum sys_message),$/;"	f	typeref:typename:void
+sys_messagebus_unregister	drivers/sys_messagebus.c	/^void sys_messagebus_unregister(void (*callback) (enum sys_message))$/;"	f	typeref:typename:void
+tags	Makefile	/^tags: $(SRCS)$/;"	t
+timer0_A1_ISR	drivers/timer_a0.c	/^void timer0_A1_ISR(void)$/;"	f	typeref:typename:void
+timer_a0_delay	drivers/timer_a0.c	/^void timer_a0_delay(uint32_t microseconds)$/;"	f	typeref:typename:void
+timer_a0_delay_noblk	drivers/timer_a0.c	/^void timer_a0_delay_noblk(uint32_t microseconds)$/;"	f	typeref:typename:void
 timer_a0_event	drivers/timer_a0.h	/^enum timer_a0_event {$/;"	g
-timer_a0_init	drivers/timer_a0.c	/^void timer_a0_init(void)$/;"	f
-timer_a0_irq	proj.c	/^static void timer_a0_irq(enum sys_message msg)$/;"	f	file:
-timer_a0_last_event	drivers/timer_a0.h	/^volatile enum timer_a0_event timer_a0_last_event;$/;"	v	typeref:enum:timer_a0_event
-timer_a0_ovf	drivers/timer_a0.h	/^volatile uint16_t timer_a0_ovf;$/;"	v
-true	proj.h	28;"	d
-tue	proj.c	/^int16_t tue;                    \/\/ ticks until end$/;"	v
-uart1_init	drivers/uart1.c	/^void uart1_init(void)$/;"	f
-uart1_last_event	drivers/uart1.h	/^volatile enum uart1_tevent uart1_last_event;$/;"	v	typeref:enum:uart1_tevent
-uart1_p	drivers/uart1.h	/^volatile uint8_t uart1_p;$/;"	v
-uart1_rx_buf	drivers/uart1.h	/^volatile char uart1_rx_buf[UART1_RXBUF_SZ];$/;"	v
-uart1_rx_enable	drivers/uart1.h	/^uint8_t uart1_rx_enable;$/;"	v
-uart1_rx_err	drivers/uart1.h	/^uint8_t uart1_rx_err;$/;"	v
-uart1_rx_irq	proj.c	/^static void uart1_rx_irq(enum sys_message msg)$/;"	f	file:
+timer_a0_init	drivers/timer_a0.c	/^void timer_a0_init(void)$/;"	f	typeref:typename:void
+timer_a0_irq	proj.c	/^static void timer_a0_irq(enum sys_message msg)$/;"	f	typeref:typename:void	file:
+timer_a0_last_event	drivers/timer_a0.h	/^volatile enum timer_a0_event timer_a0_last_event;$/;"	v	typeref:typename:volatile enum timer_a0_event
+timer_a0_ovf	drivers/timer_a0.h	/^volatile uint16_t timer_a0_ovf;$/;"	v	typeref:typename:volatile uint16_t
+true	proj.h	/^#define true /;"	d
+tue	proj.c	/^int16_t tue;                    \/\/ ticks until end$/;"	v	typeref:typename:int16_t
+uart1_init	drivers/uart1.c	/^void uart1_init(void)$/;"	f	typeref:typename:void
+uart1_last_event	drivers/uart1.h	/^volatile enum uart1_tevent uart1_last_event;$/;"	v	typeref:typename:volatile enum uart1_tevent
+uart1_p	drivers/uart1.h	/^volatile uint8_t uart1_p;$/;"	v	typeref:typename:volatile uint8_t
+uart1_rx_buf	drivers/uart1.h	/^volatile char uart1_rx_buf[UART1_RXBUF_SZ];$/;"	v	typeref:typename:volatile char[]
+uart1_rx_enable	drivers/uart1.h	/^uint8_t uart1_rx_enable;$/;"	v	typeref:typename:uint8_t
+uart1_rx_err	drivers/uart1.h	/^uint8_t uart1_rx_err;$/;"	v	typeref:typename:uint8_t
+uart1_rx_irq	proj.c	/^static void uart1_rx_irq(enum sys_message msg)$/;"	f	typeref:typename:void	file:
 uart1_tevent	drivers/uart1.h	/^enum uart1_tevent {$/;"	g
-uart1_tx_str	drivers/uart1.c	/^uint16_t uart1_tx_str(char *str, uint16_t size)$/;"	f
-uc_disable	proj.h	21;"	d
-uc_enable	proj.h	20;"	d
-ver	proj.h	/^    uint8_t ver;                \/\/ firmware version$/;"	m	struct:settings_t
+uart1_tx_str	drivers/uart1.c	/^uint16_t uart1_tx_str(char *str, uint16_t size)$/;"	f	typeref:typename:uint16_t
+uc_disable	proj.h	/^#define uc_disable /;"	d
+uc_enable	proj.h	/^#define uc_enable /;"	d
+ver	proj.h	/^    uint8_t ver;                \/\/ firmware version$/;"	m	struct:settings_t	typeref:typename:uint8_t
