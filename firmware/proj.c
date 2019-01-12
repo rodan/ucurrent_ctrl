@@ -25,7 +25,6 @@
 int16_t tue;                    // ticks until end
 
 volatile uint8_t port1_last_event;
-struct ads1110 eadc;
 
 struct settings_t s;
 
@@ -35,7 +34,7 @@ void display_menu(void)
 {
     sprintf(str_temp,
             "\r\n --- uCurrent controller ver %d --\t  poweroff in %d sec\r\n",
-            VERSION, tue * 2);
+            VERSION, tue);
     uart1_tx_str(str_temp, strlen(str_temp));
 
     sprintf(str_temp,
@@ -62,6 +61,8 @@ void display_menu(void)
 
 static void timer_a0_irq(enum sys_message msg)
 {
+    timer_a0_delay_noblk_ccr1(_1s);
+    led_switch;
     tue--;
     if (tue < 1) {
         uc_disable;
@@ -70,10 +71,7 @@ static void timer_a0_irq(enum sys_message msg)
     } else {
         if (s.eadc_en == 1) {
             // trigger conversion
-            ads1110_config(ED0, BITS_16 | PGA_2 | SC | ST);
-            timer_a0_delay(70000);
-            ads1110_read(ED0, &eadc);
-            ads1110_convert(&eadc);
+            timer_a0_delay_noblk_ccr2(_10ms);
         }
 #endif
     }
@@ -82,7 +80,7 @@ static void timer_a0_irq(enum sys_message msg)
 static void port1_irq(enum sys_message msg)
 {
     // debounce
-    timer_a0_delay(50000);
+    //timer_a0_delay(50000);
     if ((P1IN & TRIG1) == 0) {
         return;
     } else {
@@ -185,23 +183,23 @@ int main(void)
     uart1_init();
     settings_init();
 
-#ifdef HARDWARE_I2C
-    i2c_init();
-#endif
-
     tue = s.standby_time;
     latch_enable;
     uc_enable;
     led_on;
 
 #ifdef USE_ADC
-    ads1110_config(ED0, BITS_16 | PGA_2 | SC | ST);
+    #ifdef HARDWARE_I2C 
+        i2c_init();
+    #endif
+    ads1110_init(ED0, BITS_16 | PGA_2 | SC | ST);
 #endif
 
-    sys_messagebus_register(&timer_a0_irq, SYS_MSG_TIMER0_IFG);
     sys_messagebus_register(&port1_irq, SYS_MSG_P1IFG);
+    sys_messagebus_register(&timer_a0_irq, SYS_MSG_TIMER0_CCR1);
     sys_messagebus_register(&uart1_rx_irq, SYS_MSG_UART1_RX);
 
+    timer_a0_delay_noblk_ccr1(_1s);
     display_menu();
 
     while (1) {
@@ -244,14 +242,12 @@ void main_init(void)
     P3DIR = 0xff;
 
     P4SEL = 0x30;
+    P4OUT = 0x6;
 #ifdef USE_ADC
+    P4OUT = 0;
   #ifdef HARDWARE_I2C
     P4SEL |= BIT1 + BIT2;
-  #else
-    P4OUT = 0;
   #endif
-#else
-    P4OUT = 0x6;
 #endif
     P4DIR = 0xcf;
 
@@ -311,18 +307,18 @@ void check_events(void)
     enum sys_message msg = SYS_MSG_NONE;
 
     // drivers/timer_a0
-    if (timer_a0_last_event == TIMER_A0_EVENT_IFG) {
-        msg |= BIT0;
+    if (timer_a0_last_event) {
+        msg |= timer_a0_last_event;
         timer_a0_last_event = TIMER_A0_EVENT_NONE;
     }
     // button presses
     if (port1_last_event) {
-        msg |= BIT1;
+        msg |= SYS_MSG_P1IFG;
         port1_last_event = 0;
     }
     // uart RX
     if (uart1_last_event == UART1_EV_RX) {
-        msg |= BIT2;
+        msg |= SYS_MSG_UART1_RX;
         uart1_last_event = UART1_EV_NONE;
     }
 

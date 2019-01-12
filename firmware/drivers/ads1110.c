@@ -6,12 +6,41 @@
 
 #include "proj.h"
 #include "ads1110.h"
+#include "sys_messagebus.h"
+#include "timer_a0.h"
+
 #include "serial_bitbang.h"
 
 #ifdef HARDWARE_I2C
     #include "drivers/i2c.h"
 #endif
 
+// doublecheck that CCR2 is not used by another driver
+static void ads1110_state_machine(enum sys_message msg)
+{
+    switch (eadc.state) {
+        case STATE_CONVERT:
+            // conversion should be ready
+            ads1110_read(ED0, &eadc);
+            ads1110_convert(&eadc);
+            eadc.state = STATE_STANDBY;
+        break;
+        default:
+            // trigger new single conversion
+            ads1110_config(ED0, BITS_16 | PGA_2 | SC | ST);
+            eadc.state = STATE_CONVERT;
+            timer_a0_delay_noblk_ccr2(_10ms * 7);
+        break;
+    }
+}
+
+uint8_t ads1110_init(const uint8_t slave_address, const uint8_t config_reg)
+{
+    sys_messagebus_register(&ads1110_state_machine, SYS_MSG_TIMER0_CCR2);
+    ads1110_config(slave_address, config_reg);
+
+    return EXIT_SUCCESS;
+}
 
 // returns  0 if all is fine
 //          I2C err levels if sensor is not properly hooked up

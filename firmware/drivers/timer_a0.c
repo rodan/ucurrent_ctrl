@@ -1,65 +1,58 @@
 
 //   timer a0 handling
 //   CCR0 is currently unused
-//   CCR1 is currently unused
-//   CCR2 is used for timer_a0_delay_noblk()
-//   CCR3 is currently unused
-//   CCR4 is used for timer_a0_delay()
+//   CCR1 is used for timer_a0_delay_noblk_ccr1()
+//   CCR2 is used for timer_a0_delay_noblk_ccr2()
+//   CCR3 is used for timer_a0_delay_noblk_ccr3()
+//   CCR4 is currently unused
 //
 //   author:          Petre Rodan <2b4eda@subdimension.ro>
 //   available from:  https://github.com/rodan/
 //   license:         GNU GPLv3
 
 #include "timer_a0.h"
+//#include "sim900.h"
 
 void timer_a0_init(void)
 {
     __disable_interrupt();
+    _NOP();
     timer_a0_ovf = 0;
-    TA0CTL |= TASSEL__ACLK + MC__CONTINOUS + TACLR + TAIE;
+
+    TA0EX0 |= TAIDEX_7;
+    TA0CTL |= TASSEL__ACLK + MC__CONTINOUS + TACLR + ID__8 + TAIE;
     __enable_interrupt();
 }
 
-// microseconds must be a value between 31 and 1999964
-void timer_a0_delay(uint32_t microseconds)
+// ticks = microseconds / 30.5175 if no input divider
+// ticks = microseconds / 244.14  if ID__8 is used
+// ticks = microseconds / 1953.12 if ID__8 and TAIDEX 0x7
+void timer_a0_delay_noblk_ccr1(uint16_t ticks)
 {
-    // one tick of ACLK is 1/32768 s
-    /*
-       if (microseconds < 31) {
-       microseconds = 31;
-       } else if (microseconds > 1999964) {
-       microseconds = 1999964;
-       }
-     */
-
-    uint32_t ticks = microseconds / 30.5175;
-    __disable_interrupt();
-    TA0CCR4 = TA0R + ticks;
-    TA0CCTL4 = CCIE;
-    __enable_interrupt();
-    timer_a0_last_event &= ~TIMER_A0_EVENT_CCR4;
-    while (1) {
-        _BIS_SR(LPM3_bits + GIE);
-        __no_operation();
-#ifdef USE_WATCHDOG
-        // reset watchdog
-        WDTCTL = (WDTCTL & 0xff) | WDTPW | WDTCNTCL;
-#endif
-        if (timer_a0_last_event & TIMER_A0_EVENT_CCR4)
-            break;
-    }
-    TA0CCTL4 &= ~CCIE;
-    timer_a0_last_event &= ~TIMER_A0_EVENT_CCR4;
+    TA0CCTL1 &= ~CCIE;
+    TA0CCTL1 = 0;
+    TA0CCR1 = TA0R + ticks;
+    TA0CCTL1 = CCIE;
 }
 
-void timer_a0_delay_noblk(uint32_t microseconds)
+// ticks = microseconds / 30.5175 if no input divider
+// ticks = microseconds / 244.14  if ID__8 is used
+void timer_a0_delay_noblk_ccr2(uint16_t ticks)
 {
-    uint32_t ticks = microseconds / 30.5175;
-    __disable_interrupt();
-    TA0CCR2 = TA0R + ticks;
+    TA0CCTL2 &= ~CCIE;
     TA0CCTL2 = 0;
+    TA0CCR2 = TA0R + ticks;
     TA0CCTL2 = CCIE;
-    __enable_interrupt();
+}
+
+// ticks = microseconds / 30.5175 if no input divider
+// ticks = microseconds / 244.14 if ID__8 is used
+void timer_a0_delay_noblk_ccr3(uint16_t ticks)
+{
+    TA0CCTL3 &= ~CCIE;
+    TA0CCTL3 = 0;
+    TA0CCR3 = TA0R + ticks;
+    TA0CCTL3 = CCIE;
 }
 
 __attribute__ ((interrupt(TIMER0_A1_VECTOR)))
@@ -69,22 +62,35 @@ void timer0_A1_ISR(void)
     if (iv == TA0IV_TA0CCR4) {
         // timer used by timer_a0_delay()
         timer_a0_last_event |= TIMER_A0_EVENT_CCR4;
-        goto exit_lpm3;
+        _BIC_SR_IRQ(LPM3_bits);
+    } else if (iv == TA0IV_TA0CCR1) {
+        // timer used by timer_a0_delay_noblk_ccr1()
+        // disable interrupt
+        TA0CCTL1 &= ~CCIE;
+        TA0CCTL1 = 0;
+        timer_a0_last_event |= TIMER_A0_EVENT_CCR1;
+        _BIC_SR_IRQ(LPM3_bits);
     } else if (iv == TA0IV_TA0CCR2) {
-        // timer used by timer_a0_delay_noblk()
+        // timer used by timer_a0_delay_noblk_ccr2()
         // disable interrupt
         TA0CCTL2 &= ~CCIE;
+        TA0CCTL2 = 0;
         timer_a0_last_event |= TIMER_A0_EVENT_CCR2;
-        // return to LPM3 (don't mess with SR bits)
-        return;
+        _BIC_SR_IRQ(LPM3_bits);
+    } else if (iv == TA0IV_TA0CCR3) {
+        // timer used by timer_a0_delay_noblk_ccr3()
+        // disable interrupt
+        TA0CCTL3 &= ~CCIE;
+        TA0CCTL3 = 0;
+        // use hardware flow control to stop the remote equipment
+        // from sending more data
+        //SIM900_RTS_HIGH;
+        timer_a0_last_event |= TIMER_A0_EVENT_CCR3;
+        _BIC_SR_IRQ(LPM3_bits);
     } else if (iv == TA0IV_TA0IFG) {
+        TA0CTL &= ~TAIFG;
         timer_a0_ovf++;
         timer_a0_last_event |= TIMER_A0_EVENT_IFG;
-        goto exit_lpm3;
+        _BIC_SR_IRQ(LPM3_bits);
     }
-
-    return;
- exit_lpm3:
-    /* exit from LPM3, give execution back to mainloop */
-    _BIC_SR_IRQ(LPM3_bits);
 }

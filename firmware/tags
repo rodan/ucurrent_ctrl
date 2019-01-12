@@ -87,11 +87,18 @@ SM_SEND_RESTART	drivers/i2c.c	/^    SM_SEND_RESTART,$/;"	e	enum:__anonfe5e22c201
 SM_WRITE_DATA	drivers/i2c.c	/^    SM_WRITE_DATA,$/;"	e	enum:__anonfe5e22c20103	file:
 SRCS	Makefile	/^SRCS := $(wildcard *.c)$/;"	m
 ST	drivers/ads1110.h	/^#define ST /;"	d
+STATE_CONVERT	drivers/ads1110.h	/^#define STATE_CONVERT /;"	d
+STATE_STANDBY	drivers/ads1110.h	/^#define STATE_STANDBY /;"	d
 SUBDIRS	Makefile	/^SUBDIRS = drivers$/;"	m
 SYS_MSG_NONE	drivers/sys_messagebus.h	/^    SYS_MSG_NONE = 0,$/;"	e	enum:sys_message
-SYS_MSG_P1IFG	drivers/sys_messagebus.h	/^    SYS_MSG_P1IFG = BIT1,       \/\/ button press$/;"	e	enum:sys_message
-SYS_MSG_TIMER0_IFG	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_IFG = BIT0,  \/\/ timer0 overflow$/;"	e	enum:sys_message
-SYS_MSG_UART1_RX	drivers/sys_messagebus.h	/^    SYS_MSG_UART1_RX = BIT2$/;"	e	enum:sys_message
+SYS_MSG_P1IFG	drivers/sys_messagebus.h	/^    SYS_MSG_P1IFG = BIT6,       \/\/ button press$/;"	e	enum:sys_message
+SYS_MSG_TIMER0_CCR0	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CCR0 = BIT0,$/;"	e	enum:sys_message
+SYS_MSG_TIMER0_CCR1	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CCR1 = BIT1, \/\/ timer_a0_delay_noblk_ccr1$/;"	e	enum:sys_message
+SYS_MSG_TIMER0_CCR2	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CCR2 = BIT2, \/\/ timer_a0_delay_noblk_ccr2$/;"	e	enum:sys_message
+SYS_MSG_TIMER0_CCR3	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CCR3 = BIT3, \/\/ timer_a0_delay_noblk_ccr3$/;"	e	enum:sys_message
+SYS_MSG_TIMER0_CCR4	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_CCR4 = BIT4,$/;"	e	enum:sys_message
+SYS_MSG_TIMER0_IFG	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_IFG = BIT5,  \/\/ timer0 overflow$/;"	e	enum:sys_message
+SYS_MSG_UART1_RX	drivers/sys_messagebus.h	/^    SYS_MSG_UART1_RX = BIT7     \/\/ UART received something$/;"	e	enum:sys_message
 TARGET	Makefile	/^TARGET	:= DEBUG$/;"	m
 TARGET	Makefile	/^TARGET	:= RELEASE$/;"	m
 TIMER_A0_EVENT_CCR0	drivers/timer_a0.h	/^    TIMER_A0_EVENT_CCR0 = BIT0,$/;"	e	enum:timer_a0_event
@@ -112,6 +119,23 @@ USE_ADC	config.h	/^#define USE_ADC$/;"	d
 USE_WATCHDOG	config.h	/^#define USE_WATCHDOG$/;"	d
 USE_XT1	config.h	/^#define USE_XT1$/;"	d
 VERSION	proj.h	/^#define VERSION /;"	d
+_10ms	drivers/timer_a0.h	/^#define _10ms /;"	d
+_10s	drivers/timer_a0.h	/^#define _10s /;"	d
+_10sp	drivers/timer_a0.h	/^#define _10sp /;"	d
+_1200ms	drivers/timer_a0.h	/^#define _1200ms /;"	d
+_14s	drivers/timer_a0.h	/^#define _14s /;"	d
+_1s	drivers/timer_a0.h	/^#define _1s /;"	d
+_2s	drivers/timer_a0.h	/^#define _2s /;"	d
+_30s	drivers/timer_a0.h	/^#define _30s /;"	d
+_3s	drivers/timer_a0.h	/^#define _3s /;"	d
+_3sp	drivers/timer_a0.h	/^#define _3sp /;"	d
+_500ms	drivers/timer_a0.h	/^#define _500ms /;"	d
+_5s	drivers/timer_a0.h	/^#define _5s /;"	d
+_5sp	drivers/timer_a0.h	/^#define _5sp /;"	d
+_60s	drivers/timer_a0.h	/^#define _60s /;"	d
+_6s	drivers/timer_a0.h	/^#define _6s /;"	d
+_6sp	drivers/timer_a0.h	/^#define _6sp /;"	d
+_75s	drivers/timer_a0.h	/^#define _75s /;"	d
 _CONFIG_H_	config.h	/^#define _CONFIG_H_$/;"	d
 _I2C_H_	drivers/i2c.h	/^#define _I2C_H_$/;"	d
 _I2C_INTERNAL_H_	drivers/i2c_internal.h	/^#define _I2C_INTERNAL_H_$/;"	d
@@ -139,7 +163,9 @@ addr_len	drivers/i2c.h	/^    uint8_t addr_len;       \/\/\/< Number of addr byte
 ads1110	drivers/ads1110.h	/^struct ads1110 {$/;"	s
 ads1110_config	drivers/ads1110.c	/^uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)$/;"	f	typeref:typename:uint8_t
 ads1110_convert	drivers/ads1110.c	/^void ads1110_convert(struct ads1110 *adc)$/;"	f	typeref:typename:void
+ads1110_init	drivers/ads1110.c	/^uint8_t ads1110_init(const uint8_t slave_address, const uint8_t config_reg)$/;"	f	typeref:typename:uint8_t
 ads1110_read	drivers/ads1110.c	/^uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc)$/;"	f	typeref:typename:uint8_t
+ads1110_state_machine	drivers/ads1110.c	/^static void ads1110_state_machine(enum sys_message msg)$/;"	f	typeref:typename:void	file:
 all	Makefile	/^all: depend config.h tags $(PROJ).elf$/;"	t
 callback	drivers/i2c.c	/^    void (*callback) (i2c_status_t result);$/;"	m	struct:__anonfe5e22c20208	typeref:typename:void (*)(i2c_status_t result)	file:
 check_events	proj.c	/^void check_events(void)$/;"	f	typeref:typename:void
@@ -156,7 +182,7 @@ delay_s	drivers/serial_bitbang.h	/^#define delay_s /;"	d
 depend	Makefile	/^depend: $(PROJ).dep$/;"	t
 display_menu	proj.c	/^void display_menu(void)$/;"	f	typeref:typename:void
 doc	Makefile	/^doc:$/;"	t
-eadc	proj.c	/^struct ads1110 eadc;$/;"	v	typeref:struct:ads1110
+eadc	drivers/ads1110.h	/^struct ads1110 eadc;$/;"	v	typeref:struct:ads1110
 eadc_delta	proj.h	/^    int16_t eadc_delta;         \/\/ 0V correction for the EADC$/;"	m	struct:settings_t	typeref:typename:int16_t
 eadc_en	proj.h	/^    int8_t eadc_en;             \/\/ enable external adc. 0 false, 1 true, -1 false but ADS1110 /;"	m	struct:settings_t	typeref:typename:int8_t
 false	proj.h	/^#define false /;"	d
@@ -184,6 +210,7 @@ latch_disable	proj.h	/^#define latch_disable /;"	d
 latch_enable	proj.h	/^#define latch_enable /;"	d
 led_off	proj.h	/^#define led_off /;"	d
 led_on	proj.h	/^#define led_on /;"	d
+led_switch	proj.h	/^#define led_switch /;"	d
 listens	drivers/sys_messagebus.h	/^    enum sys_message listens;$/;"	m	struct:sys_messagebus	typeref:enum:sys_message
 main	proj.c	/^int main(void)$/;"	f	typeref:typename:int
 main_init	proj.c	/^void main_init(void)$/;"	f	typeref:typename:void
@@ -207,6 +234,7 @@ settings_t	proj.h	/^struct settings_t {$/;"	s
 slave_addr	drivers/i2c.h	/^    uint8_t slave_addr;     \/\/\/< Chip address of slave device$/;"	m	struct:__anonfe5e22c70108	typeref:typename:uint8_t
 standby_time	proj.h	/^    uint16_t standby_time;      \/\/ number of TA0 overflows after which latch is disabled$/;"	m	struct:settings_t	typeref:typename:uint16_t
 standby_unused	proj.h	/^    uint16_t standby_unused;    \/\/ innactivity timeout after which latch is disabled$/;"	m	struct:settings_t	typeref:typename:uint16_t
+state	drivers/ads1110.h	/^    uint8_t state;      \/\/ state machine parameter$/;"	m	struct:ads1110	typeref:typename:uint8_t
 status	drivers/i2c.c	/^    i2c_status_t status;$/;"	m	struct:__anonfe5e22c20208	typeref:typename:i2c_status_t	file:
 str_temp	proj.c	/^char str_temp[120];$/;"	v	typeref:typename:char[120]
 str_to_uint16	proj.c	/^uint8_t str_to_uint16(char *str, uint16_t * out, const uint8_t seek,$/;"	f	typeref:typename:uint8_t
@@ -216,8 +244,9 @@ sys_messagebus_register	drivers/sys_messagebus.c	/^void sys_messagebus_register(
 sys_messagebus_unregister	drivers/sys_messagebus.c	/^void sys_messagebus_unregister(void (*callback) (enum sys_message))$/;"	f	typeref:typename:void
 tags	Makefile	/^tags: $(SRCS)$/;"	t
 timer0_A1_ISR	drivers/timer_a0.c	/^void timer0_A1_ISR(void)$/;"	f	typeref:typename:void
-timer_a0_delay	drivers/timer_a0.c	/^void timer_a0_delay(uint32_t microseconds)$/;"	f	typeref:typename:void
-timer_a0_delay_noblk	drivers/timer_a0.c	/^void timer_a0_delay_noblk(uint32_t microseconds)$/;"	f	typeref:typename:void
+timer_a0_delay_noblk_ccr1	drivers/timer_a0.c	/^void timer_a0_delay_noblk_ccr1(uint16_t ticks)$/;"	f	typeref:typename:void
+timer_a0_delay_noblk_ccr2	drivers/timer_a0.c	/^void timer_a0_delay_noblk_ccr2(uint16_t ticks)$/;"	f	typeref:typename:void
+timer_a0_delay_noblk_ccr3	drivers/timer_a0.c	/^void timer_a0_delay_noblk_ccr3(uint16_t ticks)$/;"	f	typeref:typename:void
 timer_a0_event	drivers/timer_a0.h	/^enum timer_a0_event {$/;"	g
 timer_a0_init	drivers/timer_a0.c	/^void timer_a0_init(void)$/;"	f	typeref:typename:void
 timer_a0_irq	proj.c	/^static void timer_a0_irq(enum sys_message msg)$/;"	f	typeref:typename:void	file:

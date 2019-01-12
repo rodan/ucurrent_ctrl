@@ -11,9 +11,16 @@
 	If you need to add a new entry, append it to the end! */
 enum sys_message {
     SYS_MSG_NONE = 0,
-    SYS_MSG_TIMER0_IFG = BIT0,  // timer0 overflow
-    SYS_MSG_P1IFG = BIT1,       // button press
-    SYS_MSG_UART1_RX = BIT2
+    SYS_MSG_TIMER0_CCR0 = BIT0,
+    SYS_MSG_TIMER0_CCR1 = BIT1, // timer_a0_delay_noblk_ccr1
+    SYS_MSG_TIMER0_CCR2 = BIT2, // timer_a0_delay_noblk_ccr2
+    SYS_MSG_TIMER0_CCR3 = BIT3, // timer_a0_delay_noblk_ccr3
+    SYS_MSG_TIMER0_CCR4 = BIT4,
+    SYS_MSG_TIMER0_IFG = BIT5,  // timer0 overflow
+
+    SYS_MSG_P1IFG = BIT6,       // button press
+
+    SYS_MSG_UART1_RX = BIT7     // UART received something
 };
 
 /*!

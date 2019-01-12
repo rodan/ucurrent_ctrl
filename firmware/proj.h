@@ -22,6 +22,7 @@
 #define uc_disable          P1OUT &= ~BIT5
 #define led_on              P2OUT |= BIT0
 #define led_off             P2OUT &= ~BIT0
+#define led_switch          P2OUT ^= BIT0
 
 #define VERSION             2   // must be incremented if struct settings_t changes
 #define FLASH_ADDR          SEGMENT_B
