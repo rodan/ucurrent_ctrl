@@ -160,8 +160,8 @@ adc10_read	drivers/adc.c	/^void adc10_read(const uint8_t port, uint16_t * rv, co
 adc10_rv	drivers/adc.c	/^volatile uint16_t *adc10_rv;$/;"	v	typeref:typename:volatile uint16_t *
 adc_en	proj.h	/^    uint8_t adc_en;             \/\/ enable internal adc for battery check$/;"	m	struct:settings_t	typeref:typename:uint8_t
 adcready	drivers/adc.c	/^volatile uint8_t adcready;$/;"	v	typeref:typename:volatile uint8_t
-addr	drivers/i2c.h	/^    uint8_t addr[3];        \/\/\/< register\/command payload$/;"	m	struct:__anonfe5e22c70108	typeref:typename:uint8_t[3]
-addr_len	drivers/i2c.h	/^    uint8_t addr_len;       \/\/\/< Number of addr bytes to use (1-3)$/;"	m	struct:__anonfe5e22c70108	typeref:typename:uint8_t
+addr	drivers/i2c.h	/^    uint8_t *addr;          \/\/\/< register\/command payload$/;"	m	struct:__anonfe5e22c70108	typeref:typename:uint8_t *
+addr_len	drivers/i2c.h	/^    uint16_t addr_len;      \/\/\/< Number of addr bytes to use (1-3)$/;"	m	struct:__anonfe5e22c70108	typeref:typename:uint16_t
 ads1110	drivers/ads1110.h	/^struct ads1110 {$/;"	s
 ads1110_config	drivers/ads1110.c	/^uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)$/;"	f	typeref:typename:uint8_t
 ads1110_convert	drivers/ads1110.c	/^void ads1110_convert(struct ads1110 *adc)$/;"	f	typeref:typename:void
@@ -221,12 +221,11 @@ modinit.c	Makefile	/^modinit.c:$/;"	t
 modinit.o	Makefile	/^modinit.o: modinit.c$/;"	t
 next	drivers/sys_messagebus.h	/^    struct sys_messagebus *next;$/;"	m	struct:sys_messagebus	typeref:struct:sys_messagebus *
 next_state	drivers/i2c.c	/^    i2c_state_t next_state;$/;"	m	struct:__anonfe5e22c20208	typeref:typename:i2c_state_t	file:
-options	drivers/i2c.h	/^    uint8_t options;$/;"	m	struct:__anonfe5e22c70108	typeref:typename:uint8_t
+options	drivers/i2c.h	/^    uint8_t options;        \/\/\/< see above the possible option flags$/;"	m	struct:__anonfe5e22c70108	typeref:typename:uint8_t
 pkg	drivers/i2c.c	/^    i2c_package_t *pkg;$/;"	m	struct:__anonfe5e22c20208	typeref:typename:i2c_package_t *	file:
 pkg	drivers/i2c.h	/^i2c_package_t pkg;$/;"	v	typeref:typename:i2c_package_t
 port1_irq	proj.c	/^static void port1_irq(enum sys_message msg)$/;"	f	typeref:typename:void	file:
 port1_last_event	proj.c	/^volatile uint8_t port1_last_event;$/;"	v	typeref:typename:volatile uint8_t
-read	drivers/i2c.h	/^    bool read;              \/\/\/< Indicates if the transfer is a read operation or not.$/;"	m	struct:__anonfe5e22c70108	typeref:typename:bool
 s	proj.c	/^struct settings_t s;$/;"	v	typeref:struct:settings_t
 scl_high	drivers/serial_bitbang.h	/^#define scl_high /;"	d
 scl_low	drivers/serial_bitbang.h	/^#define scl_low /;"	d

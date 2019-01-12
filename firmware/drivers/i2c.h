@@ -57,7 +57,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-// options
+// option flags
 #define I2C_READ                0x1
 #define I2C_WRITE               0x2
 // sometimes the master has to wait for the slave to release SDA
@@ -71,12 +71,11 @@ extern "C" {
 
 typedef struct {
     uint8_t slave_addr;     ///< Chip address of slave device
-    uint8_t addr[3];        ///< register/command payload
-    uint8_t addr_len;       ///< Number of addr bytes to use (1-3)
+    uint8_t *addr;          ///< register/command payload
+    uint16_t addr_len;      ///< Number of addr bytes to use (1-3)
     uint8_t *data;          ///< Pointer to data transfer buffer
     uint16_t data_len;      ///< Number of bytes to transfer
-    bool read;              ///< Indicates if the transfer is a read operation or not.
-    uint8_t options;
+    uint8_t options;        ///< see above the possible option flags
 } i2c_package_t;
 
 i2c_package_t pkg;

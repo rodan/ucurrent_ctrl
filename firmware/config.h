@@ -4,7 +4,6 @@
 #define USE_XT1
 #define USE_WATCHDOG
 #define USE_ADC
-
 #define HARDWARE_I2C
 
 
