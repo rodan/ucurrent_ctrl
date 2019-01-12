@@ -276,12 +276,12 @@ void wake_up(void)
 void check_events(void)
 {
     struct sys_messagebus *p = messagebus;
-    enum sys_message msg = 0;
+    enum sys_message msg = SYS_MSG_NONE;
 
     // drivers/timer_a0
     if (timer_a0_last_event == TIMER_A0_EVENT_IFG) {
         msg |= BIT0;
-        timer_a0_last_event = 0;
+        timer_a0_last_event = TIMER_A0_EVENT_NONE;
     }
     // button presses
     if (port1_last_event) {
@@ -291,7 +291,7 @@ void check_events(void)
     // uart RX
     if (uart1_last_event == UART1_EV_RX) {
         msg |= BIT2;
-        uart1_last_event = 0;
+        uart1_last_event = UART1_EV_NONE;
     }
 
     while (p) {

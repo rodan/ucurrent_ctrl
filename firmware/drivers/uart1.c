@@ -61,7 +61,7 @@ void USCI_A1_ISR(void)
     uint16_t iv = UCA1IV;
     register char rx;
 
-    enum uart1_tevent ev = 0;
+    enum uart1_tevent ev = UART1_EV_NONE;
 
     // iv is 2 for RXIFG, 4 for TXIFG
     switch (iv) {

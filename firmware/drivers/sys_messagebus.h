@@ -10,6 +10,7 @@
 /* WARNING: the enum values are optimized to work with some drivers.
 	If you need to add a new entry, append it to the end! */
 enum sys_message {
+    SYS_MSG_NONE = 0,
     SYS_MSG_TIMER0_IFG = BIT0,  // timer0 overflow
     SYS_MSG_P1IFG = BIT1,       // button press
     SYS_MSG_UART1_RX = BIT2

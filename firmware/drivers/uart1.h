@@ -4,6 +4,7 @@
 #include "proj.h"
 
 enum uart1_tevent {
+    UART1_EV_NONE = 0,
     UART1_EV_RX = BIT0,
     UART1_EV_TX = BIT1
 };
