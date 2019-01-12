@@ -79,14 +79,7 @@ static void timer_a0_irq(enum sys_message msg)
 
 static void port1_irq(enum sys_message msg)
 {
-    // debounce
-    //timer_a0_delay(50000);
-    if ((P1IN & TRIG1) == 0) {
-        return;
-    } else {
-        tue = s.standby_time;
-        display_menu();
-    }
+    tue = s.standby_time;
 }
 
 uint8_t str_to_uint16(char *str, uint16_t * out, const uint8_t seek,

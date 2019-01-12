@@ -50,20 +50,20 @@ uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc)
     uint8_t val[3] = { 0, 0, 0 };
     //uint8_t rdy;
 
-#ifdef HARDWARE_I2C
     i2c_package_t pkg;
     pkg.slave_addr = slave_addr;
     pkg.addr[0] = 0;
     pkg.addr_len = 0;
     pkg.data = val;
     pkg.data_len = 3;
-    pkg.read = 1;
-    //pkg.options = I2C_READ | I2C_LAST_NAK;
+    //pkg.read = 1;
+    pkg.options = I2C_READ | I2C_LAST_NAK;
 
+#ifdef HARDWARE_I2C
     i2c_transfer_start(&pkg, NULL);
 #else
     uint8_t rv;
-    rv = i2cm_rxfrom(slave_addr, val, 3);
+    rv = i2cm_transfer(&pkg);
 
     if (rv != I2C_ACK) {
         return rv;
@@ -97,7 +97,6 @@ void ads1110_convert(struct ads1110 *adc)
 uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)
 {
 
-#ifdef HARDWARE_I2C
     uint8_t data = val;
 
     pkg.slave_addr = slave_addr;
@@ -105,12 +104,14 @@ uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)
     pkg.addr_len = 0;
     pkg.data = &data;
     pkg.data_len = 1;
-    pkg.read = 0;
+    //pkg.read = 0;
+    pkg.options = I2C_WRITE;
 
+#ifdef HARDWARE_I2C
     i2c_transfer_start(&pkg, NULL);
 #else
     uint8_t rv;
-    rv = i2cm_txbyte(slave_addr, val);
+    rv = i2cm_transfer(&pkg);
     return rv;
 #endif
 

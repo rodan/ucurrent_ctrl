@@ -46,6 +46,7 @@ I2C_IE	drivers/i2c_internal.h	/^#define I2C_IE /;"	d
 I2C_IFG	drivers/i2c_internal.h	/^#define I2C_IFG /;"	d
 I2C_ISR_VECTOR	drivers/i2c_internal.h	/^#define I2C_ISR_VECTOR /;"	d
 I2C_IV	drivers/i2c_internal.h	/^#define I2C_IV /;"	d
+I2C_LAST_NAK	drivers/i2c.h	/^#define I2C_LAST_NAK /;"	d
 I2C_MASTER_DIR	proj.h	/^#define I2C_MASTER_DIR /;"	d
 I2C_MASTER_IN	proj.h	/^#define I2C_MASTER_IN /;"	d
 I2C_MASTER_OUT	proj.h	/^#define I2C_MASTER_OUT /;"	d
@@ -54,19 +55,20 @@ I2C_MASTER_SDA	proj.h	/^#define I2C_MASTER_SDA /;"	d
 I2C_MISSING_SCL_PULLUP	drivers/serial_bitbang.h	/^#define I2C_MISSING_SCL_PULLUP /;"	d
 I2C_MISSING_SDA_PULLUP	drivers/serial_bitbang.h	/^#define I2C_MISSING_SDA_PULLUP /;"	d
 I2C_NAK	drivers/serial_bitbang.h	/^#define I2C_NAK /;"	d
-I2C_NO_ADDR_SHIFT	drivers/serial_bitbang.h	/^#define I2C_NO_ADDR_SHIFT /;"	d
+I2C_NO_ADDR_SHIFT	drivers/i2c.h	/^#define I2C_NO_ADDR_SHIFT /;"	d
 I2C_OA	drivers/i2c_internal.h	/^#define I2C_OA /;"	d
 I2C_OK	drivers/serial_bitbang.h	/^#define I2C_OK /;"	d
-I2C_READ	drivers/serial_bitbang.h	/^#define I2C_READ /;"	d
+I2C_READ	drivers/i2c.h	/^#define I2C_READ /;"	d
+I2C_REPEAT_SA_ON_READ	drivers/i2c.h	/^#define I2C_REPEAT_SA_ON_READ /;"	d
 I2C_RXBUF	drivers/i2c_internal.h	/^#define I2C_RXBUF /;"	d
 I2C_SA	drivers/i2c_internal.h	/^#define I2C_SA /;"	d
-I2C_SDA_WAIT	drivers/serial_bitbang.h	/^#define I2C_SDA_WAIT /;"	d
+I2C_SDA_WAIT	drivers/i2c.h	/^#define I2C_SDA_WAIT /;"	d
+I2C_SHT_INIT	drivers/i2c.h	/^#define I2C_SHT_INIT /;"	d
 I2C_STAT	drivers/i2c_internal.h	/^#define I2C_STAT /;"	d
 I2C_TXBUF	drivers/i2c_internal.h	/^#define I2C_TXBUF /;"	d
-I2C_TX_BUFF_LEN	drivers/i2c.h	/^#define I2C_TX_BUFF_LEN /;"	d
 I2C_USE_DEV	drivers/i2c_config.TEMPLATE.h	/^#define I2C_USE_DEV /;"	d
 I2C_USE_DEV	drivers/i2c_config.h	/^#define I2C_USE_DEV /;"	d
-I2C_WRITE	drivers/serial_bitbang.h	/^#define I2C_WRITE /;"	d
+I2C_WRITE	drivers/i2c.h	/^#define I2C_WRITE /;"	d
 LD	Makefile	/^LD              = msp430-elf-ld$/;"	m
 LDFLAGS	Makefile	/^LDFLAGS		=$/;"	m
 OBJS	Makefile	/^OBJS := $(patsubst %.c,%.o,$(SRCS))$/;"	m
@@ -167,6 +169,7 @@ ads1110_init	drivers/ads1110.c	/^uint8_t ads1110_init(const uint8_t slave_addres
 ads1110_read	drivers/ads1110.c	/^uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc)$/;"	f	typeref:typename:uint8_t
 ads1110_state_machine	drivers/ads1110.c	/^static void ads1110_state_machine(enum sys_message msg)$/;"	f	typeref:typename:void	file:
 all	Makefile	/^all: depend config.h tags $(PROJ).elf$/;"	t
+calc_temp	drivers/adc.c	/^int16_t calc_temp(const uint16_t qtemp)$/;"	f	typeref:typename:int16_t
 callback	drivers/i2c.c	/^    void (*callback) (i2c_status_t result);$/;"	m	struct:__anonfe5e22c20208	typeref:typename:void (*)(i2c_status_t result)	file:
 check_events	proj.c	/^void check_events(void)$/;"	f	typeref:typename:void
 clean	Makefile	/^clean: $(SUBDIRS)$/;"	t
@@ -196,14 +199,13 @@ i2c_state_t	drivers/i2c.c	/^} i2c_state_t;$/;"	t	typeref:enum:__anonfe5e22c20103
 i2c_status_t	drivers/i2c.h	/^} i2c_status_t;$/;"	t	typeref:enum:__anonfe5e22c70203
 i2c_transfer_start	drivers/i2c.c	/^void i2c_transfer_start(const i2c_package_t * pkg,$/;"	f	typeref:typename:void
 i2c_transfer_status	drivers/i2c.c	/^i2c_status_t i2c_transfer_status(void)$/;"	f	typeref:typename:i2c_status_t
-i2c_tx_buff	drivers/i2c.h	/^uint8_t i2c_tx_buff[I2C_TX_BUFF_LEN];$/;"	v	typeref:typename:uint8_t[]
 i2c_uninit	drivers/i2c.c	/^void i2c_uninit(void)$/;"	f	typeref:typename:void
 i2cm_rx	drivers/serial_bitbang.c	/^uint8_t i2cm_rx(uint8_t * buf, const uint16_t length, const uint8_t options)$/;"	f	typeref:typename:uint8_t
-i2cm_rxfrom	drivers/serial_bitbang.c	/^uint8_t i2cm_rxfrom(const uint8_t slave_address, uint8_t * data,$/;"	f	typeref:typename:uint8_t
-i2cm_start	drivers/serial_bitbang.c	/^uint8_t i2cm_start(void)$/;"	f	typeref:typename:uint8_t
-i2cm_stop	drivers/serial_bitbang.c	/^void i2cm_stop(void)$/;"	f	typeref:typename:void
+i2cm_start	drivers/serial_bitbang.c	/^uint8_t i2cm_start(uint8_t options)$/;"	f	typeref:typename:uint8_t
+i2cm_stop	drivers/serial_bitbang.c	/^void i2cm_stop(uint8_t options)$/;"	f	typeref:typename:void
+i2cm_transfer	drivers/serial_bitbang.c	/^uint8_t i2cm_transfer(const i2c_package_t * pkg)$/;"	f	typeref:typename:uint8_t
 i2cm_tx	drivers/serial_bitbang.c	/^uint8_t i2cm_tx(const uint8_t data, const uint8_t options)$/;"	f	typeref:typename:uint8_t
-i2cm_txbyte	drivers/serial_bitbang.c	/^uint8_t i2cm_txbyte(const uint8_t slave_address, const uint8_t data)$/;"	f	typeref:typename:uint8_t
+i2cm_tx_buff	drivers/serial_bitbang.c	/^uint8_t i2cm_tx_buff(const uint8_t * data, uint16_t data_len, const uint8_t options)$/;"	f	typeref:typename:uint8_t
 idx	drivers/i2c.c	/^    uint16_t idx;$/;"	m	struct:__anonfe5e22c20208	typeref:typename:uint16_t	file:
 install	Makefile	/^install: $(PROJ).elf$/;"	t
 latch_disable	proj.h	/^#define latch_disable /;"	d
@@ -219,6 +221,7 @@ modinit.c	Makefile	/^modinit.c:$/;"	t
 modinit.o	Makefile	/^modinit.o: modinit.c$/;"	t
 next	drivers/sys_messagebus.h	/^    struct sys_messagebus *next;$/;"	m	struct:sys_messagebus	typeref:struct:sys_messagebus *
 next_state	drivers/i2c.c	/^    i2c_state_t next_state;$/;"	m	struct:__anonfe5e22c20208	typeref:typename:i2c_state_t	file:
+options	drivers/i2c.h	/^    uint8_t options;$/;"	m	struct:__anonfe5e22c70108	typeref:typename:uint8_t
 pkg	drivers/i2c.c	/^    i2c_package_t *pkg;$/;"	m	struct:__anonfe5e22c20208	typeref:typename:i2c_package_t *	file:
 pkg	drivers/i2c.h	/^i2c_package_t pkg;$/;"	v	typeref:typename:i2c_package_t
 port1_irq	proj.c	/^static void port1_irq(enum sys_message msg)$/;"	f	typeref:typename:void	file:
