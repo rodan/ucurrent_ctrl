@@ -303,10 +303,16 @@ void check_events(void)
     }
 }
 
-//#pragma vector=PORT1_VECTOR
-//__interrupt void Port_1(void)
+// Port 1 interrupt service routine
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=PORT1_VECTOR
+__interrupt void Port_1(void)
+#elif defined(__GNUC__)
 __attribute__ ((interrupt(PORT1_VECTOR)))
 void Port1_ISR(void)
+#else
+#error Compiler not supported!
+#endif
 {
     if (P1IFG & TRIG1) {
         port1_last_event = 1;
