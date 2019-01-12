@@ -5,6 +5,9 @@
 #define USE_WATCHDOG
 #define USE_ADC
 
+#define HARDWARE_I2C
+
+
 //#define CONFIG_DEBUG
 
 

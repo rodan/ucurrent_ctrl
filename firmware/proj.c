@@ -12,10 +12,15 @@
 #include "drivers/sys_messagebus.h"
 #include "drivers/timer_a0.h"
 #include "drivers/uart1.h"
-#include "drivers/serial_bitbang.h"
 #include "drivers/ads1110.h"
 #include "drivers/flash.h"
 #include "drivers/adc.h"
+
+#ifdef HARDWARE_I2C
+    #include "drivers/i2c.h"
+#else
+    #include "serial_bitbang.h"
+#endif
 
 int16_t tue;                    // ticks until end
 
@@ -180,6 +185,10 @@ int main(void)
     uart1_init();
     settings_init();
 
+#ifdef HARDWARE_I2C
+    i2c_init();
+#endif
+
     tue = s.standby_time;
     latch_enable;
     uc_enable;
@@ -236,7 +245,11 @@ void main_init(void)
 
     P4SEL = 0x30;
 #ifdef USE_ADC
+  #ifdef HARDWARE_I2C
+    P4SEL |= BIT1 + BIT2;
+  #else
     P4OUT = 0;
+  #endif
 #else
     P4OUT = 0x6;
 #endif
