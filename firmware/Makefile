@@ -109,7 +109,8 @@ tags: $(SRCS)
 	@exuberant-ctags -R
 
 install: $(PROJ).elf
-	mspdebug olimex-iso-mk2 "prog $<"
+	@bash ~/bin/burn.sh
+	#@mspdebug olimex-iso-mk2 "prog $<"
 
 clean: $(SUBDIRS)
 	@for subdir in $(SUBDIRS); do \

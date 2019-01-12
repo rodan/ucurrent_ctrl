@@ -59,6 +59,7 @@ SEGMENT_D	drivers/flash.h	/^#define SEGMENT_D /;"	d
 SRCS	Makefile	/^SRCS := $(wildcard *.c)$/;"	m
 ST	drivers/ads1110.h	/^#define ST /;"	d
 SUBDIRS	Makefile	/^SUBDIRS = drivers$/;"	m
+SYS_MSG_NONE	drivers/sys_messagebus.h	/^    SYS_MSG_NONE = 0,$/;"	e	enum:sys_message
 SYS_MSG_P1IFG	drivers/sys_messagebus.h	/^    SYS_MSG_P1IFG = BIT1,       \/\/ button press$/;"	e	enum:sys_message
 SYS_MSG_TIMER0_IFG	drivers/sys_messagebus.h	/^    SYS_MSG_TIMER0_IFG = BIT0,  \/\/ timer0 overflow$/;"	e	enum:sys_message
 SYS_MSG_UART1_RX	drivers/sys_messagebus.h	/^    SYS_MSG_UART1_RX = BIT2$/;"	e	enum:sys_message
@@ -70,11 +71,15 @@ TIMER_A0_EVENT_CCR2	drivers/timer_a0.h	/^    TIMER_A0_EVENT_CCR2 = BIT2,$/;"	e	e
 TIMER_A0_EVENT_CCR3	drivers/timer_a0.h	/^    TIMER_A0_EVENT_CCR3 = BIT3,$/;"	e	enum:timer_a0_event
 TIMER_A0_EVENT_CCR4	drivers/timer_a0.h	/^    TIMER_A0_EVENT_CCR4 = BIT4,$/;"	e	enum:timer_a0_event
 TIMER_A0_EVENT_IFG	drivers/timer_a0.h	/^    TIMER_A0_EVENT_IFG = BIT5,$/;"	e	enum:timer_a0_event
+TIMER_A0_EVENT_NONE	drivers/timer_a0.h	/^    TIMER_A0_EVENT_NONE = 0,$/;"	e	enum:timer_a0_event
 TRIG1	proj.h	/^#define TRIG1 /;"	d
+UART1_EV_NONE	drivers/uart1.h	/^    UART1_EV_NONE = 0,$/;"	e	enum:uart1_tevent
 UART1_EV_RX	drivers/uart1.h	/^    UART1_EV_RX = BIT0,$/;"	e	enum:uart1_tevent
 UART1_EV_TX	drivers/uart1.h	/^    UART1_EV_TX = BIT1$/;"	e	enum:uart1_tevent
 UART1_RXBUF_SZ	drivers/uart1.h	/^#define UART1_RXBUF_SZ /;"	d
 USCI_A1_ISR	drivers/uart1.c	/^void USCI_A1_ISR(void)$/;"	f	typeref:typename:void
+USE_WATCHDOG	config.h	/^#define USE_WATCHDOG$/;"	d
+USE_XT1	config.h	/^#define USE_XT1$/;"	d
 VERSION	proj.h	/^#define VERSION /;"	d
 _CONFIG_H_	config.h	/^#define _CONFIG_H_$/;"	d
 __ADC_H__	drivers/adc.h	/^#define __ADC_H__$/;"	d

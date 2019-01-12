@@ -14,8 +14,8 @@
 #include "drivers/uart1.h"
 #include "drivers/serial_bitbang.h"
 #include "drivers/ads1110.h"
-#include "drivers/adc.h"
 #include "drivers/flash.h"
+#include "drivers/adc.h"
 
 int16_t tue;                    // ticks until end
 
@@ -34,6 +34,12 @@ void display_menu(void)
     uart1_tx_str(str_temp, strlen(str_temp));
 
     sprintf(str_temp,
+            "  * settings\t\e[33;1mE\e[0m: eadc %d   \e[33;1mA\e[0m: adc %d   \e[33;1mT\e[0m: s_t %d   \e[33;1mU\e[0m: s_u %d\r\n",
+            s.eadc_en, s.adc_en, s.standby_time, s.standby_unused);
+    uart1_tx_str(str_temp, strlen(str_temp));
+
+#ifdef USE_ADC
+    sprintf(str_temp,
             "  * ads1110 (status 0x%02x, conv %s%01d.%04dV, rel delta %s%01d.%04dV)\r\n",
             eadc.config, (eadc.conv + s.eadc_delta) < 0 ? "-" : "",
             abs((int16_t) (eadc.conv + s.eadc_delta) / 10000),
@@ -41,11 +47,7 @@ void display_menu(void)
             s.eadc_delta < 0 ? "-" : "", abs((int16_t) s.eadc_delta / 10000),
             abs((int16_t) s.eadc_delta % 10000));
     uart1_tx_str(str_temp, strlen(str_temp));
-
-    sprintf(str_temp,
-            "  * settings\t\e[33;1mE\e[0m: eadc %d   \e[33;1mA\e[0m: adc %d   \e[33;1mT\e[0m: s_t %d   \e[33;1mU\e[0m: s_u %d\r\n",
-            s.eadc_en, s.adc_en, s.standby_time, s.standby_unused);
-    uart1_tx_str(str_temp, strlen(str_temp));
+#endif
 
     sprintf(str_temp,
             "  \e[33;1mD\e[0m: relative delta     \e[33;1mL\e[0m: load defaults     \e[33;1mS\e[0m: save settings\r\nChoice? ");
@@ -59,6 +61,7 @@ static void timer_a0_irq(enum sys_message msg)
     if (tue < 1) {
         uc_disable;
         latch_disable;
+#ifdef USE_ADC
     } else {
         if (s.eadc_en == 1) {
             // trigger conversion
@@ -67,6 +70,7 @@ static void timer_a0_irq(enum sys_message msg)
             ads1110_read(ED0, &eadc);
             ads1110_convert(&eadc);
         }
+#endif
     }
 }
 
@@ -181,7 +185,9 @@ int main(void)
     uc_enable;
     led_on;
 
+#ifdef USE_ADC
     ads1110_config(ED0, BITS_16 | PGA_2 | SC | ST);
+#endif
 
     sys_messagebus_register(&timer_a0_irq, SYS_MSG_TIMER0_IFG);
     sys_messagebus_register(&port1_irq, SYS_MSG_P1IFG);
@@ -193,7 +199,6 @@ int main(void)
         // sleep
         _BIS_SR(LPM3_bits + GIE);
         __no_operation();
-        //wake_up();
 #ifdef USE_WATCHDOG
         WDTCTL = (WDTCTL & 0xff) | WDTPW | WDTCNTCL;
 #endif
@@ -209,7 +214,6 @@ void main_init(void)
 #else
     WDTCTL = WDTPW + WDTHOLD;
 #endif
-    P5SEL |= BIT5 + BIT4;
 
     P1SEL = 0;
     P1OUT = 0;
@@ -224,20 +228,25 @@ void main_init(void)
 
     P2SEL = 0;
     P2OUT = 0;
-    P2DIR = 0x1;
+    P2DIR = 0xff;
 
     P3SEL = 0;
     P3OUT = 0;
-    P3DIR = 0x1f;
+    P3DIR = 0xff;
 
-    P4SEL = 0;
+    P4SEL = 0x30;
+#ifdef USE_ADC
     P4OUT = 0;
-    P4DIR = 0xff;
+#else
+    P4OUT = 0x6;
+#endif
+    P4DIR = 0xcf;
 
-    //P5SEL is set above
+    P5SEL = 0;
     P5OUT = 0;
     P5DIR = 0xff;
 
+    P6SEL = 0x1;
     P6OUT = 0;
     P6DIR = 0xfe;
 
@@ -248,6 +257,22 @@ void main_init(void)
     USBKEYPID = 0x9628;
     USBPWRCTL &= ~(SLDOEN + VUSBEN);
     USBKEYPID = 0x9600;
+
+#ifdef USE_XT1
+    // enable external LF crystal if one is present
+    P5SEL |= BIT4+BIT5;
+    UCSCTL6 &= ~XT1OFF;
+    // Loop until XT1 stabilizes
+    do {
+        UCSCTL7 &= ~XT1LFOFFG;                 // clear XT1 fault flags
+        SFRIFG1 &= ~OFIFG;                     // clear fault flags
+    } while ( UCSCTL7 & XT1LFOFFG );           // test XT1 fault flag
+    UCSCTL6 &= ~(XT1DRIVE0 + XT1DRIVE1);
+    UCSCTL4 |= SELA__XT1CLK;
+#else
+    // use internal 32768 Hz oscillator
+    UCSCTL4 |= SELA__REFOCLK;
+#endif
 
     timer_a0_init();
 }
@@ -266,12 +291,6 @@ void settings_init(void)
         *dst_p++ = *src_p++;
     }
 }
-
-/*
-void wake_up(void)
-{
-}
-*/
 
 void check_events(void)
 {
