@@ -60,7 +60,7 @@ void display_menu(void)
 static void timer_a0_irq(enum sys_message msg)
 {
     timer_a0_delay_noblk_ccr1(_1s);
-    led_switch;
+    led_on;
     tue--;
     if (tue < 1) {
         uc_disable;
@@ -179,7 +179,6 @@ int main(void)
     tue = s.standby_time;
     latch_enable;
     uc_enable;
-    led_on;
 
 #ifdef USE_ADC
     #ifdef HARDWARE_I2C 
