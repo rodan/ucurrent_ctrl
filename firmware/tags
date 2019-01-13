@@ -29,7 +29,6 @@ ED5	drivers/ads1110.h	/^#define ED5 /;"	d
 ED6	drivers/ads1110.h	/^#define ED6 /;"	d
 ED7	drivers/ads1110.h	/^#define ED7 /;"	d
 FLASH_ADDR	proj.h	/^#define FLASH_ADDR /;"	d
-HARDWARE_I2C	config.h	/^#define HARDWARE_I2C$/;"	d
 I2C_ACK	drivers/serial_bitbang.h	/^#define I2C_ACK /;"	d
 I2C_BR	drivers/i2c_internal.h	/^#define I2C_BR /;"	d
 I2C_BUSY	drivers/i2c.h	/^    I2C_BUSY,               \/\/\/< A transfer is in progress.$/;"	e	enum:__anonfe5e22c70203
@@ -117,7 +116,6 @@ UART1_EV_TX	drivers/uart1.h	/^    UART1_EV_TX = BIT1$/;"	e	enum:uart1_tevent
 UART1_RXBUF_SZ	drivers/uart1.h	/^#define UART1_RXBUF_SZ /;"	d
 USCI_A1_ISR	drivers/uart1.c	/^void USCI_A1_ISR(void)$/;"	f	typeref:typename:void
 USCI_BX_ISR	drivers/i2c.c	/^void USCI_BX_ISR(void)$/;"	f	typeref:typename:void
-USE_ADC	config.h	/^#define USE_ADC$/;"	d
 USE_WATCHDOG	config.h	/^#define USE_WATCHDOG$/;"	d
 USE_XT1	config.h	/^#define USE_XT1$/;"	d
 VERSION	proj.h	/^#define VERSION /;"	d

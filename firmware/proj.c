@@ -38,7 +38,7 @@ void display_menu(void)
     uart1_tx_str(str_temp, strlen(str_temp));
 
     sprintf(str_temp,
-            "  * settings\t\e[33;1mE\e[0m: eadc %d   \e[33;1mA\e[0m: adc %d   \e[33;1mT\e[0m: s_t %d   \e[33;1mU\e[0m: s_u %d\r\n",
+            "  * settings\t\e[33;1mE\e[0m: eadc %u   \e[33;1mA\e[0m: adc %u   \e[33;1mT\e[0m: s_t %u   \e[33;1mU\e[0m: s_u %u\r\n",
             s.eadc_en, s.adc_en, s.standby_time, s.standby_unused);
     uart1_tx_str(str_temp, strlen(str_temp));
 
@@ -85,28 +85,30 @@ static void port1_irq(enum sys_message msg)
 uint8_t str_to_uint16(char *str, uint16_t * out, const uint8_t seek,
                       const uint8_t len, const uint16_t min, const uint16_t max)
 {
-    uint16_t val = 0, pow = 1;
-    uint8_t i;
+    uint16_t val = 0;
+    uint32_t pow = 1;
+    uint8_t i, c;
 
-    // pow() is missing in gcc, so we improvise
-    for (i = 0; i < len - 1; i++) {
-        pow *= 10;
-    }
-    for (i = 0; i < len; i++) {
-        if ((str[seek + i] > 47) && (str[seek + i] < 58)) {
-            val += (str[seek + i] - 48) * pow;
+    for (i = len; i > seek; i--) {
+        c = str[i-1] - 48;
+        if (c < 10) {
+            val += c * pow;
+            pow *= 10;
+        } else {
+            if (val) {
+                // if we already have a number and this char is unexpected
+                break;
+            }
         }
-        pow /= 10;
     }
+
     if ((val >= min) && (val <= max)) {
         *out = val;
     } else {
-        sprintf(str_temp, "\e[31;1merr\e[0m specify an int between %u-%u\r\n",
-                min, max);
-        uart1_tx_str(str_temp, strlen(str_temp));
-        return 0;
+        return EXIT_FAILURE;
     }
-    return 1;
+
+    return EXIT_SUCCESS;
 }
 
 static void uart1_rx_irq(enum sys_message msg)
@@ -140,25 +142,29 @@ static void uart1_rx_irq(enum sys_message msg)
         s.eadc_delta = 0 - eadc.conv;
         display_menu();
     } else if (p == 69) {       // [E]xternal ADC
-        if (str_to_uint16(input, &u16, 1, strlen(input) - 1, 0, 1)) {
+        if (str_to_uint16(input, &u16, 1, strlen(input), 0, 1) == EXIT_SUCCESS) {
             s.eadc_en = u16;
             display_menu();
         }
     } else if (p == 65) {       // internal [A]DC
-        if (str_to_uint16(input, &u16, 1, strlen(input) - 1, 0, 1)) {
+        if (str_to_uint16(input, &u16, 1, strlen(input), 0, 1) == EXIT_SUCCESS) {
             s.adc_en = u16;
             display_menu();
         }
     } else if (p == 84) {       // generic [T]imeout
-        if (str_to_uint16(input, &u16, 1, strlen(input) - 1, 30, 65535)) {
+        if (str_to_uint16(input, &u16, 1, strlen(input), 30, 65535) == EXIT_SUCCESS) {
             s.standby_time = u16;
             display_menu();
         }
     } else if (p == 85) {       // [U]nused timeout
-        if (str_to_uint16(input, &u16, 1, strlen(input) - 1, 30, 65535)) {
+        if (str_to_uint16(input, &u16, 1, strlen(input), 30, 65535) == EXIT_SUCCESS) {
             s.standby_unused = u16;
             display_menu();
-        }
+        } 
+
+            sprintf(str_temp,
+                "end u16 %u, s %u\r\n", u16, s.standby_unused);
+            uart1_tx_str(str_temp, strlen(str_temp));
     } else {
         uart1_tx_str("\e[31;1merr\e[0m\r\n", 17);
     }
