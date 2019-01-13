@@ -18,8 +18,6 @@
 
 #ifdef HARDWARE_I2C
     #include "drivers/i2c.h"
-#else
-    #include "serial_bitbang.h"
 #endif
 
 int16_t tue;                    // ticks until end
@@ -133,7 +131,7 @@ static void uart1_rx_irq(enum sys_message msg)
     } else if (p == 76) {       // [L]oad defaults
         src_p = (uint8_t *) & defaults;
         dst_p = (uint8_t *) & s;
-        for (i = 0; i < sizeof(s); i++) {
+        for (i = sizeof(s); i > 0; i--) {
             *dst_p++ = *src_p++;
         }
         display_menu();
@@ -161,10 +159,6 @@ static void uart1_rx_irq(enum sys_message msg)
             s.standby_unused = u16;
             display_menu();
         } 
-
-            sprintf(str_temp,
-                "end u16 %u, s %u\r\n", u16, s.standby_unused);
-            uart1_tx_str(str_temp, strlen(str_temp));
     } else {
         uart1_tx_str("\e[31;1merr\e[0m\r\n", 17);
     }
@@ -295,7 +289,7 @@ void settings_init(void)
     if ((*src_p) != VERSION) {
         src_p = (uint8_t *) & defaults;
     }
-    for (i = 0; i < sizeof(s); i++) {
+    for (i = sizeof(s); i > 0; i--) {
         *dst_p++ = *src_p++;
     }
 }
