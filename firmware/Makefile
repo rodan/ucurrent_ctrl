@@ -15,7 +15,7 @@ CC_DMACH	= -D__MSP430F5510__
 CFLAGS		+= $(CC_CMACH) $(CC_DMACH) -Wall
 CFLAGS		+= -fno-force-addr -finline-limit=1 -fno-schedule-insns
 CFLAGS		+= -fshort-enums -Wl,-Map=output.map
-LDFLAGS		=
+LDFLAGS		= -T /opt/msp430-gcc-support-files/include/msp430f5510.ld -L /opt/msp430-gcc-support-files/include
 
 CFLAGS_REL	+= -Os -fdata-sections -ffunction-sections -fomit-frame-pointer
 LDFLAGS_REL	+= -Wl,--gc-sections -Wl,-s
@@ -24,7 +24,7 @@ CFLAGS_DBG	+= -O1 -ggdb
 LDFLAGS_DBG	+= -Wl,--gc-sections
 
 # linker flags and include directories
-INCLUDES	+= -I./ -Igcc/ -Idrivers/
+INCLUDES	+= -I./ -Igcc/ -Idrivers/ -I/opt/msp430-gcc-support-files/include/
 ### Build tools
 # 
 CC              = msp430-elf-gcc

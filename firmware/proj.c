@@ -216,7 +216,7 @@ void main_init(void)
 
     P1SEL = 0;
     P1OUT = 0;
-    P1DIR = 0xfd;
+    P1DIR = 0xf9;
 
     // IRQ triggers on rising edge
     P1IES &= ~TRIG1;
