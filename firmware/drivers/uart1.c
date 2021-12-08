@@ -1,6 +1,12 @@
 
 #include "uart1.h"
 
+volatile char uart1_rx_buf[UART1_RXBUF_SZ];
+volatile uint8_t uart1_p;
+uint8_t uart1_rx_enable;
+uint8_t uart1_rx_err;
+volatile enum uart1_tevent uart1_last_event;
+
 void uart1_init(void)
 {
     // hardware UART
@@ -26,6 +32,32 @@ uint16_t uart1_tx_str(char *str, uint16_t size)
     }
     return p;
 }
+
+uint8_t uart1_get_event(void)
+{
+    return uart1_last_event;
+}
+
+void uart1_rst_event(void)
+{
+    uart1_last_event = UART1_EV_NONE;
+}
+
+char *uart1_get_rx_buf(void)
+{
+    if (uart1_p) {
+        return (char *)uart1_rx_buf;
+    } else {
+        return NULL;
+    }
+}
+
+void uart1_set_eol(void)
+{
+    uart1_p = 0;
+    uart1_rx_enable = 1;
+}
+
 
 __attribute__ ((interrupt(USCI_A1_VECTOR)))
 void USCI_A1_ISR(void)

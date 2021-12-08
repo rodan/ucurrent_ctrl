@@ -15,8 +15,10 @@
     #include "drivers/i2c.h"
 #endif
 
+struct ads1110 eadc;
+
 // doublecheck that CCR2 is not used by another driver
-static void ads1110_state_machine(enum sys_message msg)
+static void ads1110_state_machine(const uint16_t msg)
 {
     switch (eadc.state) {
         case STATE_CONVERT:
@@ -52,7 +54,7 @@ uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc)
 
     i2c_package_t pkg;
     pkg.slave_addr = slave_addr;
-    pkg.addr[0] = 0;
+    pkg.addr = 0;
     pkg.addr_len = 0;
     pkg.data = val;
     pkg.data_len = 3;
@@ -99,8 +101,9 @@ uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val)
 
     uint8_t data = val;
 
+    i2c_package_t pkg;
     pkg.slave_addr = slave_addr;
-    pkg.addr[0] = 0;
+    pkg.addr = 0;
     pkg.addr_len = 0;
     pkg.data = &data;
     pkg.data_len = 1;

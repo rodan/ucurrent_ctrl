@@ -68,6 +68,8 @@ static struct {
     i2c_state_t next_state;
 } transfer;
 
+i2c_package_t pkg;
+
 //--------------------------------------------------------------------------------------------------
 __attribute__ ((interrupt(I2C_ISR_VECTOR)))
 void USCI_BX_ISR(void)

@@ -9,6 +9,16 @@
 // button
 #define TRIG1               BIT1
 
+#define    SYS_MSG_NONE 0
+#define    SYS_MSG_TIMER0_CCR0 BIT0
+#define    SYS_MSG_TIMER0_CCR1 BIT1 // timer_a0_delay_noblk_ccr1
+#define    SYS_MSG_TIMER0_CCR2 BIT2 // timer_a0_delay_noblk_ccr2
+#define    SYS_MSG_TIMER0_CCR3 BIT3 // timer_a0_delay_noblk_ccr3
+#define    SYS_MSG_TIMER0_CCR4 BIT4
+#define    SYS_MSG_TIMER0_IFG BIT5  // timer0 overflow
+#define    SYS_MSG_P1IFG BIT6       // button press
+#define    SYS_MSG_UART1_RX BIT7     // UART received something
+
 // bitbang i2c
 #define I2C_MASTER_DIR      P4DIR
 #define I2C_MASTER_OUT      P4OUT

@@ -31,14 +31,14 @@ enum timer_a0_event {
     TIMER_A0_EVENT_IFG = BIT5,
 };
 
-volatile enum timer_a0_event timer_a0_last_event;
-volatile uint16_t timer_a0_ovf;
-
 void timer_a0_init(void);
 void timer_a0_halt(void);
 void timer_a0_delay_noblk_ccr1(uint16_t ticks);
 void timer_a0_delay_noblk_ccr2(uint16_t ticks);
 void timer_a0_delay_noblk_ccr3(uint16_t ticks);
 void timer_a0_delay_ccr4(uint16_t ticks);
+
+uint8_t timer_a0_get_event(void);
+void timer_a0_rst_event(void);
 
 #endif

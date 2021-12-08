@@ -78,8 +78,6 @@ typedef struct {
     uint8_t options;        ///< see above the possible option flags
 } i2c_package_t;
 
-i2c_package_t pkg;
-
 typedef enum {
     I2C_IDLE,               ///< Bus is idle. Ready for new transfer.
     I2C_BUSY,               ///< A transfer is in progress.

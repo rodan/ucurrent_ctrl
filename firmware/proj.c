@@ -28,6 +28,8 @@ struct settings_t s;
 
 char str_temp[120];
 
+extern struct ads1110 eadc;
+
 void display_menu(void)
 {
     sprintf(str_temp,
@@ -57,7 +59,7 @@ void display_menu(void)
 
 }
 
-static void timer_a0_irq(enum sys_message msg)
+static void timer_a0_irq(const uint16_t msg)
 {
     timer_a0_delay_noblk_ccr1(_1s);
     led_on;
@@ -75,7 +77,7 @@ static void timer_a0_irq(enum sys_message msg)
     }
 }
 
-static void port1_irq(enum sys_message msg)
+static void port1_irq(const uint16_t msg)
 {
     tue = s.standby_time;
 }
@@ -109,26 +111,23 @@ uint8_t str_to_uint16(char *str, uint16_t * out, const uint8_t seek,
     return EXIT_SUCCESS;
 }
 
-static void uart1_rx_irq(enum sys_message msg)
+static void uart1_rx_irq(const uint16_t msg)
 {
     uint16_t u16;
     uint8_t p, i;
     uint8_t *src_p, *dst_p;
     char *input;
 
-    input = (char *)uart1_rx_buf;
+    input = uart1_get_rx_buf();
 
     p = input[0];
-    if (p > 97) {
-        p -= 32;
-    }
 
-    if (p == 0) {               // empty enter
+    if (input == NULL) {         // empty enter
         display_menu();
-    } else if (p == 83) {       // [S]ave to flash
+    } else if (p == 'S') {       // [S]ave to flash
         flash_save(FLASH_ADDR, (void *)&s, sizeof(s));
         display_menu();
-    } else if (p == 76) {       // [L]oad defaults
+    } else if (p == 'L') {       // [L]oad defaults
         src_p = (uint8_t *) & defaults;
         dst_p = (uint8_t *) & s;
         for (i = sizeof(s); i > 0; i--) {
@@ -136,25 +135,25 @@ static void uart1_rx_irq(enum sys_message msg)
         }
         display_menu();
         tue = s.standby_time;
-    } else if (p == 68) {       // get relative delta
+    } else if (p == 'D') {       // get relative delta
         s.eadc_delta = 0 - eadc.conv;
         display_menu();
-    } else if (p == 69) {       // [E]xternal ADC
+    } else if (p == 'E') {       // [E]xternal ADC
         if (str_to_uint16(input, &u16, 1, strlen(input), 0, 1) == EXIT_SUCCESS) {
             s.eadc_en = u16;
             display_menu();
         }
-    } else if (p == 65) {       // internal [A]DC
+    } else if (p == 'A') {       // internal [A]DC
         if (str_to_uint16(input, &u16, 1, strlen(input), 0, 1) == EXIT_SUCCESS) {
             s.adc_en = u16;
             display_menu();
         }
-    } else if (p == 84) {       // generic [T]imeout
+    } else if (p == 'T') {       // generic [T]imeout
         if (str_to_uint16(input, &u16, 1, strlen(input), 30, 65535) == EXIT_SUCCESS) {
             s.standby_time = u16;
             display_menu();
         }
-    } else if (p == 85) {       // [U]nused timeout
+    } else if (p == 'U') {       // [U]nused timeout
         if (str_to_uint16(input, &u16, 1, strlen(input), 30, 65535) == EXIT_SUCCESS) {
             s.standby_unused = u16;
             display_menu();
@@ -166,8 +165,7 @@ static void uart1_rx_irq(enum sys_message msg)
     //sprintf(str_temp, "\r\n%d\r\n", p);
     //uart1_tx_str(str_temp, strlen(str_temp));
 
-    uart1_p = 0;
-    uart1_rx_enable = 1;
+    uart1_set_eol();
 }
 
 int main(void)
@@ -295,13 +293,13 @@ void settings_init(void)
 
 void check_events(void)
 {
-    struct sys_messagebus *p = messagebus;
-    enum sys_message msg = SYS_MSG_NONE;
+    struct sys_messagebus *p = sys_messagebus_getp();
+    uint16_t msg = 0;
 
     // drivers/timer_a0
-    if (timer_a0_last_event) {
-        msg |= timer_a0_last_event;
-        timer_a0_last_event = TIMER_A0_EVENT_NONE;
+    if (timer_a0_get_event()) {
+        msg |= timer_a0_get_event();
+        timer_a0_rst_event();
     }
     // button presses
     if (port1_last_event) {
@@ -309,9 +307,9 @@ void check_events(void)
         port1_last_event = 0;
     }
     // uart RX
-    if (uart1_last_event == UART1_EV_RX) {
+    if (uart1_get_event()) {
         msg |= SYS_MSG_UART1_RX;
-        uart1_last_event = UART1_EV_NONE;
+        uart1_rst_event();
     }
 
     while (p) {

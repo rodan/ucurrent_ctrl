@@ -12,6 +12,9 @@
 
 #include "timer_a0.h"
 
+volatile enum timer_a0_event timer_a0_last_event;
+volatile uint16_t timer_a0_ovf;
+
 void timer_a0_init(void)
 {
     __disable_interrupt();
@@ -42,6 +45,16 @@ void timer_a0_delay_noblk_ccr2(uint16_t ticks)
     TA0CCTL2 = 0;
     TA0CCR2 = TA0R + ticks;
     TA0CCTL2 = CCIE;
+}
+
+uint8_t timer_a0_get_event(void)
+{
+    return timer_a0_last_event;
+}
+
+void timer_a0_rst_event(void)
+{
+    timer_a0_last_event = TIMER_A0_EVENT_NONE;
 }
 
 // ticks = microseconds / 30.5175 if no input divider

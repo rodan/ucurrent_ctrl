@@ -5,11 +5,6 @@
 
 #define UART1_RXBUF_SZ     9
 
-volatile char uart1_rx_buf[UART1_RXBUF_SZ];
-volatile uint8_t uart1_p;
-uint8_t uart1_rx_enable;
-uint8_t uart1_rx_err;
-
 void uart1_init();
 uint16_t uart1_tx_str(char *str, uint16_t size);
 
@@ -19,6 +14,9 @@ enum uart1_tevent {
     UART1_EV_TX = BIT1
 };
 
-volatile enum uart1_tevent uart1_last_event;
+uint8_t uart1_get_event(void);
+void uart1_rst_event(void);
+char *uart1_get_rx_buf(void);
+void uart1_set_eol(void);
 
 #endif

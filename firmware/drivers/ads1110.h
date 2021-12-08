@@ -35,8 +35,6 @@ struct ads1110 {
     uint8_t state;      // state machine parameter
 };
 
-struct ads1110 eadc;
-
 uint8_t ads1110_read(const uint8_t slave_addr, struct ads1110 *adc);
 void ads1110_convert(struct ads1110 *adc);
 uint8_t ads1110_config(const uint8_t slave_addr, const uint8_t val);
