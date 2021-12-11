@@ -3,7 +3,7 @@
 
 a MSP430F5510 based project that controls the power delivery to Dave L. Jones's µCurrent.
 
-![Lib Logo](./doc/img/current_ctrl_logo.png)
+![Lib Logo](./doc/img/ucurrent_ctrl_logo.png)
 
 ```
  homepage:        https://github.com/rodan/ucurrent_ctrl
