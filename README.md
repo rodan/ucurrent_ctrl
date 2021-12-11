@@ -86,7 +86,7 @@ and then start gdb from within the project directory:
 make debug
 ```
 
-commonly used commands from within gdb provided as example for the unit tests:
+commonly used gdb commands:
 
 ```
 target remote localhost:2000
@@ -101,3 +101,4 @@ continue
 tui enable
 ```
 
+more images of the prototype are available [here](https://photos.app.goo.gl/GjHpzLgLqz9fdpvY7)
