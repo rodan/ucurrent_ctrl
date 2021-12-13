@@ -1,7 +1,7 @@
 
 ## µCurrent controller
 
-a MSP430F5510 based project that controls the power delivery to Dave L. Jones's µCurrent.
+a MSP430F5510 based project that controls the power delivery to Dave L. Jones's [µCurrent](https://www.eevblog.com/projects/ucurrent/)
 
 ![Lib Logo](./doc/img/ucurrent_ctrl_logo.png)
 
