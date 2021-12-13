@@ -10,7 +10,7 @@
 #include "timer_a2.h"
 #include "uart_mapping.h"
 
-//int16_t tue;                    // seconds until end
+extern struct ads1110_t eadc;
 volatile uint8_t port1_last_event;
 struct settings_t s;
 
@@ -66,25 +66,30 @@ void check_events(void)
     eh_exec(msg);
 }
 
-#if 0
-static void timer_a0_irq(const uint32_t msg)
+static void ads1110_state_machine(const uint32_t msg)
 {
-    timer_a0_delay_noblk_ccr1(_1s);
-    led_on;
-    tue--;
-    if (tue < 1) {
-        uc_disable;
-        latch_disable;
-#ifdef USE_ADC
-    } else {
-        if (s.eadc_en == 1) {
-            // trigger conversion
-            timer_a0_delay_noblk_ccr2(_10ms);
-        }
-#endif
+    if (!s.eadc_en) {
+        return;
+    }
+
+    switch (eadc.state) {
+        case ADS1110_STATE_CONVERT:
+            // conversion should be ready
+            led_switch;
+            //ADS1110_read(I2C_BASE_ADDR, ADS1110_ED0, &eadc);
+            //ADS1110_convert(&eadc);
+            eadc.state = ADS1110_STATE_STANDBY;
+            timer_a2_set_trigger_slot(SCHEDULE_ADC_SM, systime() + 100, TIMER_A2_EVENT_ENABLE);
+        break;
+        case ADS1110_STATE_STANDBY:
+        default:
+            // trigger new single conversion
+            ADS1110_config(I2C_BASE_ADDR, ADS1110_ED0, ADS1110_BITS_16 | ADS1110_PGA_2 | ADS1110_SC | ADS1110_ST);
+            eadc.state = ADS1110_STATE_CONVERT;
+            timer_a2_set_trigger_slot(SCHEDULE_ADC_SM, systime() + 10, TIMER_A2_EVENT_ENABLE);
+        break;
     }
 }
-#endif
 
 static void halt_irq(const uint32_t msg)
 {
@@ -99,18 +104,18 @@ static void button_11_irq(const uint32_t msg)
         //uart_bcl_print("PB11 short 1\r\n");
     } else {
         timer_a2_set_trigger_slot(SCHEDULE_PB_11, 0, TIMER_A2_EVENT_DISABLE);
-        timer_a2_set_trigger_slot(SCHEDULE_PS_HALT, systime() + (s.standby_time * 100), TIMER_A2_EVENT_ENABLE);
+        timer_a2_set_trigger_slot(SCHEDULE_PS_HALT, systime() + ((uint32_t) s.standby_time * 100), TIMER_A2_EVENT_ENABLE);
         uart_bcl_print("PB11 short\r\n");
     }
 }
 
 static void button_11_long_press_irq(uint32_t msg)
 {
-    uart_bcl_print("PB11 long\r\n");
-
     // ignore next edge
     P1IES &= ~TRIG1;
     P1IFG &= ~TRIG1;
+    //uart_bcl_print("PB11 long\r\n");
+    display_menu();
 }
 
 void i2c_init(void)
@@ -236,7 +241,9 @@ int main(void)
     eh_register(&uart_bcl_rx_irq, SYS_MSG_UART_BCL_RX);
     eh_register(&scheduler_irq, SYS_MSG_TIMERA2_CCR1);
     eh_register(&halt_irq, SYS_MSG_SCH_PS_HALT_INT);
-    timer_a2_set_trigger_slot(SCHEDULE_PS_HALT, systime() + (s.standby_time * 100), TIMER_A2_EVENT_ENABLE);
+    eh_register(&ads1110_state_machine, SYS_MSG_SCH_ADC_SM_INT);
+    timer_a2_set_trigger_slot(SCHEDULE_PS_HALT, systime() + ((uint32_t) s.standby_time * 100), TIMER_A2_EVENT_ENABLE);
+    timer_a2_set_trigger_slot(SCHEDULE_ADC_SM, systime() + 100, TIMER_A2_EVENT_ENABLE);
 
     _BIS_SR(GIE);
 

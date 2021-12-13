@@ -18,6 +18,8 @@ extern struct ads1110_t eadc;
 void display_menu(void)
 {
     char sconv[CONV_BASE_10_BUF_SZ];
+    uint32_t trigger;
+    uint8_t flag;
 
     display_version();
     uart_bcl_print("  * settings\t\e[33;1mE\e[0m: eadc ");
@@ -29,6 +31,10 @@ void display_menu(void)
     uart_bcl_print("   \e[33;1mU\e[0m: s_u ");
     uart_bcl_print(_utoa(sconv, s.standby_unused));
     uart_bcl_print("\r\n");
+    uart_bcl_print("  * status:  system halt in ");
+    timer_a2_get_trigger_slot(SCHEDULE_PS_HALT, &trigger, &flag);
+    uart_bcl_print(_utoa(sconv, (trigger - systime())/100 ));
+    uart_bcl_print("s\r\n");
 
 #ifdef USE_ADC
     uart_bcl_print("  * ads1110 (status ");
@@ -109,7 +115,7 @@ void parse_user_input(void)
     uint16_t u16;
     uint8_t i;
     uint8_t *src_p, *dst_p;
-
+    char sconv[CONV_BASE_10_BUF_SZ];
 
     if (input == NULL) {
         display_menu();
@@ -118,7 +124,7 @@ void parse_user_input(void)
 
     char f = input[0];
 
-    if (f == '?') {
+    if ((f == '?') || (f == 0x0d)) {
         display_menu();
     } else if (f == 's') {       // show [s]chedule
         display_schedule();
@@ -139,6 +145,9 @@ void parse_user_input(void)
     } else if (f == 'E') {       // [E]xternal ADC
         if (str_to_uint16(input, &u16, 1, strlen(input), 0, 1) == EXIT_SUCCESS) {
             s.eadc_en = u16;
+            //if (s.eadc_en) {
+            //    timer_a2_set_trigger_slot(SCHEDULE_ADC_SM, systime() + 100, TIMER_A2_EVENT_ENABLE);
+            //}
             display_menu();
         }
     } else if (f == 'A') {       // internal [A]DC
@@ -157,6 +166,8 @@ void parse_user_input(void)
             display_menu();
         } 
     } else {
-        uart1_tx_str("\e[31;1merr\e[0m\r\n", 17);
+        uart_bcl_print("\e[31;1merr\e[0m  ");
+        uart_bcl_print(_utoh(sconv, f));
+        uart_bcl_print(" command unknown\r\n");
     }
 }
