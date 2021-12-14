@@ -7,6 +7,9 @@
 
 #include <inttypes.h>
 #include <stdlib.h>
+#ifdef USE_SIG
+#include "sig.h"
+#endif
 #include "timer_a2.h"
 
 volatile uint16_t timer_a2_last_event;        // bitwise flag of current timer_a2 interrupt events
@@ -135,6 +138,9 @@ void timer2_A1_ISR(void)
     uint16_t iv = TA2IV;
 
     if (iv == TA2IV_TACCR1) {
+#ifdef USE_SIG
+        sig1_on;
+#endif
         // timer used by timer_a1_delay_noblk_ccr1()
         // disable interrupt
         TA2CCTL1 &= ~CCIE;
@@ -151,4 +157,7 @@ void timer2_A1_ISR(void)
         // overflow
         TA2CTL &= ~TAIFG;
     }
+#ifdef USE_SIG
+    sig1_off;
+#endif
 }

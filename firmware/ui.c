@@ -13,7 +13,10 @@
 #include "ui.h"
 
 extern struct settings_t s;
+
+#ifdef USE_ADC
 extern struct ads1110_t eadc;
+#endif
 
 void display_menu(void)
 {
@@ -140,8 +143,10 @@ void parse_user_input(void)
         display_menu();
         //tue = s.standby_time;
     } else if (f == 'D') {       // get relative delta
+#ifdef USE_ADC
         s.eadc_delta = 0 - eadc.conv;
         display_menu();
+#endif
     } else if (f == 'E') {       // [E]xternal ADC
         if (str_to_uint16(input, &u16, 1, strlen(input), 0, 1) == EXIT_SUCCESS) {
             s.eadc_en = u16;

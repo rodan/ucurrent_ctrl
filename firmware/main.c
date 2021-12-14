@@ -10,7 +10,10 @@
 #include "timer_a2.h"
 #include "uart_mapping.h"
 
+#ifdef USE_ADC
 extern struct ads1110_t eadc;
+#endif
+
 volatile uint8_t port1_last_event;
 struct settings_t s;
 
@@ -66,6 +69,7 @@ void check_events(void)
     eh_exec(msg);
 }
 
+#ifdef USE_ADC
 static void ads1110_state_machine(const uint32_t msg)
 {
     if (!s.eadc_en) {
@@ -76,8 +80,8 @@ static void ads1110_state_machine(const uint32_t msg)
         case ADS1110_STATE_CONVERT:
             // conversion should be ready
             led_switch;
-            //ADS1110_read(I2C_BASE_ADDR, ADS1110_ED0, &eadc);
-            //ADS1110_convert(&eadc);
+            ADS1110_read(I2C_BASE_ADDR, ADS1110_ED0, &eadc);
+            ADS1110_convert(&eadc);
             eadc.state = ADS1110_STATE_STANDBY;
             timer_a2_set_trigger_slot(SCHEDULE_ADC_SM, systime() + 100, TIMER_A2_EVENT_ENABLE);
         break;
@@ -90,6 +94,7 @@ static void ads1110_state_machine(const uint32_t msg)
         break;
     }
 }
+#endif
 
 static void halt_irq(const uint32_t msg)
 {
@@ -231,7 +236,7 @@ int main(void)
     sig1_off;
     sig2_off;
     sig3_off;
-    sig4_off;
+    sig4_on;
     sig5_off;
 #endif
 
@@ -241,7 +246,9 @@ int main(void)
     eh_register(&uart_bcl_rx_irq, SYS_MSG_UART_BCL_RX);
     eh_register(&scheduler_irq, SYS_MSG_TIMERA2_CCR1);
     eh_register(&halt_irq, SYS_MSG_SCH_PS_HALT_INT);
+#ifdef USE_ADC
     eh_register(&ads1110_state_machine, SYS_MSG_SCH_ADC_SM_INT);
+#endif
     timer_a2_set_trigger_slot(SCHEDULE_PS_HALT, systime() + ((uint32_t) s.standby_time * 100), TIMER_A2_EVENT_ENABLE);
     timer_a2_set_trigger_slot(SCHEDULE_ADC_SM, systime() + 100, TIMER_A2_EVENT_ENABLE);
 
@@ -252,10 +259,16 @@ int main(void)
 
     while (1) {
         // sleep
-        _BIS_SR(LPM3_bits + GIE);
+#ifdef USE_SIG
+        sig4_off;
+#endif
+        _BIS_SR(LPM1_bits + GIE);
         __no_operation();
 #ifdef USE_WATCHDOG
         WDTCTL = (WDTCTL & 0xff) | WDTPW | WDTCNTCL;
+#endif
+#ifdef USE_SIG
+        sig4_on;
 #endif
         check_events();
         check_events();
