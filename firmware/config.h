@@ -11,16 +11,16 @@
 #define SMCLK_FREQ_8M
 //#define SMCLK_FREQ_16M
 
-#define USE_UART1
+#define UART_USES_UCA1
 #define UART1_BAUD 57600
 #define UART1_RXBUF_SZ 16
 #define UART1_RX_USES_RINGBUF
 #define UART1_TXBUF_SZ 32
 #define UART1_TX_USES_IRQ
 
-#define USE_ADC
-#define USE_I2C_MASTER
-#define CONFIG_ADS1110
+//#define USE_ADC
+//#define USE_I2C_MASTER
+//#define CONFIG_ADS1110
 
 //#define USE_WATCHDOG
 
