@@ -8,7 +8,6 @@
 #include "ui.h"
 #include "sig.h"
 #include "timer_a2.h"
-#include "uart_mapping.h"
 
 #ifdef USE_ADC
 extern struct ads1110_t eadc;
@@ -16,11 +15,12 @@ extern struct ads1110_t eadc;
 
 volatile uint8_t port1_last_event;
 struct settings_t s;
+uart_descriptor bc; // backchannel uart interface
 
 static void uart_bcl_rx_irq(uint32_t msg)
 {
     parse_user_input();
-    uart_bcl_set_eol();
+    uart_set_eol(&bc);
 }
 
 static void scheduler_irq(uint32_t msg)
@@ -34,9 +34,9 @@ void check_events(void)
     uint16_t ev;
 
     // uart RX
-    if (uart_bcl_get_event() == UART_EV_RX) {
+    if (uart_get_event(&bc) == UART_EV_RX) {
         msg |= SYS_MSG_UART_BCL_RX;
-        uart_bcl_rst_event();
+        uart_rst_event(&bc);
     }
     // timer_a2
     ev = timer_a2_get_event();
@@ -106,11 +106,11 @@ static void button_11_irq(const uint32_t msg)
 {
     if (P1IN & TRIG1) {
         timer_a2_set_trigger_slot(SCHEDULE_PB_11, systime() + 100, TIMER_A2_EVENT_ENABLE);
-        //uart_bcl_print("PB11 short 1\r\n");
+        //uart_print(&bc, "PB11 short 1\r\n");
     } else {
         timer_a2_set_trigger_slot(SCHEDULE_PB_11, 0, TIMER_A2_EVENT_DISABLE);
         timer_a2_set_trigger_slot(SCHEDULE_PS_HALT, systime() + ((uint32_t) s.standby_time * 100), TIMER_A2_EVENT_ENABLE);
-        uart_bcl_print("PB11 short\r\n");
+        uart_print(&bc, "PB11 short\r\n");
     }
 }
 
@@ -119,7 +119,7 @@ static void button_11_long_press_irq(uint32_t msg)
     // ignore next edge
     P1IES &= ~TRIG1;
     P1IFG &= ~TRIG1;
-    //uart_bcl_print("PB11 long\r\n");
+    //uart_print(&bc, "PB11 long\r\n");
     display_menu();
 }
 
@@ -213,13 +213,14 @@ int main(void)
 
     timer_a2_init();
 
-    uart_bcl_pin_init();
-    uart_bcl_init();
-#if defined UART0_RX_USES_RINGBUF || defined UART1_RX_USES_RINGBUF || \
-    defined UART2_RX_USES_RINGBUF || defined UART3_RX_USES_RINGBUF
-    uart_bcl_set_rx_irq_handler(uart_bcl_rx_ringbuf_handler);
+    bc.baseAddress = USCI_A1_BASE;
+    bc.baudrate = BAUDRATE_57600;
+    uart_pin_init(&bc);
+    uart_init(&bc);
+#if defined UART_RX_USES_RINGBUF
+    uart_set_rx_irq_handler(&bc, uart_rx_ringbuf_handler);
 #else
-    uart_bcl_set_rx_irq_handler(uart_bcl_rx_simple_handler);
+    uart_set_rx_irq_handler(&bc, uart_rx_simple_handler);
 #endif
 
 #ifdef USE_ADC

@@ -3,7 +3,6 @@
 
 #include <msp430.h>
 #include "flash.h"
-#include "uart_mapping.h"
 
 #define true                1
 #define false               0

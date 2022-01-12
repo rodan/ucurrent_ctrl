@@ -5,7 +5,6 @@
 #include "proj.h"
 #include "glue.h"
 #include "version.h"
-#include "uart_mapping.h"
 #include "rtca_now.h"
 #include "flash.h"
 #include "ads1110.h"
@@ -13,6 +12,7 @@
 #include "ui.h"
 
 extern struct settings_t s;
+extern uart_descriptor bc;
 
 #ifdef USE_ADC
 extern struct ads1110_t eadc;
@@ -25,48 +25,48 @@ void display_menu(void)
     uint8_t flag;
 
     display_version();
-    uart_bcl_print("  * settings\t\e[33;1mE\e[0m: eadc ");
-    uart_bcl_print(_itoa(sconv, s.eadc_en));
-    uart_bcl_print("   \e[33;1mA\e[0m: adc ");
-    uart_bcl_print(_utoa(sconv, s.adc_en));
-    uart_bcl_print("   \e[33;1mT\e[0m: s_t ");
-    uart_bcl_print(_utoa(sconv, s.standby_time));
-    uart_bcl_print("   \e[33;1mU\e[0m: s_u ");
-    uart_bcl_print(_utoa(sconv, s.standby_unused));
-    uart_bcl_print("\r\n");
-    uart_bcl_print("  * status:  system halt in ");
+    uart_print(&bc, "  * settings\t\e[33;1mE\e[0m: eadc ");
+    uart_print(&bc, _itoa(sconv, s.eadc_en));
+    uart_print(&bc, "   \e[33;1mA\e[0m: adc ");
+    uart_print(&bc, _utoa(sconv, s.adc_en));
+    uart_print(&bc, "   \e[33;1mT\e[0m: s_t ");
+    uart_print(&bc, _utoa(sconv, s.standby_time));
+    uart_print(&bc, "   \e[33;1mU\e[0m: s_u ");
+    uart_print(&bc, _utoa(sconv, s.standby_unused));
+    uart_print(&bc, "\r\n");
+    uart_print(&bc, "  * status:  system halt in ");
     timer_a2_get_trigger_slot(SCHEDULE_PS_HALT, &trigger, &flag);
-    uart_bcl_print(_utoa(sconv, (trigger - systime())/100 ));
-    uart_bcl_print("s\r\n");
+    uart_print(&bc, _utoa(sconv, (trigger - systime())/100 ));
+    uart_print(&bc, "s\r\n");
 
 #ifdef USE_ADC
-    uart_bcl_print("  * ads1110 (status ");
-    uart_bcl_print(_utoh(sconv, eadc.config));
-    uart_bcl_print(", conv ");
-    uart_bcl_print((eadc.conv + s.eadc_delta) < 0 ? "-" : "");
-    uart_bcl_print(_itoa(sconv, abs((int16_t) (eadc.conv + s.eadc_delta) / 10000)));
-    uart_bcl_print(".");
-    uart_bcl_print(_itoa(sconv, abs((int16_t) (eadc.conv + s.eadc_delta) % 10000)));
-    uart_bcl_print("V, rel delta ");
-    uart_bcl_print(s.eadc_delta < 0 ? "-" : "");
-    uart_bcl_print(_itoa(sconv, abs((int16_t) (s.eadc_delta) / 10000)));
-    uart_bcl_print(".");
-    uart_bcl_print(_itoa(sconv, abs((int16_t) (s.eadc_delta) % 10000)));
-    uart_bcl_print("V)\r\n");
+    uart_print(&bc, "  * ads1110 (status ");
+    uart_print(&bc, _utoh(sconv, eadc.config));
+    uart_print(&bc, ", conv ");
+    uart_print(&bc, (eadc.conv + s.eadc_delta) < 0 ? "-" : "");
+    uart_print(&bc, _itoa(sconv, abs((int16_t) (eadc.conv + s.eadc_delta) / 10000)));
+    uart_print(&bc, ".");
+    uart_print(&bc, _itoa(sconv, abs((int16_t) (eadc.conv + s.eadc_delta) % 10000)));
+    uart_print(&bc, "V, rel delta ");
+    uart_print(&bc, s.eadc_delta < 0 ? "-" : "");
+    uart_print(&bc, _itoa(sconv, abs((int16_t) (s.eadc_delta) / 10000)));
+    uart_print(&bc, ".");
+    uart_print(&bc, _itoa(sconv, abs((int16_t) (s.eadc_delta) % 10000)));
+    uart_print(&bc, "V)\r\n");
 #endif
 
-    uart_bcl_print("  \e[33;1mD\e[0m: relative delta     \e[33;1mL\e[0m: load defaults     \e[33;1mS\e[0m: save settings\r\nChoice? ");
+    uart_print(&bc, "  \e[33;1mD\e[0m: relative delta     \e[33;1mL\e[0m: load defaults     \e[33;1mS\e[0m: save settings\r\nChoice? ");
 }
 
 void display_version(void)
 {
     char sconv[CONV_BASE_10_BUF_SZ];
 
-    uart_bcl_print("uCurrent controller rev");
-    uart_bcl_print(_utoa(sconv, REV));
-    uart_bcl_print("b");
-    uart_bcl_print(_utoa(sconv, BUILD));
-    uart_bcl_print("\r\n");
+    uart_print(&bc, "uCurrent controller rev");
+    uart_print(&bc, _utoa(sconv, REV));
+    uart_print(&bc, "b");
+    uart_print(&bc, _utoa(sconv, BUILD));
+    uart_print(&bc, "\r\n");
 }
 
 void display_schedule(void)
@@ -78,17 +78,17 @@ void display_schedule(void)
 
     for (c = 0; c < TIMER_A2_SLOTS_COUNT; c++) {
         timer_a2_get_trigger_slot(c, &trigger, &flag);
-        uart_bcl_print(_utoa(itoa_buf, c));
-        uart_bcl_print(" \t");
-        uart_bcl_print(_utoa(itoa_buf, trigger));
-        uart_bcl_print(" \t");
-        uart_bcl_print(_utoa(itoa_buf, flag));
-        uart_bcl_print("\r\n");
+        uart_print(&bc, _utoa(itoa_buf, c));
+        uart_print(&bc, " \t");
+        uart_print(&bc, _utoa(itoa_buf, trigger));
+        uart_print(&bc, " \t");
+        uart_print(&bc, _utoa(itoa_buf, flag));
+        uart_print(&bc, "\r\n");
     }
     trigger = timer_a2_get_trigger_next();
-    uart_bcl_print("sch next ");
-    uart_bcl_print(_utoa(itoa_buf, trigger));
-    uart_bcl_print("\r\n");
+    uart_print(&bc, "sch next ");
+    uart_print(&bc, _utoa(itoa_buf, trigger));
+    uart_print(&bc, "\r\n");
 }
 
 
@@ -96,9 +96,8 @@ void display_schedule(void)
 
 void parse_user_input(void)
 {
-#if defined UART0_RX_USES_RINGBUF || defined UART1_RX_USES_RINGBUF || \
-    defined UART2_RX_USES_RINGBUF || defined UART3_RX_USES_RINGBUF
-    struct ringbuf *rbr = uart_bcl_get_rx_ringbuf();
+#if defined UART_RX_USES_RINGBUF
+    struct ringbuf *rbr = uart_get_rx_ringbuf(&bc);
     uint8_t rx;
     uint8_t c = 0;
     char input[PARSER_CNT];
@@ -113,8 +112,9 @@ void parse_user_input(void)
         c++;
     }
 #else
-    char *input = uart_bcl_get_rx_buf();
+    char *input = uart_get_rx_buf(&bc);
 #endif
+
     uint16_t u16;
     uint8_t i;
     uint8_t *src_p, *dst_p;
@@ -171,8 +171,8 @@ void parse_user_input(void)
             display_menu();
         } 
     } else {
-        uart_bcl_print("\e[31;1merr\e[0m  ");
-        uart_bcl_print(_utoh(sconv, f));
-        uart_bcl_print(" command unknown\r\n");
+        uart_print(&bc, "\e[31;1merr\e[0m  ");
+        uart_print(&bc, _utoh(sconv, f));
+        uart_print(&bc, " command unknown\r\n");
     }
 }
